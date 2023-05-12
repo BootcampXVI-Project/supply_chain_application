@@ -12,6 +12,7 @@ import { log } from "console";
 import { User } from "./utils/user";
 import crypto from "crypto";
 import { ContractImpl } from "fabric-network/lib/contract";
+import connectDatabase from "./configs/connectDatabase";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
@@ -62,62 +63,6 @@ const pathdirs: string[] = [
 	"connection-retailer.json",
 	"connection-consumer.json"
 ];
-
-async function main() {
-	await registerUser({
-		email: "Tapn@gmail.com2",
-		password: "nero2",
-		userName: "nero2",
-		address: "nero2",
-		org: "supplier",
-		role: "supplier"
-	});
-
-	// const result = await evaluateTransaction("GetAllUsers", null);
-	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
-	// console.log(prettyJSONString(data));
-	// log(orgConst)
-	// try {
-	// 	for (let i = 0; i < 5; i++) {
-	// 		const walletPath = path.join(__dirname, walletPaths[i]);
-	// 		const ccp = buildCCPOrg(pathdirs[i]);
-	// 		const caClient = buildCAClient(ccp, cas[i]);
-	// 		const wallet = await buildWallet(walletPath);
-	// 		await enrollAdmin(caClient, wallet, msps[i]);
-	// 		await registerAndEnrollUser(
-	// 			caClient,
-	// 			wallet,
-	// 			msps[i],
-	// 			userIds[i],
-	// 			orgs[i] + ".department"
-	// 		);
-	// 		const gateway = new Gateway();
-	// 		const gatewayOpts: GatewayOptions = {
-	// 			wallet,
-	// 			identity: userIds[i],
-	// 			discovery: { enabled: true, asLocalhost: true }
-	// 		};
-	// 		try {
-	// 			await gateway.connect(ccp, gatewayOpts);
-	// 			const network = await gateway.getNetwork(channelName);
-	// 			const contract = network.getContract(chaincodeName);
-	// 			console.log("\n--> Submit Transaction: InitLedger");
-	// 			await contract.submitTransaction("InitLedger");
-	// const result = await contract.evaluateTransaction("GetAllUsers");
-	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
-	// console.log(prettyJSONString(data));
-	// 			console.log("*** Result: committed");
-	// 		} finally {
-	// 			gateway.disconnect();
-	// 		}
-	// 	}
-	// } catch (error) {
-	// 	console.error(`******** FAILED to run the application: ${error}`);
-	// 	process.exit(1);
-	// }
-}
-
-main();
 
 async function registerUser(userObj: User) {
 	try {
@@ -204,6 +149,64 @@ async function evaluateTransaction(funcName: string, userObj: User) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
 }
+
+async function main() {
+	log(connectDatabase());
+
+	// await registerUser({
+	// 	email: "Tapn@gmail.com2",
+	// 	password: "nero2",
+	// 	userName: "nero2",
+	// 	address: "nero2",
+	// 	org: "supplier",
+	// 	role: "supplier"
+	// });
+
+	// const result = await evaluateTransaction("GetAllUsers", null);
+	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
+	// console.log(prettyJSONString(data));
+	// log(orgConst)
+	// try {
+	// 	for (let i = 0; i < 5; i++) {
+	// 		const walletPath = path.join(__dirname, walletPaths[i]);
+	// 		const ccp = buildCCPOrg(pathdirs[i]);
+	// 		const caClient = buildCAClient(ccp, cas[i]);
+	// 		const wallet = await buildWallet(walletPath);
+	// 		await enrollAdmin(caClient, wallet, msps[i]);
+	// 		await registerAndEnrollUser(
+	// 			caClient,
+	// 			wallet,
+	// 			msps[i],
+	// 			userIds[i],
+	// 			orgs[i] + ".department"
+	// 		);
+	// 		const gateway = new Gateway();
+	// 		const gatewayOpts: GatewayOptions = {
+	// 			wallet,
+	// 			identity: userIds[i],
+	// 			discovery: { enabled: true, asLocalhost: true }
+	// 		};
+	// 		try {
+	// 			await gateway.connect(ccp, gatewayOpts);
+	// 			const network = await gateway.getNetwork(channelName);
+	// 			const contract = network.getContract(chaincodeName);
+	// 			console.log("\n--> Submit Transaction: InitLedger");
+	// 			await contract.submitTransaction("InitLedger");
+	// const result = await contract.evaluateTransaction("GetAllUsers");
+	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
+	// console.log(prettyJSONString(data));
+	// 			console.log("*** Result: committed");
+	// 		} finally {
+	// 			gateway.disconnect();
+	// 		}
+	// 	}
+	// } catch (error) {
+	// 	console.error(`******** FAILED to run the application: ${error}`);
+	// 	process.exit(1);
+	// }
+}
+
+main();
 
 module.exports = {
 	connectNetwork
