@@ -12,7 +12,7 @@ import { log } from "console";
 import { User } from "./utils/user";
 import crypto from "crypto";
 import { ContractImpl } from "fabric-network/lib/contract";
-import connectDatabase from "./configs/connectDatabase";
+import connectDatabase from "./connectDatabase";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
