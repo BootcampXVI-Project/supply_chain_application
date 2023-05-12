@@ -1,0 +1,49 @@
+{
+    "name": "test-network-distributor",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Distributor",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "Distributor": {
+            "mspid": "DistributorMSP",
+            "peers": [
+                "peer0.distributor.supplychain.com"
+            ],
+            "certificateAuthorities": [
+                "ca.distributor.supplychain.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.distributor.supplychain.com": {
+            "url": "grpcs://localhost:7071",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICUTCCAfegAwIBAgIUHXLb3UmByGdWNijTPF5ZOV80BswwCgYIKoZIzj0EAwIw\ngYQxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEjMCEGA1UE\nChMaZGlzdGlidXRvci5zdXBwbHljaGFpbi5jb20xDzANBgNVBAsTBkZhYnJpYzEm\nMCQGA1UEAxMdY2EuZGlzdGlidXRvci5zdXBwbHljaGFpbi5jb20wHhcNMjMwNTEy\nMDIwNjAwWhcNMzgwNTA4MDIwNjAwWjCBhDELMAkGA1UEBhMCVVMxFzAVBgNVBAgT\nDk5vcnRoIENhcm9saW5hMSMwIQYDVQQKExpkaXN0aWJ1dG9yLnN1cHBseWNoYWlu\nLmNvbTEPMA0GA1UECxMGRmFicmljMSYwJAYDVQQDEx1jYS5kaXN0aWJ1dG9yLnN1\ncHBseWNoYWluLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABHUnCvn0Ckur\nMSh1irWf0T9jLVl5VzJYAYSQ4ISYiX/ZkmX4ux25kUEqxKdaQ+sQKdXxvMAk+JvQ\nFAjWhk9ldkWjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEB\nMB0GA1UdDgQWBBRyKYF1zdwO0aD0PYYJmklCEF2tjzAKBggqhkjOPQQDAgNIADBF\nAiEAp6aW1e4n2KnwmXNUfgPzFrKCUk4nCJychDdFBoSGA+sCIBFemo/gDfhBGzBD\n5k8a1TUSp/slV+CSKTfl+adjQ2Jr\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.distributor.supplychain.com",
+                "hostnameOverride": "peer0.distributor.supplychain.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.distributor.supplychain.com": {
+            "url": "https://localhost:7074",
+            "caName": "ca-distributor",
+            "tlsCACerts": {
+                "pem": ["-----BEGIN CERTIFICATE-----\nMIICUTCCAfegAwIBAgIUHXLb3UmByGdWNijTPF5ZOV80BswwCgYIKoZIzj0EAwIw\ngYQxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEjMCEGA1UE\nChMaZGlzdGlidXRvci5zdXBwbHljaGFpbi5jb20xDzANBgNVBAsTBkZhYnJpYzEm\nMCQGA1UEAxMdY2EuZGlzdGlidXRvci5zdXBwbHljaGFpbi5jb20wHhcNMjMwNTEy\nMDIwNjAwWhcNMzgwNTA4MDIwNjAwWjCBhDELMAkGA1UEBhMCVVMxFzAVBgNVBAgT\nDk5vcnRoIENhcm9saW5hMSMwIQYDVQQKExpkaXN0aWJ1dG9yLnN1cHBseWNoYWlu\nLmNvbTEPMA0GA1UECxMGRmFicmljMSYwJAYDVQQDEx1jYS5kaXN0aWJ1dG9yLnN1\ncHBseWNoYWluLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABHUnCvn0Ckur\nMSh1irWf0T9jLVl5VzJYAYSQ4ISYiX/ZkmX4ux25kUEqxKdaQ+sQKdXxvMAk+JvQ\nFAjWhk9ldkWjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEB\nMB0GA1UdDgQWBBRyKYF1zdwO0aD0PYYJmklCEF2tjzAKBggqhkjOPQQDAgNIADBF\nAiEAp6aW1e4n2KnwmXNUfgPzFrKCUk4nCJychDdFBoSGA+sCIBFemo/gDfhBGzBD\n5k8a1TUSp/slV+CSKTfl+adjQ2Jr\n-----END CERTIFICATE-----\n"]
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}
