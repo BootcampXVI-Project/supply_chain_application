@@ -7,15 +7,13 @@ import {
 	registerAndEnrollUser
 } from "./utils/CAUtil";
 import orgConst from "./utils/organizationConstant.json";
-
-import { log } from "console";
-import { User } from "./utils/user";
-import crypto from "crypto";
-import { ContractImpl } from "fabric-network/lib/contract";
 import connectDatabase from "./connectDatabase";
+import { User } from "./utils/user";
+import { log } from "console";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
+
 const walletPaths: string[] = [
 	"supplierwallet",
 	"manufacturerwallet",
@@ -23,7 +21,6 @@ const walletPaths: string[] = [
 	"retailerwallet",
 	"consumerwallet"
 ];
-
 const msps: string[] = [
 	"SupplierMSP",
 	"ManufacturerMSP",
@@ -31,7 +28,6 @@ const msps: string[] = [
 	"RetailerMSP",
 	"ConsumerMSP"
 ];
-
 const userIds: string[] = [
 	"SupplierAppUserId11",
 	"ManufacturerAppUserId11",
@@ -39,7 +35,6 @@ const userIds: string[] = [
 	"RetailerAppUserId11",
 	"ConsumerAppUserId11"
 ];
-
 const cas: string[] = [
 	"ca.supplier.supplychain.com",
 	"ca.manufacturer.supplychain.com",
@@ -47,7 +42,6 @@ const cas: string[] = [
 	"ca.retailer.supplychain.com",
 	"ca.consumer.supplychain.com"
 ];
-
 const orgs: string[] = [
 	"supplier",
 	"manufacturer",
@@ -55,7 +49,6 @@ const orgs: string[] = [
 	"retailer",
 	"consumer"
 ];
-
 const pathdirs: string[] = [
 	"connection-supplier.json",
 	"connection-manufacturer.json",
@@ -207,7 +200,3 @@ async function main() {
 }
 
 main();
-
-module.exports = {
-	connectNetwork
-};
