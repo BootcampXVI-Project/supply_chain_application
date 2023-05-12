@@ -10,7 +10,7 @@ import { buildCAClient, enrollAdmin, registerAndEnrollUser } from './utils/CAUti
 
 const channelName = 'supplychain-channel';
 const chaincodeName = 'basic';
-const walletPath = path.join(__dirname, 'wallet');
+const walletPaths: string[] = ["supplierwallet", "manufacturerwallet", "distributorwallet", "retailerwallet", "consumerwallet"];
 
 const msps: string[] = []
 const mspSupplier = "SupplierMSP"
@@ -25,11 +25,11 @@ msps.push(mspRetailer)
 msps.push(mspConsumer)
 
 const userIds: string[] = []
-const supplierUserId = "SupplierAppUserId"
-const manufacturerUserId = "ManufacturerAppUserId"
-const distributorUserId = "DistributorAppUserId"
-const retailerUserId = "RetailerAppUserId"
-const consumerUserId = "ConsumerAppUserId"
+const supplierUserId = "SupplierAppUserId2"
+const manufacturerUserId = "ManufacturerAppUserId2"
+const distributorUserId = "DistributorAppUserId2"
+const retailerUserId = "RetailerAppUserId2"
+const consumerUserId = "ConsumerAppUserId2"
 userIds.push(supplierUserId);
 userIds.push(manufacturerUserId);
 userIds.push(distributorUserId);
@@ -60,10 +60,12 @@ pathdirs.push('connection-consumer.json')
 async function main() {
     try {
         for (let i = 0; i<5; i++){
+            const walletPath = path.join(__dirname, walletPaths[i]);
+
             const ccp = buildCCPOrg(pathdirs[i]);
 
             const caClient = buildCAClient(ccp, cas[i]);
-
+            
             const wallet = await buildWallet(walletPath);
 
             await enrollAdmin(caClient, wallet, msps[i]);

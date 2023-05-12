@@ -20,7 +20,7 @@ const buildCAClient = (ccp: Record<string, any>, caHostName: string): FabricCASe
     const caTLSCACerts = caInfo.tlsCACerts.pem;
     const caClient = new FabricCAServices(caInfo.url, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
 
-    console.log(`Built a CA Client named ${caInfo.caName}`);
+    // console.log(`Built a CA Client named ${caInfo.caName}`);
     return caClient;
 };
 
@@ -70,7 +70,7 @@ const registerAndEnrollUser = async (caClient: FabricCAServices, wallet: Wallet,
         // build a user object for authenticating with the CA
         const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
         const adminUser = await provider.getUserContext(adminIdentity, adminUserId);
-        console.log(affiliation,userId,adminUser);
+        // console.log(affiliation,userId,adminUser);
         
         // Register the user, enroll the user, and import the new identity into the wallet.
         // if affiliation is specified by client, the affiliation value must be configured in CA

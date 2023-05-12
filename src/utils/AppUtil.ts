@@ -20,7 +20,7 @@ const buildCCPOrg = (name_path:string): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -36,7 +36,7 @@ const buildCCPSupplier = (): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -52,7 +52,7 @@ const buildCCPManufacturer = (): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -68,7 +68,7 @@ const buildCCPDistributor = (): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -84,7 +84,7 @@ const buildCCPRetailer = (): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -100,7 +100,7 @@ const buildCCPConsumer = (): Record<string, any> => {
     // build a JSON object from the file contents
     const ccp = JSON.parse(contents);
 
-    console.log(`Loaded the network configuration located at ${ccpPath}`);
+    // console.log(`Loaded the network configuration located at ${ccpPath}`);
     return ccp;
 };
 
@@ -113,7 +113,7 @@ const buildWallet = async (walletPath: string): Promise<Wallet> => {
         fs.rmSync(walletPath, { recursive: true, force: true });
 
         wallet = await Wallets.newFileSystemWallet(walletPath);
-        console.log(`Built a file system wallet at ${walletPath}`);
+        // console.log(`Built a file system wallet at ${walletPath}`);
     } else {
         wallet = await Wallets.newInMemoryWallet();
         console.log('Built an in memory wallet');
