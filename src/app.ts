@@ -18,7 +18,13 @@ import {
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
-const walletPath = path.join(__dirname, "wallet");
+const walletPaths: string[] = [
+	"supplierwallet",
+	"manufacturerwallet",
+	"distributorwallet",
+	"retailerwallet",
+	"consumerwallet"
+];
 
 const msps: string[] = [
 	"SupplierMSP",
@@ -29,11 +35,11 @@ const msps: string[] = [
 ];
 
 const userIds: string[] = [
-	"SupplierAppUserId",
-	"ManufacturerAppUserId",
-	"DistributorAppUserId",
-	"RetailerAppUserId",
-	"ConsumerAppUserId"
+	"Supplier2",
+	"Manufacturer2",
+	"Distributor2",
+	"Retailer2",
+	"Consumer2"
 ];
 
 const cas: string[] = [
@@ -63,6 +69,8 @@ const pathdirs: string[] = [
 async function main() {
 	try {
 		for (let i = 0; i < 5; i++) {
+			const walletPath = path.join(__dirname, walletPaths[i]);
+
 			const ccp = buildCCPOrg(pathdirs[i]);
 
 			const caClient = buildCAClient(ccp, cas[i]);
@@ -84,7 +92,6 @@ async function main() {
 			const gatewayOpts: GatewayOptions = {
 				wallet,
 				identity: userIds[i],
-				// using asLocalhost as this gateway is using a fabric network deployed locally
 				discovery: { enabled: true, asLocalhost: true }
 			};
 
@@ -95,9 +102,7 @@ async function main() {
 
 				const contract = network.getContract(chaincodeName);
 
-				console.log(
-					"\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger"
-				);
+				console.log("\n--> Submit Transaction: InitLedger");
 				await contract.submitTransaction("InitLedger");
 				console.log("*** Result: committed");
 			} finally {
