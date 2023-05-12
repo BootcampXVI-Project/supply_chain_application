@@ -1,0 +1,37 @@
+{
+	"supplier": {
+		"path": "connection-supplier.json",
+		"msp": "SupplierMSP",
+		"ca": "ca.supplier.supplychain.com",
+		"department": "supplier.department",
+		"wallet": "supplierWallet"
+	},
+	"manufacturer": {
+		"path": "connection-manufacturer.json",
+		"msp": "ManufacturerMSP",
+		"ca": "ca.manufacturer.supplychain.com",
+		"department": "manufacturer.department",
+		"wallet": "manufacturerWallet"
+	},
+	"distributor": {
+		"path": "connection-distributor.json",
+		"msp": "DistributorMSP",
+		"ca": "ca.distributor.supplychain.com",
+		"department": "distributor.department",
+		"wallet": "distributorWallet"
+	},
+	"retailer": {
+		"path": "connection-retailer.json",
+		"msp": "RetailerMSP",
+		"ca": "ca.retailer.supplychain.com",
+		"department": "retailer.department",
+		"wallet": "retailerWallet"
+	},
+	"consumer": {
+		"path": "connection-consumer.json",
+		"msp": "ConsumerMSP",
+		"ca": "ca.consumer.supplychain.com",
+		"department": "consumer.department",
+		"wallet": "consumerWallet"
+	}
+}

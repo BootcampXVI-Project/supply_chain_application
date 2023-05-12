@@ -1,4 +1,4 @@
-import * as FabricCAServices from 'fabric-ca-client';
+import FabricCAServices from 'fabric-ca-client';
 import { Wallet } from 'fabric-network';
 
 const adminUserId = 'admin';
