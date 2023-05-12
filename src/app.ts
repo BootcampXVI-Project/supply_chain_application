@@ -18,8 +18,14 @@ import {
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
-const walletPath = path.join(__dirname, "wallet");
 
+const walletPaths: string[] = [
+	"supplierwallet",
+	"manufacturerwallet",
+	"distributorwallet",
+	"retailerwallet",
+	"consumerwallet"
+];
 const msps: string[] = [
 	"SupplierMSP",
 	"ManufacturerMSP",
@@ -27,15 +33,13 @@ const msps: string[] = [
 	"RetailerMSP",
 	"ConsumerMSP"
 ];
-
 const userIds: string[] = [
-	"SupplierAppUserId",
-	"ManufacturerAppUserId",
-	"DistributorAppUserId",
-	"RetailerAppUserId",
-	"ConsumerAppUserId"
+	"Supplier1",
+	"Manufacturer1",
+	"Distributor1",
+	"Retailer1",
+	"Consumer1"
 ];
-
 const cas: string[] = [
 	"ca.supplier.supplychain.com",
 	"ca.manufacturer.supplychain.com",
@@ -43,7 +47,6 @@ const cas: string[] = [
 	"ca.retailer.supplychain.com",
 	"ca.consumer.supplychain.com"
 ];
-
 const orgs: string[] = [
 	"supplier",
 	"manufacturer",
@@ -51,7 +54,6 @@ const orgs: string[] = [
 	"retailer",
 	"consumer"
 ];
-
 const pathdirs: string[] = [
 	"connection-supplier.json",
 	"connection-manufacturer.json",
@@ -64,13 +66,11 @@ async function main() {
 	try {
 		for (let i = 0; i < 5; i++) {
 			const ccp = buildCCPOrg(pathdirs[i]);
-
 			const caClient = buildCAClient(ccp, cas[i]);
-
+			const walletPath = path.join(__dirname, walletPaths[i]);
 			const wallet = await buildWallet(walletPath);
 
 			await enrollAdmin(caClient, wallet, msps[i]);
-
 			await registerAndEnrollUser(
 				caClient,
 				wallet,
@@ -80,24 +80,18 @@ async function main() {
 			);
 
 			const gateway = new Gateway();
-
 			const gatewayOpts: GatewayOptions = {
 				wallet,
 				identity: userIds[i],
-				// using asLocalhost as this gateway is using a fabric network deployed locally
 				discovery: { enabled: true, asLocalhost: true }
 			};
 
 			try {
 				await gateway.connect(ccp, gatewayOpts);
-
 				const network = await gateway.getNetwork(channelName);
-
 				const contract = network.getContract(chaincodeName);
 
-				console.log(
-					"\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger"
-				);
+				console.log("\n--> Submit Transaction: InitLedger");
 				await contract.submitTransaction("InitLedger");
 				console.log("*** Result: committed");
 			} finally {
