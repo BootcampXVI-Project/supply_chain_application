@@ -44,7 +44,6 @@ export const createNewUser = async (user: User) => {
 
 		return createdUser;
 	} catch (error) {
-		log(error);
 		return {
 			data: null,
 			message: "failed"

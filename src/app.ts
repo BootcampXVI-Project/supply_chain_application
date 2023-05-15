@@ -13,7 +13,6 @@ import { Product, User } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
 import UserModel from "./models/User";
-// import { User } from "./utils/user";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic2";
@@ -61,10 +60,9 @@ const pathdirs: string[] = [
 	"connection-consumer.json"
 ];
 
-async function registerUser(userObj: User) {
+export async function registerUser(userObj: User) {
 	try {
 		const createdUser = await createNewUser(userObj);
-		// log(createdUser);
 		const orgDetail = orgConst[userObj.Role];
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
@@ -85,8 +83,6 @@ async function registerUser(userObj: User) {
 		// 	"123",
 		// 	"abc"
 		// );
-
-		console.log(createdUser);
 	} catch (error) {
 		console.error(
 			`\nregisterUser() --> Failed to register user ${userObj.UserId}: ${error}`
@@ -95,7 +91,7 @@ async function registerUser(userObj: User) {
 	}
 }
 
-async function connectNetwork(userObj: User) {
+export async function connectNetwork(userObj: User) {
 	try {
 		const orgDetail = orgConst[userObj.Role];
 
@@ -124,7 +120,7 @@ async function connectNetwork(userObj: User) {
 	}
 }
 
-async function submitTransaction(
+export async function submitTransaction(
 	funcName: string,
 	userObj: User,
 	productObj: Product
@@ -132,8 +128,7 @@ async function submitTransaction(
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(chaincodeName);
-		log("hee");
-		// const stringObject = JSON.stringify(userObj);
+
 		const result = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
@@ -150,7 +145,7 @@ async function submitTransaction(
 	}
 }
 
-async function evaluateTransaction(
+export async function evaluateTransaction(
 	funcName: string,
 	userObj: User,
 	productObj: Product
@@ -176,8 +171,6 @@ async function evaluateTransaction(
 }
 
 async function main() {
-	connectDatabase();
-
 	const userObj: User = {
 		UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
 		Email: "Parker@gmail.com",
@@ -218,49 +211,6 @@ async function main() {
 	const resultString = result.toString("utf-8"); // Chuyển buffer thành chuỗi UTF-8
 	const resultJson = JSON.parse(resultString); // Chuyển chuỗi JSON thành đối tượng JavaScript
 	console.log(resultJson);
-
-	// const result = await evaluateTransaction("GetAllUsers", null);
-	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
-	// console.log(prettyJSONString(data));
-	// log(orgConst)
-	// try {
-	// 	for (let i = 0; i < 5; i++) {
-	// 		const walletPath = path.join(__dirname, walletPaths[i]);
-	// 		const ccp = buildCCPOrg(pathdirs[i]);
-	// 		const caClient = buildCAClient(ccp, cas[i]);
-	// 		const wallet = await buildWallet(walletPath);
-	// 		await enrollAdmin(caClient, wallet, msps[i]);
-	// 		await registerAndEnrollUser(
-	// 			caClient,
-	// 			wallet,
-	// 			msps[i],
-	// 			userIds[i],
-	// 			orgs[i] + ".department"
-	// 		);
-	// 		const gateway = new Gateway();
-	// 		const gatewayOpts: GatewayOptions = {
-	// 			wallet,
-	// 			identity: userIds[i],
-	// 			discovery: { enabled: true, asLocalhost: true }
-	// 		};
-	// 		try {
-	// 			await gateway.connect(ccp, gatewayOpts);
-	// 			const network = await gateway.getNetwork(channelName);
-	// 			const contract = network.getContract(chaincodeName);
-	// 			console.log("\n--> Submit Transaction: InitLedger");
-	// 			await contract.submitTransaction("InitLedger");
-	// const result = await contract.evaluateTransaction("GetAllUsers");
-	// const data = result.toString("utf-8"); // Chuyển đổi Buffer sang chuỗi UTF-8
-	// console.log(prettyJSONString(data));
-	// 			console.log("*** Result: committed");
-	// 		} finally {
-	// 			gateway.disconnect();
-	// 		}
-	// 	}
-	// } catch (error) {
-	// 	console.error(`******** FAILED to run the application: ${error}`);
-	// 	process.exit(1);
-	// }
 }
 
-main();
+// main();

@@ -53,5 +53,3 @@ const UserSchema = new mongoose.Schema(
 
 const UserModel = mongoose.model("User", UserSchema);
 export default UserModel;
-
-// Product.Status = "CULTIVATING" | "HAVERTED" | "IMPORTED" | "MANUFACTURED" | "EXPORTED" | "DISTRIBUTED" | "SOLD"

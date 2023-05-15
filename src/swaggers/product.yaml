@@ -1,0 +1,23 @@
+# Online Swagger yaml file formatter: https://editor.swagger.io/
+
+/product/all:
+    get:
+        summary: Get All Products
+        tags:
+            - Product
+        responses:
+            200:
+                description: Successfully
+            400:
+                description: Failed
+   
+/product/cultivate:
+    get:
+        summary: Cultivate Product
+        tags:
+            - Product
+        responses:
+            200:
+                description: Successfully
+            400:
+                description: Failed

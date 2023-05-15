@@ -1,0 +1,1 @@
+import { returnValidationResult } from "./index";
