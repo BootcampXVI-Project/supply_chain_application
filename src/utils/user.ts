@@ -1,11 +1,4 @@
 export class User {
-	// id: string;
-	// org: "Supplier" | "Manufacturer" | "Distributor" | "Retailer" | "Consumer";
-	// address: string;
-	// telephone: string;
-	// role: string;
-	// username: string;
-
 	// constructor(obj: {
 	// 	id: string;
 	//  org: "Supplier" | "Manufacturer" | "Distributor" | "Retailer" | "Consumer";
@@ -22,22 +15,22 @@ export class User {
 	// 	this.username = obj.username;
 	// }
 	// userId: string;
-	email: string;
-	password: string;
-	userName: string;
-	address: string;
+	Email: string;
+	Password: string;
+	UserName: string;
+	Address: string;
 	org: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer";
 	role: string;
-	// status: string;
+	Status: string;
 }
 
 export class Product {
 	ProductId: string;
 	ProductName: string;
 	Dates: ProductDate;
-	actors: string;
+	Actors: string;
 	Price: string;
-	status: string;
+	Status: string;
 	Description: string;
 }
 
@@ -48,5 +41,5 @@ export class ProductDate {
 	Manufacturered: string;
 	Exported: string;
 	Distributed: string; // distributor
-	sold: string; // retailer
+	Sold: string; // retailer
 }
