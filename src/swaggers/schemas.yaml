@@ -1,0 +1,67 @@
+components:
+  schemas:
+    User:
+      properties:
+        UserId:
+          type: string
+        Email:
+          type: string
+        Password:
+          type: string
+        UserName:
+          type: string
+        Address:
+          type: string
+        UserType:
+          type: string
+        Role:
+          type: string
+        Status:
+          type: string
+
+    ProductDates:
+      properties:
+        Cultivated:
+          type: string
+        Harvested:
+          type: string
+        Imported:
+          type: string
+        Manufacturered:
+          type: string
+        Exported:
+          type: string
+        Distributed:
+          type: string
+        Sold:
+          type: string
+
+    ProductActors:
+      properties:
+        SupplierId:
+          type: string
+        ManufacturerId:
+          type: string
+        DistributorId:
+          type: string
+        RetailerId:
+          type: string
+
+    Product:
+      properties:
+        ProductId:
+          type: string
+        ProductName:
+          type: string
+        Dates:
+          type: object
+          $ref: "#components/schemas/ProductDates"
+        Actors:
+          type: object
+          $ref: "#components/schemas/ProductActors"
+        Price:
+          type: string
+        Status:
+          type: string
+        Description:
+          type: string

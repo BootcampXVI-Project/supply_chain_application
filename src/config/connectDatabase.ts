@@ -1,10 +1,9 @@
-import mongoose, { ConnectOptions } from "mongoose";
 import dotenv from "dotenv";
+import mongoose, { ConnectOptions } from "mongoose";
+import { MONGODB_URI } from "../constants";
 
 dotenv.config();
 mongoose.set("strictQuery", false);
-
-const MONGODB_URI: string = process.env.MONGODB_URI || "";
 
 const connectDatabase = () => {
 	try {

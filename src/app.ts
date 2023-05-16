@@ -7,7 +7,6 @@ import {
 	registerAndEnrollUser
 } from "./utils/CAUtil";
 import orgConst from "./utils/organizationConstant.json";
-import connectDatabase from "./config/connectDatabase";
 import { createNewUser, getAllUsers } from "./services/crudDatabase/user";
 import { Product, User } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
@@ -169,48 +168,3 @@ export async function evaluateTransaction(
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
 }
-
-async function main() {
-	const userObj: User = {
-		UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
-		Email: "Parker@gmail.com",
-		Password: "Parker",
-		UserName: "Parker",
-		Address: "Parker",
-		UserType: "supplier",
-		Role: "supplier",
-		Status: "UN-ACTIVE"
-	};
-
-	const productObj: Product = {
-		ProductId: "P004",
-		ProductName: "Gạo nếp",
-		Dates: {
-			Cultivated: "2023-01-02", // supplier
-			Harvested: "",
-			Imported: "", // manufacturer
-			Manufacturered: "",
-			Exported: "",
-			Distributed: "", // distributor
-			Sold: "" // retailer
-		},
-		Actors: {
-			SupplierId: "d53acf48-8769-4a07-a23a-d18055603f1e",
-			ManufacturerId: "",
-			DistributorId: "",
-			RetailerId: ""
-		},
-		Price: "150 USD",
-		Status: "Available",
-		Description: "Gạo nếp đạt chuẩn"
-	};
-	// await registerUser(userObj);
-	await submitTransaction("CultivateProduct", userObj, productObj);
-
-	const result = await evaluateTransaction("GetAllProducts", userObj, null);
-	const resultString = result.toString("utf-8"); // Chuyển buffer thành chuỗi UTF-8
-	const resultJson = JSON.parse(resultString); // Chuyển chuỗi JSON thành đối tượng JavaScript
-	console.log(resultJson);
-}
-
-// main();

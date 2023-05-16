@@ -39,8 +39,8 @@ const UserSchema = new mongoose.Schema(
 		Role: {
 			type: String,
 			trim: true,
-			required: true
-			// enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"]
+			required: true,
+			enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"]
 		},
 		Status: {
 			type: String,
@@ -52,4 +52,5 @@ const UserSchema = new mongoose.Schema(
 );
 
 const UserModel = mongoose.model("User", UserSchema);
+
 export default UserModel;

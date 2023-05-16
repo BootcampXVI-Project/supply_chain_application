@@ -7,7 +7,9 @@ jspm_packages/
 
 # Compiled TypeScript files
 dist
+
+# Organizations config files
 configs
 
-# environment file
+# Environment variables
 .env

@@ -1,23 +1,72 @@
 # Online Swagger yaml file formatter: https://editor.swagger.io/
 
 /product/all:
-    get:
-        summary: Get All Products
-        tags:
-            - Product
-        responses:
-            200:
-                description: Successfully
-            400:
-                description: Failed
-   
+  get:
+    summary: Get All Products
+    tags:
+      - Product
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
 /product/cultivate:
-    get:
-        summary: Cultivate Product
-        tags:
-            - Product
-        responses:
-            200:
-                description: Successfully
-            400:
-                description: Failed
+  post:
+    summary: Cultivate Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userObj:
+                type: object
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userObj:
+                {
+                  UserId: "g53a0000-8669-4a07-a23a-d18055600000",
+                  Email: "example@gmail.com",
+                  Password: "example",
+                  UserName: "example",
+                  Address: "example",
+                  UserType: "supplier",
+                  Role: "supplier",
+                  Status: "ACTIVE"
+                }
+              productObj:
+                {
+                  ProductId: "P001",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "g53a0000-8669-4a07-a23a-d18055600000",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "150 USD",
+                  Status: "Available",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

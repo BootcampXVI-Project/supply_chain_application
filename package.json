@@ -1,7 +1,7 @@
 {
 	"name": "supply_chain_application",
 	"version": "1.0.0",
-	"description": "Asset Transfer Basic contract implemented in TypeScript",
+	"description": "Supply Chain Application",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"engines": {
@@ -16,7 +16,7 @@
 		"prepublishOnly": "npm run build"
 	},
 	"engineStrict": true,
-	"author": "Hyperledger",
+	"author": "Eden Nero Parker",
 	"license": "Apache-2.0",
 	"dependencies": {
 		"@types/cookie-parser": "^1.4.3",
