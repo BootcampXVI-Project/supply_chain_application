@@ -1,8 +1,33 @@
-# Online Swagger yaml file formatter: https://editor.swagger.io/
+# Online Swagger formatter: https://editor.swagger.io/
 
 /product/all:
   get:
     summary: Get All Products
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+    tags:
+      - Product
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product:
+  get:
+    summary: Get Product
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+      - in: query
+        name: productId
+        schema:
+          type: string
     tags:
       - Product
     responses:
