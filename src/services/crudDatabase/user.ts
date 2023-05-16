@@ -1,12 +1,12 @@
 import { User } from "../../types/models";
-import { UserModel } from "../../models/User";
+import { UserModel } from "../../models/UserModel";
 
 export const getAllUsers = async () => {
 	return await UserModel.find({}).lean();
 };
 
 export const getUserByUserId = async (UserId: string) => {
-	return await UserModel.findOne({ UserId: UserId }); //.lean();
+	return await UserModel.findOne({ UserId: UserId }).lean();
 };
 
 export const checkExistedUser = async (UserId: string) => {

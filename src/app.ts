@@ -11,7 +11,7 @@ import { createNewUser, getAllUsers } from "./services/crudDatabase/user";
 import { Product, User } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
-import { UserModel } from "./models/User";
+import { UserModel } from "./models/UserModel";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic2";
@@ -95,7 +95,7 @@ export async function connectNetwork(userObj: User) {
 			identity: userObj.UserId,
 			discovery: { enabled: true, asLocalhost: true }
 		});
-		
+
 		const network = await gateway.getNetwork(channelName);
 		return network;
 	} catch (error) {

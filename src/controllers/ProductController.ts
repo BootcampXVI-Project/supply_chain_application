@@ -101,30 +101,35 @@ const ProductController = {
 			// 		Sold: "" // retailer
 			// 	},
 			// 	Actors: {
-			// 		SupplierId: "d53acf48-8769-4a07-a23a-d18055603f1e",
+			// 		SupplierId: "",
 			// 		ManufacturerId: "",
 			// 		DistributorId: "",
 			// 		RetailerId: ""
 			// 	},
 			// 	Price: "150 USD",
-			// 	Status: "Available",
+			// 	Status: "",
 			// 	Description: "Gạo tẻ đạt chuẩn"
 			// };
 
 			const { userObj, productObj } = req.body;
-			const result = await submitTransaction(
-				"CultivateProduct",
-				userObj,
-				productObj
-			);
-			// const createdProduct = convertBufferToJavasciptObject(result);
-			// await createProduct(userObj.userId, productObj);
+			await submitTransaction("CultivateProduct", userObj, productObj);
 
-			return res.json({
-				data: result,
-				message: "successfully",
-				error: null
-			});
+			const createdProduct = await createProduct(userObj.UserId, productObj);
+			console.log("createdProduct", createdProduct);
+
+			if (createdProduct.data) {
+				return res.json({
+					data: createdProduct.data,
+					message: "successfully",
+					error: null
+				});
+			} else {
+				return res.json({
+					data: null,
+					message: "failed",
+					error: createdProduct.data
+				});
+			}
 		} catch (error) {
 			return res.json({
 				data: null,
