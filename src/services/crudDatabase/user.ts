@@ -1,27 +1,21 @@
-import { log } from "console";
-import UserModel from "../../models/User";
 import { User } from "../../types/models";
-import _ from "lodash";
+import { UserModel } from "../../models/User";
 
 export const getAllUsers = async () => {
-	const users = await UserModel.find({}).lean();
-	return users;
+	return await UserModel.find({}).lean();
 };
 
-export const getUserById = async (UserId: string) => {
-	return await UserModel.findOne({ UserId: UserId }).lean();
+export const getUserByUserId = async (UserId: string) => {
+	return await UserModel.findOne({ UserId: UserId }); //.lean();
 };
 
 export const checkExistedUser = async (UserId: string) => {
 	const isExisted = await UserModel.exists({ UserId: UserId });
-	log(Boolean(isExisted));
 	return Boolean(isExisted);
 };
 
 export const createNewUser = async (user: User) => {
 	try {
-		// validate user ...
-
 		const isExistedUser: boolean = await checkExistedUser(user.UserId);
 		if (isExistedUser == true) {
 			return {
@@ -38,7 +32,6 @@ export const createNewUser = async (user: User) => {
 				};
 			})
 			.catch((error) => {
-				log("error", error);
 				throw error;
 			});
 

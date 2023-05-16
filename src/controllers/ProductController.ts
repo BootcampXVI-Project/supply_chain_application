@@ -1,33 +1,30 @@
-import { Product, User } from "../types/models";
-import { RequestFunction } from "../types/common";
-import { evaluateTransaction, submitTransaction } from "../app";
+import {
+	evaluateTransaction,
+	evaluateTransactionUserObjProductId,
+	submitTransaction
+} from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
-import { log } from "console";
+import { getUserByUserId } from "../services/crudDatabase/user";
+import { createProduct } from "../services/crudDatabase/product";
+import { ObjectId } from "../constants";
 
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const userObj: User = {
-				UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
-				Email: "Parker@gmail.com",
-				Password: "Parker",
-				UserName: "Parker",
-				Address: "Parker",
-				UserType: "supplier",
-				Role: "supplier",
-				Status: "UN-ACTIVE"
-			};
+			const userId = String(req.query.userId);
+			const productId = String(req.query.productId);
+			const userObj = await getUserByUserId(userId);
 
-			const productsBuffer = await evaluateTransaction(
+			const productBuffer = await evaluateTransactionUserObjProductId(
 				"GetProduct",
 				userObj,
-				null
+				String(productId)
 			);
-			const products = convertBufferToJavasciptObject(productsBuffer);
+			const product = convertBufferToJavasciptObject(productBuffer);
 
 			return res.json({
-				data: products,
+				data: product,
 				message: "successfully",
 				error: null
 			});
@@ -42,16 +39,20 @@ const ProductController = {
 
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
-			const userObj: User = {
-				UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
-				Email: "Parker@gmail.com",
-				Password: "Parker",
-				UserName: "Parker",
-				Address: "Parker",
-				UserType: "supplier",
-				Role: "supplier",
-				Status: "UN-ACTIVE"
-			};
+			// const userObj: User = {
+			// 	_id: new ObjectId("6461cead9b2c9e3a017ef195"),
+			// 	UserId: "d53acf48-8769-4a07-a23a-d18055603f1e",
+			// 	Email: "Parker@gmail.com",
+			// 	Password: "Parker",
+			// 	UserName: "Parker",
+			// 	Address: "Parker",
+			// 	UserType: "supplier",
+			// 	Role: "supplier",
+			// 	Status: "UN-ACTIVE"
+			// };
+
+			const userId = String(req.query.userId);
+			const userObj = await getUserByUserId(userId);
 
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
@@ -77,7 +78,8 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			// const userObj: User = {
-			// 	UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
+			// 	_id: new ObjectId("6461cead9b2c9e3a017ef195"),
+			// 	UserId: "d53acf48-8769-4a07-a23a-d18055603f1e",
 			// 	Email: "Parker@gmail.com",
 			// 	Password: "Parker",
 			// 	UserName: "Parker",
@@ -110,13 +112,13 @@ const ProductController = {
 			// };
 
 			const { userObj, productObj } = req.body;
-
 			const result = await submitTransaction(
 				"CultivateProduct",
 				userObj,
 				productObj
 			);
 			// const createdProduct = convertBufferToJavasciptObject(result);
+			// await createProduct(userObj.userId, productObj);
 
 			return res.json({
 				data: result,

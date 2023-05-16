@@ -1,12 +1,4 @@
-import UserModel from "../../models/User";
-import { User } from "../../types/models";
-import _ from "lodash";
+import { UserModel } from "../../models/User";
+import { Product } from "../../types/models";
 
-export const getAllUsers = async () => {
-	const users = await UserModel.find({}).lean();
-	return users;
-};
-
-export const getUserById = async (UserId: string) => {
-	return await UserModel.findOne({ UserId: UserId }).lean();
-};
+export const createProduct = async (userId: string, productObj: Product) => {};
