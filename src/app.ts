@@ -12,9 +12,10 @@ import { Product, User } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
 import { UserModel } from "./models/UserModel";
+import { Types } from "mongoose";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic2";
+const chaincodeName = "basic";
 
 const walletPaths: string[] = [
 	"supplierwallet",
@@ -66,13 +67,12 @@ export async function registerUser(userObj: User) {
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
-		const user = await UserModel.findOne({ UserId: userObj.UserId });
 		await enrollAdmin(caClient, wallet, orgDetail.msp);
 		await registerAndEnrollUser(
 			caClient,
 			wallet,
 			orgDetail.msp,
-			user.UserId,
+			userObj.UserId,
 			orgDetail.department
 		);
 	} catch (error) {
@@ -141,9 +141,8 @@ export async function evaluateTransaction(
 		const contract = network.getContract(chaincodeName);
 
 		console.log(`\n *********contract********** ${contract}`);
-		// const stringObject = JSON.stringify(userObj);
-
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
+
 		const result = await contract.evaluateTransaction(
 			funcName,
 			JSON.stringify(productObj)
@@ -167,10 +166,25 @@ export async function evaluateTransactionUserObjProductId(
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const result = await contract.evaluateTransaction(funcName, productId);
-
-		console.log(`\n evaluateTransaction()--> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
 }
+
+// async function main() {
+// 	const userObj: User = {
+// 		UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
+// 		Email: "Parker@gmail.com",
+// 		Password: "Parker",
+// 		UserName: "Parker",
+// 		Address: "Parker",
+// 		UserType: "supplier",
+// 		Role: "supplier",
+// 		Status: "UN-ACTIVE",
+// 		_id: new Types.ObjectId("6461cead9b2c9e3a017ef195")
+// 	};
+
+// 	await registerUser(userObj);
+// }
+// main();

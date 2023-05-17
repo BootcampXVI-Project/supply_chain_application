@@ -8,8 +8,10 @@ import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import { createProduct } from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
+import { log } from "console";
 
 const ProductController = {
+	// DONE
 	getProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -37,11 +39,11 @@ const ProductController = {
 		}
 	},
 
+	// DONE
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
-
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
 				userObj,
@@ -63,6 +65,7 @@ const ProductController = {
 		}
 	},
 
+	// ERROR - SAVE INTO DB
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.body.userId);

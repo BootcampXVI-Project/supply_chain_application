@@ -32,6 +32,8 @@ export const createProduct = async (userId: string, productObj: Product) => {
 			return error;
 		});
 
+	console.log("createdProduct", createdProduct);
+
 	if (createdProduct) {
 		return { data: createdProduct, message: "successfully" };
 	} else {
