@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
 interface UserProperties {
@@ -27,7 +28,7 @@ const UserSchema: Schema<User> = new Schema<User>({
 		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],
 		required: true
 	},
-	UserId: { type: String },
+	UserId: { type: String, default: uuidv4() },
 	Status: { type: String }
 });
 

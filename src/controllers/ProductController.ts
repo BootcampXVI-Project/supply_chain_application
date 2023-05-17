@@ -102,6 +102,28 @@ const ProductController = {
 				error: error
 			});
 		}
+	},
+
+	harvertProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("HarvertProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
 	}
 };
 

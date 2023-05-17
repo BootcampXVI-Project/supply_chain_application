@@ -1,18 +1,19 @@
 import { Types } from "mongoose";
 
-// export type User = {
-// 	_id: Types.ObjectId;
-// 	UserId: string;
-// 	Email: string;
-// 	Password: string;
-// 	UserName: string;
-// 	Address: string;
-// 	UserType: string;
-// 	Role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer";
-// 	Status: string;
-// 	createdAt: Date;
-// 	updatedAt: Date;
-// };
+export interface UserForRegister {
+	Email: string;
+	Password: string;
+	UserName: string;
+	Address: string;
+	UserType:
+		| "supplier"
+		| "manufacturer"
+		| "distributor"
+		| "retailer"
+		| "consumer";
+	Role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer";
+	Status?: "ACTIVE" | "UN-ACTIVE";
+}
 
 export interface User {
 	_id: Types.ObjectId;

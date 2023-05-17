@@ -8,7 +8,7 @@ import {
 } from "./utils/CAUtil";
 import orgConst from "./utils/organizationConstant.json";
 import { createNewUser, getAllUsers } from "./services/crudDatabase/user";
-import { Product, User } from "./types/models";
+import { Product, User, UserForRegister } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
 import { UserModel } from "./models/UserModel";
@@ -60,26 +60,27 @@ const pathdirs: string[] = [
 	"connection-consumer.json"
 ];
 
-export async function registerUser(userObj: User) {
+export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
+
 		const orgDetail = orgConst[userObj.Role];
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
+
 		await enrollAdmin(caClient, wallet, orgDetail.msp);
 		await registerAndEnrollUser(
 			caClient,
 			wallet,
 			orgDetail.msp,
-			userObj.UserId,
+			// userObj.UserId,
+			createdUser.data.UserId,
 			orgDetail.department
 		);
 	} catch (error) {
-		console.error(
-			`\nregisterUser() --> Failed to register user ${userObj.UserId}: ${error}`
-		);
-		throw new Error(`Failed to register user ${userObj.UserId}: ${error}`);
+		console.error(`registerUser() --> Failed to register user, ${error}`);
+		throw new Error(`Failed to register user, ${error}`);
 	}
 }
 
@@ -172,19 +173,18 @@ export async function evaluateTransactionUserObjProductId(
 	}
 }
 
-// async function main() {
-// 	const userObj: User = {
-// 		UserId: "d53acf48-8769-4a07-a23a-d18055603f1e", //uuidv4(),
-// 		Email: "Parker@gmail.com",
-// 		Password: "Parker",
-// 		UserName: "Parker",
-// 		Address: "Parker",
-// 		UserType: "supplier",
-// 		Role: "supplier",
-// 		Status: "UN-ACTIVE",
-// 		_id: new Types.ObjectId("6461cead9b2c9e3a017ef195")
-// 	};
+async function main() {
+	const userObj: UserForRegister = {
+		Email: "Eden@gmail.com",
+		Password: "Eden",
+		UserName: "Eden",
+		Address: "Eden",
+		UserType: "distributor",
+		Role: "distributor",
+		Status: "ACTIVE"
+	};
 
-// 	await registerUser(userObj);
-// }
-// main();
+	await registerUser(userObj);
+}
+
+main();
