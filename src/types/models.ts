@@ -51,6 +51,7 @@ export type Product = {
 	Price: string;
 	Status: string;
 	Description: string;
+	CertificateUrl: string;
 };
 
 export type ProductHistory = {
