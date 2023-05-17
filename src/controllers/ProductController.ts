@@ -74,21 +74,27 @@ const ProductController = {
 
 			await submitTransaction("CultivateProduct", userObj, productObj);
 
-			const createdProduct = await createProduct(userObj.UserId, productObj);
+			// const createdProduct = await createProduct(userObj.UserId, productObj);
 
-			if (createdProduct.data) {
-				return res.json({
-					data: createdProduct.data,
-					message: "successfully",
-					error: null
-				});
-			} else {
-				return res.json({
-					data: null,
-					message: "failed",
-					error: createdProduct.data
-				});
-			}
+			// if (createdProduct.data) {
+			// 	return res.json({
+			// 		data: createdProduct.data,
+			// 		message: "successfully",
+			// 		error: null
+			// 	});
+			// } else {
+			// 	return res.json({
+			// 		data: null,
+			// 		message: "failed",
+			// 		error: createdProduct.data
+			// 	});
+			// }
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
 		} catch (error) {
 			return res.json({
 				data: null,
