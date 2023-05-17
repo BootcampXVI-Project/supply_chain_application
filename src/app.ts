@@ -78,6 +78,8 @@ export async function registerUser(userObj: UserForRegister) {
 			createdUser.data.UserId,
 			orgDetail.department
 		);
+
+		return createdUser.data;
 	} catch (error) {
 		console.error(`registerUser() --> Failed to register user, ${error}`);
 		throw new Error(`Failed to register user, ${error}`);
@@ -122,10 +124,7 @@ export async function submitTransaction(
 			JSON.stringify(productObj)
 		);
 
-		console.log(
-			`\n submitTransaction()--> Result: committed: ${funcName} + ${result}`
-		);
-
+		console.log(`submitTransaction()--> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}`);
@@ -175,16 +174,16 @@ export async function evaluateTransactionUserObjProductId(
 
 async function main() {
 	const userObj: UserForRegister = {
-		Email: "Eden@gmail.com",
-		Password: "Eden",
-		UserName: "Eden",
-		Address: "Eden",
-		UserType: "distributor",
-		Role: "distributor",
+		Email: "Ryn@gmail.com",
+		Password: "Ryn",
+		UserName: "Ryn",
+		Address: "Ryn",
+		UserType: "supplier",
+		Role: "supplier",
 		Status: "ACTIVE"
 	};
 
 	await registerUser(userObj);
 }
 
-main();
+// main();

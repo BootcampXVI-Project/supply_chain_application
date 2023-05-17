@@ -1,5 +1,3 @@
-# Online Swagger formatter: https://editor.swagger.io/
-
 /product/all:
   get:
     summary: Get All Products
@@ -16,7 +14,7 @@
       400:
         description: Failed
 
-/product:
+/product/detail:
   get:
     summary: Get Product
     parameters:
@@ -89,6 +87,306 @@
 /product/harvert:
   post:
     summary: Harvert Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/import:
+  post:
+    summary: Import Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/manufacture:
+  post:
+    summary: Manufacture Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/export:
+  post:
+    summary: Export Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/distribute:
+  post:
+    summary: Distribute Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/sell:
+  post:
+    summary: Sell Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  ProductId: "Product1",
+                  ProductName: "Gạo tẻ",
+                  Dates:
+                    {
+                      Cultivated: "",
+                      Harvested: "",
+                      Imported: "",
+                      Manufacturered: "",
+                      Exported: "",
+                      Distributed: "",
+                      Sold: ""
+                    },
+                  Actors:
+                    {
+                      SupplierId: "",
+                      ManufacturerId: "",
+                      DistributorId: "",
+                      RetailerId: ""
+                    },
+                  Price: "100000",
+                  Status: "",
+                  Description: "Gạo tẻ đạt chuẩn"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/update:
+  post:
+    summary: Update Product
     tags:
       - Product
     requestBody:
