@@ -47,24 +47,14 @@
           schema:
             type: object
             properties:
-              userObj:
-                type: object
+              userId:
+                type: string
                 required: true
               productObj:
                 type: object
                 required: true
             example:
-              userObj:
-                {
-                  UserId: "g53a0000-8669-4a07-a23a-d18055600000",
-                  Email: "example@gmail.com",
-                  Password: "example",
-                  UserName: "example",
-                  Address: "example",
-                  UserType: "supplier",
-                  Role: "supplier",
-                  Status: "ACTIVE"
-                }
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
                   ProductId: "P001",
@@ -81,13 +71,13 @@
                     },
                   Actors:
                     {
-                      SupplierId: "g53a0000-8669-4a07-a23a-d18055600000",
+                      SupplierId: "",
                       ManufacturerId: "",
                       DistributorId: "",
                       RetailerId: ""
                     },
-                  Price: "150 USD",
-                  Status: "Available",
+                  Price: "100000",
+                  Status: "",
                   Description: "Gạo tẻ đạt chuẩn"
                 }
     responses:

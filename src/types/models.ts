@@ -49,7 +49,14 @@ export type Product = {
 	Dates: ProductDates;
 	Actors: ProductActors;
 	Price: string;
-	Status: string;
+	Status:
+		| "CULTIVATING"
+		| "HAVERTED"
+		| "IMPORTED"
+		| "MANUFACTURED"
+		| "EXPORTED"
+		| "DISTRIBUTED"
+		| "SOLD";
 	Description: string;
 	CertificateUrl: string;
 };
