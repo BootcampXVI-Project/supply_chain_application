@@ -65,9 +65,9 @@ export async function registerUser(userObj: UserForRegister) {
 		const createdUser = await createNewUser(userObj);
 		console.log(createdUser);
 
-		const orgDetail = orgConst[userObj.Role];
+		// const orgDetail = orgConst[userObj.Role];
 		// const orgDetail = orgConst["supplier"];
-		// const orgDetail = orgConst["manufacturer"];
+		const orgDetail = orgConst["manufacturer"];
 		// const orgDetail = orgConst["distributor"];
 		// const orgDetail = orgConst["retailer"];
 		// const orgDetail = orgConst["consumer"];

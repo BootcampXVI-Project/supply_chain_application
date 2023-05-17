@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get("/all", ProductController.getAllProducts);
 router.get("/detail", ProductController.getProduct);
+router.get("/transactions-history", ProductController.getTransactionsHistory);
 
 router.post("/cultivate", ProductController.cultivateProduct);
 router.post("/harvert", ProductController.harvertProduct);

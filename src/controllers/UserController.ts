@@ -1,35 +1,61 @@
 import {
 	evaluateTransaction,
 	evaluateTransactionUserObjProductId,
-	registerUser,
-	submitTransaction
+	submitTransaction,
+	registerUser
 } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { getUserByUserId } from "../services/crudDatabase/user";
+import { getUserByUserId, getAllUsers } from "../services/crudDatabase/user";
 import { Request, Response } from "express";
 
 const ProductController = {
-	// DOING
+	// DONE
 	createUser: async (req: Request, res: Response) => {
 		try {
 			const userObj = req.body.userObj;
-
-			// await submitTransaction("CreateUser", userObj, null);
-
-			// const userObj: UserForRegister = {
-			// 	Email: "Ryn@gmail.com",
-			// 	Password: "Ryn",
-			// 	UserName: "Ryn",
-			// 	Address: "Ryn",
-			// 	UserType: "supplier",
-			// 	Role: "supplier",
-			// 	Status: "ACTIVE"
-			// };
-
 			const createdUser = await registerUser(userObj);
 
 			return res.json({
 				data: createdUser,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	// DONE
+	getAllUsers: async (req: Request, res: Response) => {
+		try {
+			const users = await getAllUsers();
+
+			return res.json({
+				data: users,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	// DONE
+	getUser: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.query.userId);
+			const users = await getUserByUserId(userId);
+
+			return res.json({
+				data: users,
 				message: "successfully",
 				error: null
 			});

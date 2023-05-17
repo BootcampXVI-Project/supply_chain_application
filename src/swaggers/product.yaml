@@ -34,6 +34,26 @@
       400:
         description: Failed
 
+/product/transactions-history:
+  get:
+    summary: Get Product Transactions History
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+      - in: query
+        name: productId
+        schema:
+          type: string
+    tags:
+      - Product
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
 /product/cultivate:
   post:
     summary: Cultivate Product

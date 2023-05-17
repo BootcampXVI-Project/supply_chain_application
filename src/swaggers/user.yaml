@@ -28,3 +28,30 @@
         description: Successfully
       400:
         description: Failed
+
+/user/all:
+  get:
+    summary: Get All Users
+    tags:
+      - User
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/user/detail:
+  get:
+    summary: Get User
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+    tags:
+      - User
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

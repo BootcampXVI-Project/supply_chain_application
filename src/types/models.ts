@@ -52,7 +52,7 @@ export type Product = {
 	Price: string;
 	Status:
 		| "CULTIVATING"
-		| "HAVERTED"
+		| "HARVESTED"
 		| "IMPORTED"
 		| "MANUFACTURED"
 		| "EXPORTED"

@@ -6,7 +6,10 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import { createProduct } from "../services/crudDatabase/product";
+import {
+	createProduct,
+	getProductByProductId
+} from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
 import { log } from "console";
 import { FirebaseStorage } from "firebase/storage";
@@ -54,6 +57,40 @@ const ProductController = {
 
 			return res.json({
 				data: products,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	// DONE
+	getTransactionsHistory: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.query.userId);
+			const productId = String(req.query.productId);
+
+			const userObj = await getUserByUserId(userId);
+			const productObj = await getProductByProductId(productId);
+			console.log("userObj", userObj);
+			console.log("productObj", productObj);
+
+			const transactionsBuffer = await evaluateTransaction(
+				"GetHistory",
+				userObj,
+				productObj
+			);
+			console.log("transactionsBuffer", transactionsBuffer);
+			const transactions = convertBufferToJavasciptObject(transactionsBuffer);
+			console.log("transactions", transactions);
+
+			return res.json({
+				data: transactions,
 				message: "successfully",
 				error: null
 			});
