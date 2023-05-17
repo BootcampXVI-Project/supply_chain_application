@@ -59,6 +59,7 @@ export type Product = {
 		| "DISTRIBUTED"
 		| "SOLD";
 	Description: string;
+	CertificateUrl: string;
 };
 
 export type ProductHistory = {

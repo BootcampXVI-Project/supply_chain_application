@@ -9,6 +9,7 @@ import { getUserByUserId } from "../services/crudDatabase/user";
 import { createProduct } from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
 import { log } from "console";
+import { FirebaseStorage } from "firebase/storage";
 
 const ProductController = {
 	// DONE
@@ -66,6 +67,7 @@ const ProductController = {
 	},
 
 	// ERROR - SAVE INTO DB
+	//Supplier
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.body.userId);
@@ -117,6 +119,40 @@ const ProductController = {
 				message: "successfully",
 				error: null
 			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	addCertificate: async (req:Request, res: Response) => {
+		try {
+			const { userObj, productObj } = req.body;
+			let product = await ProductController.getProduct(req, res)
+			if (!product) {
+				throw new Error("Content not found !!!");
+			}
+
+			const base64String = productObj.split("base64,")[1];
+			const bytesImage = Buffer.from(base64String, "base64");
+			const storage = new FirebaseStorage("supplychain.app.com");
+			const stream = new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(bytesImage); }, pull() { }, cancel() { } });
+
+			product.CertificateUrl = await storage.child("Certificate").put(stream);
+			const result = await submitTransaction(
+				"AddCertificate",
+				userObj,
+				product
+			);
+
+			return res.json({
+				data: result,
+				message: "successfully",
+				error: null
+			})
 		} catch (error) {
 			return res.json({
 				data: null,
