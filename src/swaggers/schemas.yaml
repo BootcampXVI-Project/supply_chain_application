@@ -1,3 +1,5 @@
+# Online Swagger formatter: https://editor.swagger.io/
+
 components:
   schemas:
     User:

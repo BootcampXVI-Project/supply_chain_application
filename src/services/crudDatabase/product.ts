@@ -6,6 +6,12 @@ export const checkExistedProduct = async (ProductId: string) => {
 	return Boolean(isExisted);
 };
 
+export const getProductByProductId = async (ProductId: string) => {
+	return await ProductModel.findOne({ ProductId: ProductId })
+		.select("-__v -_id -createdAt -updatedAt")
+		.lean();
+};
+
 export const createProduct = async (userId: string, productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(
 		productObj.ProductId
@@ -31,6 +37,8 @@ export const createProduct = async (userId: string, productObj: Product) => {
 			console.log("error", error);
 			return error;
 		});
+
+	console.log("createdProduct", createdProduct);
 
 	if (createdProduct) {
 		return { data: createdProduct, message: "successfully" };

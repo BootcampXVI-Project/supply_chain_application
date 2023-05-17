@@ -6,11 +6,16 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import { createProduct } from "../services/crudDatabase/product";
+import {
+	createProduct,
+	getProductByProductId
+} from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
+import { log } from "console";
 import { FirebaseStorage } from "firebase/storage";
 
 const ProductController = {
+	// DONE
 	getProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -38,11 +43,11 @@ const ProductController = {
 		}
 	},
 
+	// DONE
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
-
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
 				userObj,
@@ -64,30 +69,31 @@ const ProductController = {
 		}
 	},
 
-	//Supplier
-	cultivateProduct: async (req: Request, res: Response) => {
+	// DONE
+	getTransactionsHistory: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
-			const productObj = req.body.productObj;
+			const userId = String(req.query.userId);
+			const productId = String(req.query.productId);
+
 			const userObj = await getUserByUserId(userId);
+			const productObj = await getProductByProductId(productId);
+			console.log("userObj", userObj);
+			console.log("productObj", productObj);
 
-			await submitTransaction("CultivateProduct", userObj, productObj);
+			const transactionsBuffer = await evaluateTransaction(
+				"GetHistory",
+				userObj,
+				productObj
+			);
+			console.log("transactionsBuffer", transactionsBuffer);
+			const transactions = convertBufferToJavasciptObject(transactionsBuffer);
+			console.log("transactions", transactions);
 
-			const createdProduct = await createProduct(userObj.UserId, productObj);
-
-			if (createdProduct.data) {
-				return res.json({
-					data: createdProduct.data,
-					message: "successfully",
-					error: null
-				});
-			} else {
-				return res.json({
-					data: null,
-					message: "failed",
-					error: createdProduct.data
-				});
-			}
+			return res.json({
+				data: transactions,
+				message: "successfully",
+				error: null
+			});
 		} catch (error) {
 			return res.json({
 				data: null,
@@ -97,31 +103,39 @@ const ProductController = {
 		}
 	},
 
-	addCertificate: async (req:Request, res: Response) => {
+	// ERROR - SAVE INTO DB
+	cultivateProduct: async (req: Request, res: Response) => {
 		try {
-			const { userObj, productObj } = req.body;
-			let product = await ProductController.getProduct(req, res)
-			if (!product) {
-				throw new Error("Content not found !!!");
-			}
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
 
-			const base64String = productObj.split("base64,")[1];
-			const bytesImage = Buffer.from(base64String, "base64");
-			const storage = new FirebaseStorage("supplychain.app.com");
-			const stream = new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(bytesImage); }, pull() { }, cancel() { } });
+			console.log(userId);
+			console.log(userObj);
 
-			product.CertificateUrl = await storage.child("Certificate").put(stream);
-			const result = await submitTransaction(
-				"AddCertificate",
-				userObj,
-				product
-			);
+			await submitTransaction("CultivateProduct", userObj, productObj);
+
+			// const createdProduct = await createProduct(userObj.UserId, productObj);
+
+			// if (createdProduct.data) {
+			// 	return res.json({
+			// 		data: createdProduct.data,
+			// 		message: "successfully",
+			// 		error: null
+			// 	});
+			// } else {
+			// 	return res.json({
+			// 		data: null,
+			// 		message: "failed",
+			// 		error: createdProduct.data
+			// 	});
+			// }
 
 			return res.json({
-				data: result,
+				data: null,
 				message: "successfully",
 				error: null
-			})
+			});
 		} catch (error) {
 			return res.json({
 				data: null,
@@ -129,6 +143,191 @@ const ProductController = {
 				error: error
 			});
 		}
+	},
+
+	harvertProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("HarvertProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	importProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("ImportProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	manufactureProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("ManufactureProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	exportProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("ExportProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	distributeProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("DistributeProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	sellProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("SellProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	updateProduct: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.body.userId);
+			const productObj = req.body.productObj;
+			const userObj = await getUserByUserId(userId);
+
+			await submitTransaction("SupplierUpdateProduct", userObj, productObj);
+
+			return res.json({
+				data: null,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+		}
+	},
+
+	addCertificate: async (req: Request, res: Response) => {
+		// try {
+		// 	const { userObj, productObj } = req.body;
+		// 	let product = await ProductController.getProduct(req, res)
+		// 	if (!product) {
+		// 		throw new Error("Content not found !!!");
+		// 	}
+		// 	const base64String = productObj.split("base64,")[1];
+		// 	const bytesImage = Buffer.from(base64String, "base64");
+		// 	const storage = new FirebaseStorage("supplychain.app.com");
+		// 	const stream = new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(bytesImage); }, pull() { }, cancel() { } });
+		// 	product.CertificateUrl = await storage.child("Certificate").put(stream);
+		// 	const result = await submitTransaction(
+		// 		"AddCertificate",
+		// 		userObj,
+		// 		product
+		// 	);
+		// 	return res.json({
+		// 		data: result,
+		// 		message: "successfully",
+		// 		error: null
+		// 	})
+		// } catch (error) {
+		// 	return res.json({
+		// 		data: null,
+		// 		message: "failed",
+		// 		error: error
+		// 	});
+		// }
 	}
 };
 

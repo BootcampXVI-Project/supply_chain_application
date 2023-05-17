@@ -8,13 +8,14 @@ import {
 } from "./utils/CAUtil";
 import orgConst from "./utils/organizationConstant.json";
 import { createNewUser, getAllUsers } from "./services/crudDatabase/user";
-import { Product, User } from "./types/models";
+import { Product, User, UserForRegister } from "./types/models";
 import { v4 as uuidv4 } from "uuid";
 import { log } from "console";
 import { UserModel } from "./models/UserModel";
+import { Types } from "mongoose";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic2";
+const chaincodeName = "basic";
 
 const walletPaths: string[] = [
 	"supplierwallet",
@@ -59,27 +60,36 @@ const pathdirs: string[] = [
 	"connection-consumer.json"
 ];
 
-export async function registerUser(userObj: User) {
+export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
-		const orgDetail = orgConst[userObj.Role];
+		console.log(createdUser);
+
+		// const orgDetail = orgConst[userObj.Role];
+		// const orgDetail = orgConst["supplier"];
+		const orgDetail = orgConst["manufacturer"];
+		// const orgDetail = orgConst["distributor"];
+		// const orgDetail = orgConst["retailer"];
+		// const orgDetail = orgConst["consumer"];
+
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
-		const user = await UserModel.findOne({ UserId: userObj.UserId });
+
 		await enrollAdmin(caClient, wallet, orgDetail.msp);
 		await registerAndEnrollUser(
 			caClient,
 			wallet,
 			orgDetail.msp,
-			user.UserId,
+			// userObj.UserId,
+			createdUser.data.UserId,
 			orgDetail.department
 		);
+
+		return createdUser.data;
 	} catch (error) {
-		console.error(
-			`\nregisterUser() --> Failed to register user ${userObj.UserId}: ${error}`
-		);
-		throw new Error(`Failed to register user ${userObj.UserId}: ${error}`);
+		console.error(`registerUser() --> Failed to register user, ${error}`);
+		throw new Error(`Failed to register user, ${error}`);
 	}
 }
 
@@ -121,10 +131,7 @@ export async function submitTransaction(
 			JSON.stringify(productObj)
 		);
 
-		console.log(
-			`\n submitTransaction()--> Result: committed: ${funcName} + ${result}`
-		);
-
+		console.log(`submitTransaction()--> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}`);
@@ -141,9 +148,8 @@ export async function evaluateTransaction(
 		const contract = network.getContract(chaincodeName);
 
 		console.log(`\n *********contract********** ${contract}`);
-		// const stringObject = JSON.stringify(userObj);
-
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
+
 		const result = await contract.evaluateTransaction(
 			funcName,
 			JSON.stringify(productObj)
@@ -167,10 +173,24 @@ export async function evaluateTransactionUserObjProductId(
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const result = await contract.evaluateTransaction(funcName, productId);
-
-		console.log(`\n evaluateTransaction()--> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
 }
+
+async function main() {
+	const userObj: UserForRegister = {
+		Email: "Ryn@gmail.com",
+		Password: "Ryn",
+		UserName: "Ryn",
+		Address: "Ryn",
+		UserType: "supplier",
+		Role: "supplier",
+		Status: "ACTIVE"
+	};
+
+	await registerUser(userObj);
+}
+
+// main();

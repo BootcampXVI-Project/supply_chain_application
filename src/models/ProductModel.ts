@@ -1,4 +1,14 @@
+import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
+
+type Status =
+	| "CULTIVATING"
+	| "HARVESTED"
+	| "IMPORTED"
+	| "MANUFACTURED"
+	| "EXPORTED"
+	| "DISTRIBUTED"
+	| "SOLD";
 
 interface ProductDates {
 	Cultivated: string;
@@ -23,12 +33,13 @@ interface Product extends Document {
 	Dates: ProductDates;
 	Actors: ProductActors;
 	Price: string;
-	Status: string;
+	Status: Status;
 	Description: string;
+	CertificateUrl: string;
 }
 
 const ProductSchema: Schema<Product> = new Schema<Product>({
-	ProductId: { type: String },
+	ProductId: { type: String, default: uuidv4() },
 	ProductName: { type: String, required: true },
 	Dates: {
 		Cultivated: { type: String },
@@ -50,7 +61,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		type: String,
 		enum: [
 			"CULTIVATING",
-			"HAVERTED",
+			"HARVESTED",
 			"IMPORTED",
 			"MANUFACTURED",
 			"EXPORTED",
@@ -59,7 +70,8 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		],
 		required: true
 	},
-	Description: { type: String, required: true }
+	Description: { type: String, required: true },
+	CertificateUrl: { type: String, required: true }
 });
 
 const ProductModel = mongoose.model<Product>("Product", ProductSchema);

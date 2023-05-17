@@ -4,6 +4,6 @@ export const convertBufferToJavasciptObject = (buffer: Buffer) => {
 
 	// Chuyển chuỗi JSON thành đối tượng JavaScript
 	const resultJson = JSON.parse(resultString);
-    
+
 	return resultJson;
 };
