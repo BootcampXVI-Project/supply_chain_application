@@ -5,8 +5,14 @@ export const getAllUsers = async () => {
 	return await UserModel.find({}).lean();
 };
 
+// export const getUserByUserId = async (UserId: string) => {
+// 	return await UserModel.findOne({ UserId: UserId }).lean();
+// };
+
 export const getUserByUserId = async (UserId: string) => {
-	return await UserModel.findOne({ UserId: UserId }).lean();
+	return await UserModel.findOne({ UserId: UserId })
+		.select("-__v -_id -createdAt -updatedAt")
+		.lean();
 };
 
 export const checkExistedUser = async (UserId: string) => {

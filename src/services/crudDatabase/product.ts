@@ -21,7 +21,6 @@ export const createProduct = async (userId: string, productObj: Product) => {
 	productObj.Status = "CULTIVATING";
 	productObj.Dates.Cultivated = new Date().toString();
 	productObj.Actors.SupplierId = userId;
-	console.log(productObj);
 
 	const createdProduct = await ProductModel.create(productObj)
 		.then((data: any) => {
