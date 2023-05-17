@@ -63,8 +63,15 @@ const pathdirs: string[] = [
 export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
+		console.log(createdUser);
 
 		const orgDetail = orgConst[userObj.Role];
+		// const orgDetail = orgConst["supplier"];
+		// const orgDetail = orgConst["manufacturer"];
+		// const orgDetail = orgConst["distributor"];
+		// const orgDetail = orgConst["retailer"];
+		// const orgDetail = orgConst["consumer"];
+
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));

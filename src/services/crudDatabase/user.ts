@@ -38,6 +38,7 @@ export const createNewUser = async (user: UserForRegister) => {
 				};
 			})
 			.catch((error) => {
+				console.log(error);
 				return {
 					data: null,
 					message: error

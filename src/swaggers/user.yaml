@@ -9,35 +9,20 @@
           schema:
             type: object
             properties:
-              Email:
-                type: string
-                required: true
-              Password:
-                type: string
-                required: true
-              UserName:
-                type: string
-                required: true
-              Address:
-                type: string
-                required: true
-              UserType:
-                type: string
-                required: true
-              Role:
-                type: string
-                required: true
-              Status:
-                type: string
+              userObj:
+                type: object
                 required: true
             example:
-              Email: "Ryn@gmail.com"
-              Password: "Ryn"
-              UserName: "Ryn"
-              Address: "Ryn"
-              UserType: "supplier"
-              Role: "supplier"
-              Status: "ACTIVE"
+              userObj:
+                {
+                  Email: "Ryn@gmail.com",
+                  Password: "Ryn",
+                  UserName: "Ryn",
+                  Address: "Ryn",
+                  UserType: "supplier",
+                  Role: "supplier",
+                  Status: "ACTIVE"
+                }
     responses:
       200:
         description: Successfully

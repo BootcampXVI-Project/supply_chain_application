@@ -385,7 +385,7 @@
         description: Failed
 
 /product/update:
-  post:
+  patch:
     summary: Update Product
     tags:
       - Product
