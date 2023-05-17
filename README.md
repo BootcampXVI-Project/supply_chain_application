@@ -148,10 +148,10 @@ docker-compose up -d
 ## Change directory to folder supply_chain_application
 
 ```bash
-cd ../../supply_chain_application
+cd ../supply_chain_application
 ```
 
-## Install dependences
+## Install npm packages
 
 ```bash
 npm install
@@ -161,4 +161,30 @@ npm install
 
 ```bash
 npm start
+```
+
+# 6. Running the Web Application
+
+## Change directory to folder supply_chain_client
+
+```bash
+cd ../supply_chain_client
+```
+
+## Install npm packages
+
+```bash
+npm install
+```
+
+## Build Angular project
+
+```bash
+ng build
+```
+
+## Start application
+
+```bash
+ng serve
 ```
