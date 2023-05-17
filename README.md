@@ -137,12 +137,6 @@ cd ../../explorer
 cp -r ../SupplychainNetwork/organizations/ .
 ```
 
-## Copy entire crypto artifact directory (organizations/)
-
-```bash
-cp -r ../SupplychainNetwork/organizations/ .
-```
-
 ## start up explore and explorer-db services
 
 ```bash
