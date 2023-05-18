@@ -1,6 +1,7 @@
 /user/create:
   post:
     summary: Create User
+    description: Create User
     tags:
       - User
     requestBody:
@@ -15,13 +16,13 @@
             example:
               userObj:
                 {
-                  Email: "Ryn@gmail.com",
-                  Password: "Ryn",
-                  UserName: "Ryn",
-                  Address: "Ryn",
-                  UserType: "supplier",
-                  Role: "supplier",
-                  Status: "ACTIVE"
+                  email: "Ryn@gmail.com",
+                  password: "Ryn",
+                  userName: "Ryn",
+                  address: "Ryn",
+                  userType: "supplier",
+                  role: "supplier",
+                  status: "active"
                 }
     responses:
       200:
@@ -32,6 +33,7 @@
 /user/all:
   get:
     summary: Get All Users
+    description: Get All Users
     tags:
       - User
     responses:
@@ -43,6 +45,7 @@
 /user/detail:
   get:
     summary: Get User
+    description: Get User
     parameters:
       - in: query
         name: userId

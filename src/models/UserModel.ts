@@ -1,37 +1,39 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { UserRoleType, UserStatus } from "../types/models";
 
-interface UserProperties {
-	_id: Types.ObjectId;
-	Email: string;
-	Password: string;
-	UserName: string;
-	Address: string;
-	UserType: string;
-	Role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer";
-	UserId?: string;
-	Status?: string;
+interface User {
+	email: string;
+	password: string;
+	userName: string;
+	address: string;
+	userType: UserRoleType;
+	role: UserRoleType;
+	userId?: string;
+	status?: UserStatus;
+	identify: string;
 }
 
-interface User extends UserProperties, Document {
+interface UserDB extends User, Document {
 	_id: Types.ObjectId;
 }
 
-const UserSchema: Schema<User> = new Schema<User>({
-	Email: { type: String, required: true },
-	Password: { type: String, required: true },
-	UserName: { type: String, required: true },
-	Address: { type: String, required: true },
-	UserType: { type: String, required: true },
-	Role: {
+const UserSchema: Schema<UserDB> = new Schema<UserDB>({
+	email: { type: String, required: true },
+	password: { type: String, required: true },
+	userName: { type: String, required: true },
+	address: { type: String, required: true },
+	userType: { type: String, required: true },
+	role: {
 		type: String,
 		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],
 		required: true
 	},
-	UserId: { type: String, default: uuidv4() },
-	Status: { type: String }
+	userId: { type: String, default: uuidv4() },
+	status: { type: String, enum: ["active", "inactive"] },
+	identify: { type: String }
 });
 
-const UserModel = mongoose.model<User>("User", UserSchema);
+const UserModel = mongoose.model<UserDB>("User", UserSchema);
 
-export { User, UserModel };
+export { User, UserDB, UserModel };
