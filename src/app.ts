@@ -11,7 +11,7 @@ import { createNewUser } from "./services/crudDatabase/user";
 import { Product, User, UserForRegister } from "./types/models";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic3";
+const chaincodeName = "basic";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
