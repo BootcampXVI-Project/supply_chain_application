@@ -58,14 +58,14 @@
       400:
         description: Failed
 
-/cooperation/update:
+/cooperation/update/{cooperationId}:
   patch:
     summary: Update Cooperation
     description: Update Cooperation
     tags:
       - Cooperation
     parameters:
-      - in: params
+      - in: path
         name: cooperationId
         schema:
           type: string
@@ -94,14 +94,14 @@
       400:
         description: Failed
 
-/cooperation/delete:
+/cooperation/delete/{cooperationId}:
   delete:
     summary: Delete Cooperation
     description: Delete Cooperation
     tags:
       - Cooperation
     parameters:
-      - in: params
+      - in: path
         name: cooperationId
         schema:
           type: string

@@ -1,3 +1,4 @@
+import { log } from "console";
 import {
 	createNewCooperation,
 	deleteCooperationById,
@@ -93,7 +94,7 @@ const CooperationController = {
 			);
 
 			return res.json({
-				data: cooperation,
+				data: cooperation.data,
 				message: "successfully",
 				error: null
 			});
@@ -112,11 +113,17 @@ const CooperationController = {
 			const cooperation = await deleteCooperationById(cooperationId);
 
 			return res.json({
-				status: "Success",
+				status: "successfully",
 				error: null,
 				data: cooperation
 			});
-		} catch (error) {}
+		} catch (error) {
+            return res.json({
+				data: null,
+				message: "failed",
+				error: error
+			});
+        }
 	}
 };
 
