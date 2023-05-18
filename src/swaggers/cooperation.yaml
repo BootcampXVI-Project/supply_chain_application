@@ -1,0 +1,76 @@
+/cooperation/all:
+  get:
+    summary: Get All Cooperation
+    description: Get All Cooperation
+    tags:
+      - Cooperation
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/cooperation/detail:
+  get:
+    summary: Get Cooperation
+    description: Get Cooperation
+    tags:
+      - Cooperation
+    parameters:
+      - in: query
+        name: cooperationId
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/cooperation/update:
+  post:
+    summary: Update Cooperation
+    description: Update Cooperation
+    tags:
+      - Cooperation
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              productObj:
+                type: object
+                required: true
+            example:
+              cooperation:
+                {
+                  name: "Binh Duong Province Honey Agricultural Cooperative for Product Development",
+                  desciption: "Binh Duong Province Honey Agricultural Cooperative",
+                  address: "ĐT741, An Bình, Phú Giáo, Bình Dương",
+                  founderId: "d53acf48-8769-4a07-a23a-d18055603f1j",
+                  longitude: "108.76674571509565",
+                  latitude: "15.328455421542802"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/cooperation/delete:
+  post:
+    summary: Delete Cooperation
+    description: Delete Cooperation
+    tags:
+      - Cooperation
+    parameters:
+      - in: params
+        name: cooperationId
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

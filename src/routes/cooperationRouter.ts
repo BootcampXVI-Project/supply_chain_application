@@ -1,10 +1,11 @@
 import express from "express";
-import ProductController from "../controllers/CooperationController";
+import CooperationController from "../controllers/CooperationController";
 
 const router = express.Router();
 
-// router.get("/all", CooperationController.getAllCooperations);
-// router.get("/", CooperationController.getCooperation);
-// router.post("/cultivate", CooperationController.cultivateCooperation);
+router.get("/all", CooperationController.getAllCooperations);
+router.get("/detail", CooperationController.getCooperation);
+router.patch("/update", CooperationController.updateCooperation);
+router.delete("/delete", CooperationController.deleteCooperation);
 
 export default router;
