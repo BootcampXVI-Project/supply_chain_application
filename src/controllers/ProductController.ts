@@ -16,7 +16,6 @@ import { User } from "../models/UserModel";
 import { FirebaseStorage } from "firebase/storage";
 
 const ProductController = {
-	// DONE
 	getProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -44,7 +43,6 @@ const ProductController = {
 		}
 	},
 
-	// DONE
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -70,7 +68,6 @@ const ProductController = {
 		}
 	},
 
-	// DONE
 	getTransactionsHistory: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -104,7 +101,6 @@ const ProductController = {
 		}
 	},
 
-	// ERROR - SAVE INTO DB
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.body.userId);

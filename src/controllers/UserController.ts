@@ -8,8 +8,7 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { getUserByUserId, getAllUsers } from "../services/crudDatabase/user";
 import { Request, Response } from "express";
 
-const ProductController = {
-	// DONE
+const UserController = {
 	createUser: async (req: Request, res: Response) => {
 		try {
 			const userObj = req.body.userObj;
@@ -29,7 +28,6 @@ const ProductController = {
 		}
 	},
 
-	// DONE
 	getAllUsers: async (req: Request, res: Response) => {
 		try {
 			const users = await getAllUsers();
@@ -48,7 +46,6 @@ const ProductController = {
 		}
 	},
 
-	// DONE
 	getUser: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -69,4 +66,4 @@ const ProductController = {
 	}
 };
 
-export default ProductController;
+export default UserController;
