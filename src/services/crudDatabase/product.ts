@@ -1,20 +1,20 @@
 import { ProductModel } from "../../models/ProductModel";
 import { Product } from "../../types/models";
 
-export const checkExistedProduct = async (ProductId: string) => {
-	const isExisted = await ProductModel.exists({ ProductId: ProductId });
+export const checkExistedProduct = async (productId: string) => {
+	const isExisted = await ProductModel.exists({ productId: productId });
 	return Boolean(isExisted);
 };
 
-export const getProductByProductId = async (ProductId: string) => {
-	return await ProductModel.findOne({ ProductId: ProductId })
+export const getProductByProductId = async (productId: string) => {
+	return await ProductModel.findOne({ productId: productId })
 		.select("-__v -_id -createdAt -updatedAt")
 		.lean();
 };
 
 export const createProduct = async (userId: string, productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(
-		productObj.ProductId
+		productObj.productId
 	);
 	if (isExistedProduct) {
 		return {
@@ -24,9 +24,9 @@ export const createProduct = async (userId: string, productObj: Product) => {
 	}
 
 	// Update Cultivated status & date and SupplierId
-	productObj.Status = "CULTIVATING";
-	productObj.Dates.Cultivated = new Date().toString();
-	productObj.Actors.SupplierId = userId;
+	productObj.status = "CULTIVATING";
+	productObj.dates.cultivated = new Date().toString();
+	productObj.actors.supplierId = userId;
 
 	const createdProduct = await ProductModel.create(productObj)
 		.then((data: any) => {

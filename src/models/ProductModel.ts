@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
-type Status =
+type ProductStatus =
 	| "CULTIVATING"
 	| "HARVESTED"
 	| "IMPORTED"
@@ -11,53 +11,55 @@ type Status =
 	| "SOLD";
 
 interface ProductDates {
-	Cultivated: string;
-	Harvested: string;
-	Imported: string;
-	Manufacturered: string;
-	Exported: string;
-	Distributed: string;
-	Sold: string;
+	cultivated: string;
+	harvested: string;
+	imported: string;
+	manufacturered: string;
+	exported: string;
+	distributed: string;
+	sold: string;
 }
 
 interface ProductActors {
-	SupplierId: string;
-	ManufacturerId: string;
-	DistributorId: string;
-	RetailerId: string;
+	supplierId: string;
+	manufacturerId: string;
+	distributorId: string;
+	retailerId: string;
 }
 
 interface Product extends Document {
-	ProductId: string;
-	ProductName: string;
-	Dates: ProductDates;
-	Actors: ProductActors;
-	Price: string;
-	Status: Status;
-	Description: string;
-	CertificateUrl: string;
+	productId: string;
+	productName: string;
+	dates: ProductDates;
+	actors: ProductActors;
+	price: string;
+	status: ProductStatus;
+	description: string;
+	certificateUrl: string;
+	cooperationId: string;
+	image: string[];
 }
 
 const ProductSchema: Schema<Product> = new Schema<Product>({
-	ProductId: { type: String, default: uuidv4() },
-	ProductName: { type: String, required: true },
-	Dates: {
-		Cultivated: { type: String },
-		Harvested: { type: String },
-		Imported: { type: String },
-		Manufacturered: { type: String },
-		Exported: { type: String },
-		Distributed: { type: String },
-		Sold: { type: String }
+	productId: { type: String, default: uuidv4() },
+	productName: { type: String, required: true },
+	dates: {
+		cultivated: { type: String },
+		harvested: { type: String },
+		imported: { type: String },
+		manufacturered: { type: String },
+		exported: { type: String },
+		distributed: { type: String },
+		sold: { type: String }
 	},
-	Actors: {
-		SupplierId: { type: String },
-		ManufacturerId: { type: String },
-		DistributorId: { type: String },
-		RetailerId: { type: String }
+	actors: {
+		supplierId: { type: String },
+		manufacturerId: { type: String },
+		distributorId: { type: String },
+		retailerId: { type: String }
 	},
-	Price: { type: String, required: true },
-	Status: {
+	price: { type: String, required: true },
+	status: {
 		type: String,
 		enum: [
 			"CULTIVATING",
@@ -70,8 +72,10 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		],
 		required: true
 	},
-	Description: { type: String, required: true },
-	CertificateUrl: { type: String, required: true }
+	description: { type: String, required: true },
+	certificateUrl: { type: String, required: true },
+	cooperationId: { type: String, required: true },
+	image: { type: [String], required: true }
 });
 
 const ProductModel = mongoose.model<Product>("Product", ProductSchema);

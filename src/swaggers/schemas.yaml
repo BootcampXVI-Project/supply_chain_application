@@ -4,66 +4,66 @@ components:
   schemas:
     User:
       properties:
-        UserId:
+        userId:
           type: string
-        Email:
+        email:
           type: string
-        Password:
+        password:
           type: string
-        UserName:
+        userName:
           type: string
-        Address:
+        address:
           type: string
-        UserType:
+        userType:
           type: string
-        Role:
+        role:
           type: string
-        Status:
+        status:
           type: string
 
     ProductDates:
       properties:
-        Cultivated:
+        cultivated:
           type: string
-        Harvested:
+        harvested:
           type: string
-        Imported:
+        imported:
           type: string
-        Manufacturered:
+        manufacturered:
           type: string
-        Exported:
+        exported:
           type: string
-        Distributed:
+        distributed:
           type: string
-        Sold:
+        sold:
           type: string
 
     ProductActors:
       properties:
-        SupplierId:
+        supplierId:
           type: string
-        ManufacturerId:
+        manufacturerId:
           type: string
-        DistributorId:
+        distributorId:
           type: string
-        RetailerId:
+        retailerId:
           type: string
 
     Product:
       properties:
-        ProductId:
+        productId:
           type: string
-        ProductName:
+        productName:
           type: string
-        Dates:
+        dates:
           type: object
           $ref: "#components/schemas/ProductDates"
-        Actors:
+        actors:
           type: object
           $ref: "#components/schemas/ProductActors"
-        Price:
+        price:
           type: string
-        Status:
+        status:
           type: string
-        Description:
+        description:
           type: string

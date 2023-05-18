@@ -1,6 +1,7 @@
 /product/all:
   get:
     summary: Get All Products
+    description: Get All Products
     parameters:
       - in: query
         name: userId
@@ -17,6 +18,7 @@
 /product/detail:
   get:
     summary: Get Product
+    description: Get Product
     parameters:
       - in: query
         name: userId
@@ -37,6 +39,7 @@
 /product/transactions-history:
   get:
     summary: Get Product Transactions History
+    description: Get Product Transactions History
     parameters:
       - in: query
         name: userId
@@ -57,6 +60,7 @@
 /product/cultivate:
   post:
     summary: Cultivate Product
+    description: Cultivate Product
     tags:
       - Product
     requestBody:
@@ -75,28 +79,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -107,6 +111,7 @@
 /product/harvert:
   post:
     summary: Harvert Product
+    description: Harvert Product
     tags:
       - Product
     requestBody:
@@ -125,28 +130,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -157,6 +162,7 @@
 /product/import:
   post:
     summary: Import Product
+    description: Import Product
     tags:
       - Product
     requestBody:
@@ -175,28 +181,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -207,6 +213,7 @@
 /product/manufacture:
   post:
     summary: Manufacture Product
+    description: Manufacture Product
     tags:
       - Product
     requestBody:
@@ -225,28 +232,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -257,6 +264,7 @@
 /product/export:
   post:
     summary: Export Product
+    description: Export Product
     tags:
       - Product
     requestBody:
@@ -275,28 +283,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -307,6 +315,7 @@
 /product/distribute:
   post:
     summary: Distribute Product
+    description: Distribute Product
     tags:
       - Product
     requestBody:
@@ -325,28 +334,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -357,6 +366,7 @@
 /product/sell:
   post:
     summary: Sell Product
+    description: Sell Product
     tags:
       - Product
     requestBody:
@@ -375,28 +385,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:
@@ -407,6 +417,7 @@
 /product/update:
   patch:
     summary: Update Product
+    description: Update Product
     tags:
       - Product
     requestBody:
@@ -425,28 +436,28 @@
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
-                  ProductId: "Product1",
-                  ProductName: "Gạo tẻ",
-                  Dates:
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
                     {
-                      Cultivated: "",
-                      Harvested: "",
-                      Imported: "",
-                      Manufacturered: "",
-                      Exported: "",
-                      Distributed: "",
-                      Sold: ""
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      sold: ""
                     },
-                  Actors:
+                  actors:
                     {
-                      SupplierId: "",
-                      ManufacturerId: "",
-                      DistributorId: "",
-                      RetailerId: ""
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
                     },
-                  Price: "100000",
-                  Status: "",
-                  Description: "Gạo tẻ đạt chuẩn"
+                  price: "100000",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn"
                 }
     responses:
       200:

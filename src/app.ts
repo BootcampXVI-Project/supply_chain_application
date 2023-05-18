@@ -63,11 +63,11 @@ const pathdirs: string[] = [
 export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
-		console.log(createdUser);
 
-		// const orgDetail = orgConst[userObj.Role];
+		const orgDetail = orgConst[userObj.role];
+
 		// const orgDetail = orgConst["supplier"];
-		const orgDetail = orgConst["manufacturer"];
+		// const orgDetail = orgConst["manufacturer"];
 		// const orgDetail = orgConst["distributor"];
 		// const orgDetail = orgConst["retailer"];
 		// const orgDetail = orgConst["consumer"];
@@ -81,8 +81,8 @@ export async function registerUser(userObj: UserForRegister) {
 			caClient,
 			wallet,
 			orgDetail.msp,
-			// userObj.UserId,
-			createdUser.data.UserId,
+			// userObj.userId,
+			createdUser.data.userId,
 			orgDetail.department
 		);
 
@@ -95,14 +95,14 @@ export async function registerUser(userObj: UserForRegister) {
 
 export async function connectNetwork(userObj: User) {
 	try {
-		const orgDetail = orgConst[userObj.Role];
+		const orgDetail = orgConst[userObj.role];
 		const ccp = buildCCPOrg(orgDetail.path);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
 
 		const gateway = new Gateway();
 		await gateway.connect(ccp, {
 			wallet: wallet,
-			identity: userObj.UserId,
+			identity: userObj.userId,
 			discovery: { enabled: true, asLocalhost: true }
 		});
 
@@ -110,9 +110,9 @@ export async function connectNetwork(userObj: User) {
 		return network;
 	} catch (error) {
 		console.error(
-			`connectNetwork() --> Failed to connect to the fabric network: ${error}`
+			`connectNetwork() --> Failed to connect fabric network: ${error}`
 		);
-		throw new Error(`Failed to connect to the fabric network: ${error}`);
+		throw new Error(`Failed to connect fabric network: ${error}`);
 	}
 }
 
@@ -155,7 +155,7 @@ export async function evaluateTransaction(
 			JSON.stringify(productObj)
 		);
 
-		console.log(`\n evaluateTransaction()--> Result: committed: ${funcName}`);
+		console.log(`\n evaluateTransaction() --> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
@@ -181,13 +181,14 @@ export async function evaluateTransactionUserObjProductId(
 
 async function main() {
 	const userObj: UserForRegister = {
-		Email: "Ryn@gmail.com",
-		Password: "Ryn",
-		UserName: "Ryn",
-		Address: "Ryn",
-		UserType: "supplier",
-		Role: "supplier",
-		Status: "ACTIVE"
+		email: "Ryn@gmail.com",
+		password: "Ryn",
+		userName: "Ryn",
+		address: "Ryn",
+		userType: "supplier",
+		role: "supplier",
+		status: "active",
+		identify: "gsksdlasd"
 	};
 
 	await registerUser(userObj);

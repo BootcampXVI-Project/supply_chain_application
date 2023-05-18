@@ -12,6 +12,7 @@ import {
 } from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
 import { log } from "console";
+import { User } from "../models/UserModel";
 import { FirebaseStorage } from "firebase/storage";
 
 const ProductController = {

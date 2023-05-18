@@ -5,24 +5,24 @@ export const getAllUsers = async () => {
 	return await UserModel.find({}).lean();
 };
 
-// export const getUserByUserId = async (UserId: string) => {
-// 	return await UserModel.findOne({ UserId: UserId }).lean();
+// export const getUserByUserId = async (userId: string) => {
+// 	return await UserModel.findOne({ userId: userId }).lean();
 // };
 
-export const getUserByUserId = async (UserId: string) => {
-	return await UserModel.findOne({ UserId: UserId })
+export const getUserByUserId = async (userId: string) => {
+	return await UserModel.findOne({ userId: userId })
 		.select("-__v -_id -createdAt -updatedAt")
 		.lean();
 };
 
-export const checkExistedUser = async (UserId: string) => {
-	const isExisted = await UserModel.exists({ UserId: UserId });
+export const checkExistedUser = async (userId: string) => {
+	const isExisted = await UserModel.exists({ userId: userId });
 	return Boolean(isExisted);
 };
 
 export const createNewUser = async (user: UserForRegister) => {
 	try {
-		// const isExistedUser: boolean = await checkExistedUser(user.UserId);
+		// const isExistedUser: boolean = await checkExistedUser(user.userId);
 		// if (isExistedUser == true) {
 		// 	return {
 		// 		data: {},
@@ -32,6 +32,7 @@ export const createNewUser = async (user: UserForRegister) => {
 
 		const createdUser = await UserModel.create(user)
 			.then((data) => {
+				console.log(data);
 				return {
 					data: data,
 					message: "successfully"
