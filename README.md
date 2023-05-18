@@ -92,6 +92,12 @@ CHANNEL_NAME=supplychain-channel
 CHAINCODE_NAME=basic
 ```
 
+### Set up the environment variables for each organization
+
+```bash
+source ./scripts/envVar.sh && setGlobals supplier
+```
+
 ### Init ledger
 
 ```bash
