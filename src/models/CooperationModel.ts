@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
-interface CooperationProperties {
-	_id: Types.ObjectId;
+interface Cooperation {
 	cooperationId: string;
 	name: string;
 	description: string;
@@ -12,11 +11,11 @@ interface CooperationProperties {
 	latitude: string;
 }
 
-interface Cooperation extends CooperationProperties, Document {
+interface CooperationDB extends Cooperation, Document {
 	_id: Types.ObjectId;
 }
 
-const CooperationSchema: Schema<Cooperation> = new Schema<Cooperation>({
+const CooperationSchema: Schema<CooperationDB> = new Schema<CooperationDB>({
 	name: { type: String, required: true },
 	description: { type: String, required: true },
 	address: { type: String, required: true },
@@ -26,9 +25,9 @@ const CooperationSchema: Schema<Cooperation> = new Schema<Cooperation>({
 	latitude: { type: String }
 });
 
-const CooperationModel = mongoose.model<Cooperation>(
+const CooperationModel = mongoose.model<CooperationDB>(
 	"Cooperation",
 	CooperationSchema
 );
 
-export { Cooperation, CooperationModel };
+export { Cooperation, CooperationDB, CooperationModel };

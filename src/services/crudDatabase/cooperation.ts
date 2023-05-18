@@ -1,4 +1,3 @@
-import { ObjectId } from "../../constants";
 import { Cooperation } from "../../types/models";
 import { CooperationModel } from "../../models/CooperationModel";
 
@@ -49,7 +48,7 @@ export const createNewCooperation = async (cooperation: Cooperation) => {
 				console.log(error);
 				return {
 					data: null,
-					message: error
+					message: "failed"
 				};
 			});
 
@@ -61,6 +60,7 @@ export const createNewCooperation = async (cooperation: Cooperation) => {
 		};
 	}
 };
+
 export const updateCooperation = async (
 	cooperationId: string,
 	newCooperation: Cooperation
@@ -93,6 +93,7 @@ export const updateCooperation = async (
 		};
 	}
 };
+
 export const deleteCooperationById = async (cooperationId: string) => {
 	try {
 		const deletedCooperation = await CooperationModel.findOneAndDelete({

@@ -27,10 +27,10 @@
       400:
         description: Failed
 
-/cooperation/update:
+/cooperation/create:
   post:
-    summary: Update Cooperation
-    description: Update Cooperation
+    summary: Create Cooperation
+    description: Create Cooperation
     tags:
       - Cooperation
     requestBody:
@@ -39,14 +39,50 @@
           schema:
             type: object
             properties:
-              productObj:
+              cooperationObj:
                 type: object
                 required: true
             example:
-              cooperation:
+              cooperationObj:
                 {
                   name: "Binh Duong Province Honey Agricultural Cooperative for Product Development",
-                  desciption: "Binh Duong Province Honey Agricultural Cooperative",
+                  description: "Binh Duong Province Honey Agricultural Cooperative",
+                  address: "ĐT741, An Bình, Phú Giáo, Bình Dương",
+                  founderId: "d53acf48-8769-4a07-a23a-d18055603f1j",
+                  longitude: "108.76674571509565",
+                  latitude: "15.328455421542802"
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/cooperation/update:
+  patch:
+    summary: Update Cooperation
+    description: Update Cooperation
+    tags:
+      - Cooperation
+    parameters:
+      - in: params
+        name: cooperationId
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              cooperationObj:
+                type: object
+                required: true
+            example:
+              cooperationObj:
+                {
+                  name: "Binh Duong Province Honey Agricultural Cooperative for Product Development",
+                  description: "Binh Duong Province Honey Agricultural Cooperative",
                   address: "ĐT741, An Bình, Phú Giáo, Bình Dương",
                   founderId: "d53acf48-8769-4a07-a23a-d18055603f1j",
                   longitude: "108.76674571509565",
@@ -59,7 +95,7 @@
         description: Failed
 
 /cooperation/delete:
-  post:
+  delete:
     summary: Delete Cooperation
     description: Delete Cooperation
     tags:

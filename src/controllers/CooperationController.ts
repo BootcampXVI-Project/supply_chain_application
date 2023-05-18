@@ -13,11 +13,29 @@ const CooperationController = {
 			const cooperationObj = req.body.cooperationObj;
 			const createdCooperation = await createNewCooperation(cooperationObj);
 
-			return res.json({
-				data: createdCooperation,
-				message: "successfully",
-				error: null
-			});
+			switch (createdCooperation.message) {
+				case "longitude-latitude-existed": {
+					return res.json({
+						data: null,
+						message: createdCooperation.message,
+						error: createdCooperation.message
+					});
+				}
+				case "failed": {
+					return res.json({
+						data: null,
+						message: createdCooperation.message,
+						error: null
+					});
+				}
+				case "successfully": {
+					return res.json({
+						data: createdCooperation.data,
+						message: "successfully",
+						error: null
+					});
+				}
+			}
 		} catch (error) {
 			return res.json({
 				data: null,
@@ -66,12 +84,14 @@ const CooperationController = {
 
 	updateCooperation: async (req: Request, res: Response) => {
 		try {
-			const newCooperation = req.body.cooperation;
+			const cooperationId = req.params.cooperationId;
+			const newCooperation = req.body.cooperationObj;
 
 			const cooperation = await updateCooperation(
-				newCooperation.cooperationId,
+				cooperationId,
 				newCooperation
 			);
+
 			return res.json({
 				data: cooperation,
 				message: "successfully",
@@ -88,7 +108,7 @@ const CooperationController = {
 
 	deleteCooperation: async (req: Request, res: Response) => {
 		try {
-			const cooperationId = req.params.id;
+			const cooperationId = req.params.cooperationId;
 			const cooperation = await deleteCooperationById(cooperationId);
 
 			return res.json({
