@@ -66,6 +66,8 @@ export type Product = {
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
+	cooperationId: string;
+	image: string[];
 };
 
 export type ProductHistory = {

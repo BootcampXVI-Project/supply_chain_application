@@ -67,3 +67,9 @@ components:
           type: string
         description:
           type: string
+        certificateUrl: 
+          type: string
+        cooperationId: 
+          type: string
+        image: 
+          type: array

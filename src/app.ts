@@ -7,58 +7,11 @@ import {
 	registerAndEnrollUser
 } from "./utils/CAUtil";
 import orgConst from "./utils/organizationConstant.json";
-import { createNewUser, getAllUsers } from "./services/crudDatabase/user";
+import { createNewUser } from "./services/crudDatabase/user";
 import { Product, User, UserForRegister } from "./types/models";
-import { v4 as uuidv4 } from "uuid";
-import { log } from "console";
-import { UserModel } from "./models/UserModel";
-import { Types } from "mongoose";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic";
-
-const walletPaths: string[] = [
-	"supplierwallet",
-	"manufacturerwallet",
-	"distributorwallet",
-	"retailerwallet",
-	"consumerwallet"
-];
-const msps: string[] = [
-	"SupplierMSP",
-	"ManufacturerMSP",
-	"DistributorMSP",
-	"RetailerMSP",
-	"ConsumerMSP"
-];
-const userIds: string[] = [
-	"SupplierAppUserId1",
-	"ManufacturerAppUserId1",
-	"DistributorAppUserId1",
-	"RetailerAppUserId1",
-	"ConsumerAppUserId1"
-];
-const cas: string[] = [
-	"ca.supplier.supplychain.com",
-	"ca.manufacturer.supplychain.com",
-	"ca.distributor.supplychain.com",
-	"ca.retailer.supplychain.com",
-	"ca.consumer.supplychain.com"
-];
-const orgs: string[] = [
-	"supplier",
-	"manufacturer",
-	"distributor",
-	"retailer",
-	"consumer"
-];
-const pathdirs: string[] = [
-	"connection-supplier.json",
-	"connection-manufacturer.json",
-	"connection-distributor.json",
-	"connection-retailer.json",
-	"connection-consumer.json"
-];
+const chaincodeName = "basic3";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
@@ -158,6 +111,7 @@ export async function evaluateTransaction(
 		console.log(`\n evaluateTransaction() --> Result: committed: ${funcName}`);
 		return result;
 	} catch (error) {
+		console.log("error", error);
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
 }
@@ -179,36 +133,22 @@ export async function evaluateTransactionUserObjProductId(
 	}
 }
 
-export async function evaluateGetTxTimestampChannel(
-	userObj: User
-) {
+export async function evaluateGetTxTimestampChannel(userObj: User) {
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(chaincodeName);
 
 		console.log(`\n evaluateTransaction() --> "GetTxTimestampChannel"`);
-		const result = await contract.evaluateTransaction("GetTxTimestampChannel", null);
+		const result = await contract.evaluateTransaction(
+			"GetTxTimestampChannel",
+			null
+		);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction GetTxTimestampChannel`);
 	}
 }
 
-
-
-async function main() {
-	const userObj: UserForRegister = {
-		email: "Ryn@gmail.com",
-		password: "Ryn",
-		userName: "Ryn",
-		address: "Ryn",
-		userType: "supplier",
-		role: "supplier",
-		status: "active",
-		identify: "gsksdlasd"
-	};
-
-	await registerUser(userObj);
-}
+async function main() {}
 
 // main();

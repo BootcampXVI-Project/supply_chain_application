@@ -100,7 +100,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -151,7 +154,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -202,7 +208,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -253,7 +262,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -304,7 +316,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -355,7 +370,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -406,7 +424,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:
@@ -457,7 +478,10 @@
                     },
                   price: "100000",
                   status: "",
-                  description: "Gạo tẻ đạt chuẩn"
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/",
+                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  image: ["http://localhost:4000/", "http://localhost:4001/"]
                 }
     responses:
       200:

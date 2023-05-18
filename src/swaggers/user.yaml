@@ -22,7 +22,8 @@
                   address: "Ryn",
                   userType: "supplier",
                   role: "supplier",
-                  status: "active"
+                  status: "active",
+                  identify: "fwoifwefkdsvdsdvs"
                 }
     responses:
       200:
