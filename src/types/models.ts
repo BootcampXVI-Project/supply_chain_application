@@ -68,3 +68,13 @@ export type ProductHistory = {
 	Timestamp: Date;
 	IsDelete: boolean;
 };
+
+export type Cooperation = {
+	cooperationId: string;
+	name: string;
+	description: string;
+	address: string;
+	founderId: string;
+	longitude: string;
+	latitude: string;
+};
