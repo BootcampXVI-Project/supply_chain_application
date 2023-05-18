@@ -179,6 +179,23 @@ export async function evaluateTransactionUserObjProductId(
 	}
 }
 
+export async function evaluateGetTxTimestampChannel(
+	userObj: User
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(chaincodeName);
+
+		console.log(`\n evaluateTransaction() --> "GetTxTimestampChannel"`);
+		const result = await contract.evaluateTransaction("GetTxTimestampChannel", null);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction GetTxTimestampChannel`);
+	}
+}
+
+
+
 async function main() {
 	const userObj: UserForRegister = {
 		Email: "Ryn@gmail.com",
