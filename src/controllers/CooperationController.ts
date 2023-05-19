@@ -22,6 +22,13 @@ const CooperationController = {
 						error: createdCooperation.message
 					});
 				}
+				case "founder-is-not-existed": {
+					return res.json({
+						data: null,
+						message: createdCooperation.message,
+						error: createdCooperation.message
+					});
+				}
 				case "failed": {
 					return res.json({
 						data: null,
@@ -118,12 +125,12 @@ const CooperationController = {
 				data: cooperation
 			});
 		} catch (error) {
-            return res.json({
+			return res.json({
 				data: null,
 				message: "failed",
 				error: error
 			});
-        }
+		}
 	}
 };
 

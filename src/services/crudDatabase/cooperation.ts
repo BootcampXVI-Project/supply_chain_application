@@ -1,5 +1,6 @@
 import { Cooperation } from "../../types/models";
 import { CooperationModel } from "../../models/CooperationModel";
+import { UserModel } from "../../models/UserModel";
 
 export const getAllCooperations = async () => {
 	return await CooperationModel.find({}).lean();
@@ -22,6 +23,13 @@ export const checkExistedLongitudeLatitude = async (
 	return Boolean(isExisted);
 };
 
+export const checkExistedFounder = async (founderId: string) => {
+	const isExisted = await UserModel.exists({
+		userId: founderId
+	});
+	return Boolean(isExisted);
+};
+
 export const createNewCooperation = async (cooperation: Cooperation) => {
 	try {
 		const isExistedLongitudeLatitude: boolean =
@@ -35,7 +43,15 @@ export const createNewCooperation = async (cooperation: Cooperation) => {
 				message: "longitude-latitude-existed"
 			};
 		}
-
+		const isExistedFounder: boolean = await checkExistedFounder(
+			cooperation.founderId
+		);
+		if (!isExistedFounder) {
+			return {
+				data: {},
+				message: "founder-is-not-existed"
+			};
+		}
 		const createdCooperation = await CooperationModel.create(cooperation)
 			.then((data) => {
 				console.log(data);
