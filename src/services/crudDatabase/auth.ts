@@ -7,23 +7,24 @@ const twilioPhoneNumber = '+15855493070';
 
 const client = twilio(accountSid, authToken);
 
-export class userService {
-    sendOtp = async (phoneNumber: string) => {
-        // Create random otp
-        const digits = '0123456789';
-        let cotp = '';
-        for (let i = 0; i < 6; i++) {
-              cotp += digits[Math.floor(Math.random() * 10)];
-        }
-    
-        const otp = cotp;
-                // Gửi tin nhắn OTP bằng Twilio API
-        const message = await client.messages.create({
-            body: `Your OTP is: ${otp}`,
-            from: twilioPhoneNumber,
-            to: phoneNumber,
-        });
-    
-        return otp;
+export default class AuthService {
+    static async sendOtp(phoneNumber: string) {
+      // Create random OTP
+      const digits = '0123456789';
+      let otp = '';
+      for (let i = 0; i < 6; i++) {
+        otp += digits[Math.floor(Math.random() * 10)];
+      }
+  
+      // Send OTP message using Twilio API
+      const client = twilio(/* Your Twilio credentials here */);
+      const twilioPhoneNumber = 'YOUR_TWILIO_PHONE_NUMBER'; // Replace with your Twilio phone number
+      const message = await client.messages.create({
+        body: `Your OTP is: ${otp}`,
+        from: twilioPhoneNumber,
+        to: phoneNumber,
+      });
+  
+      return otp;
     }
-}
+  }

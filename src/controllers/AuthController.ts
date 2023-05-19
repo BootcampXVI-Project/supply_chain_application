@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
-import authService from "../services/crudDatabase/auth"
+import AuthService from "../services/crudDatabase/auth"
 import { UserModel } from "../models/UserModel";
 
 export class AuthController{
+	authService = AuthService
+
     login = async (req: Request, res: Response) => {
 		try {
-			const { phoneNumber } = req.body;
-			console.log(phoneNumber);
+			const { phoneNumber, password } = req.body;
+			console.log(phoneNumber, password);
 
-            const user = await UserModel.findOne({})
-			user.phone = phoneNumber;
-			user.otp = await sendOtp(phoneNumber);
+            const user = await UserModel.findOne({phone: phoneNumber, password: password})
+			user.otp = await this.authService.sendOtp(phoneNumber)
 			return res.
-			//status(200)
 			json({ 
 				message: 'OTP sent successfully.',
 				data: user 
