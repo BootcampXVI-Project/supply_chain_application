@@ -102,6 +102,7 @@ export async function evaluateTransaction(
 
 		console.log(`\n *********contract********** ${contract}`);
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
+		console.log(JSON.stringify(productObj))
 
 		const result = await contract.evaluateTransaction(
 			funcName,

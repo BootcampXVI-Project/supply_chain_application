@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"start": "npm run build && node dist/index.js",
-		"start:dev": "nodemon ./src/index.ts",
+		"start:dev": "npm run build && nodemon ./dist/index.ts",
 		"build": "tsc",
 		"build:watch": "tsc -w",
 		"prepublishOnly": "npm run build"
@@ -45,6 +45,7 @@
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^4.6.3",
 		"ts-node": "^10.9.1",
+		"twilio": "^4.11.1",
 		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
