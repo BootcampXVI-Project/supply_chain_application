@@ -18,6 +18,7 @@
                 {
                   email: "Ryn@gmail.com",
                   password: "Ryn",
+                  phoneNumber: "0909090909",
                   userName: "Ryn",
                   address: "Ryn",
                   userType: "supplier",
