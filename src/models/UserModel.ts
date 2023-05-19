@@ -7,6 +7,7 @@ interface User {
 	email: string;
 	password: string;
 	userName: string;
+	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
@@ -24,6 +25,7 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	phone: { type: String, required: true},
 	password: { type: String, required: true },
 	userName: { type: String, required: true },
+	phoneNumber: { type: String, required: true },
 	address: { type: String, required: true },
 	userType: { type: String, required: true },
 	role: {

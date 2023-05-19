@@ -1,12 +1,12 @@
-import { Types } from "mongoose";
-
 export type UserStatus = "active" | "inactive";
+
 export type UserRoleType =
 	| "supplier"
 	| "manufacturer"
 	| "distributor"
 	| "retailer"
 	| "consumer";
+
 export type ProductStatus =
 	| "CULTIVATING"
 	| "HARVESTED"
@@ -20,6 +20,7 @@ export interface UserForRegister {
 	email: string;
 	password: string;
 	userName: string;
+	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
@@ -32,6 +33,7 @@ export interface User {
 	email: string;
 	password: string;
 	userName: string;
+	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
