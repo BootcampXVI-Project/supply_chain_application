@@ -54,3 +54,5 @@ export const createNewUser = async (user: UserForRegister) => {
 		};
 	}
 };
+
+

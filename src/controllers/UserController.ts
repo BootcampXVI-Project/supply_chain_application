@@ -8,7 +8,9 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { getUserByUserId, getAllUsers } from "../services/crudDatabase/user";
 import { Request, Response } from "express";
 
+
 const UserController = {
+	// DONE
 	createUser: async (req: Request, res: Response) => {
 		try {
 			const userObj = req.body.userObj;

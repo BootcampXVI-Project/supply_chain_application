@@ -60,10 +60,11 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			log("Err",error);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error+""
 			});
 		}
 	},
