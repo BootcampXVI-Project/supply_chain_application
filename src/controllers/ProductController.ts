@@ -6,6 +6,7 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
+import { ImageService } from "../services/crudDatabase/image"
 import {
 	createProduct,
 	getProductByProductId
@@ -14,6 +15,8 @@ import { ObjectId } from "../constants";
 import { log } from "console";
 import { User } from "../models/UserModel";
 import { FirebaseStorage } from "firebase/storage";
+
+const imageService = ImageService;
 
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
@@ -189,24 +192,35 @@ const ProductController = {
 
 	manufactureProduct: async (req: Request, res: Response) => {
 		try {
+			const imageUrl = req.body.imageUrl;
 			const userId = String(req.body.userId);
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
-
+		  
+			const imageArray = imageUrl.split(',');
+			let imageUrls = [];
+		  
+			for (let i = 0; i < imageArray.length; i++) {
+			  const uploadedImageUrl = await imageService.upload(imageArray[i], productObj.productName + Date.now());
+			  imageUrls.push(uploadedImageUrl);
+			}
+		  
+			productObj.image = imageUrls;
 			await submitTransaction("ManufactureProduct", userObj, productObj);
-
+		  
 			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
+			  data: null,
+			  message: "successfully",
+			  error: null
 			});
-		} catch (error) {
+		  } catch (error) {
 			return res.json({
-				data: null,
-				message: "failed",
-				error: error
+			  data: null,
+			  message: "failed",
+			  error: error
 			});
-		}
+		  }
+		  
 	},
 
 	exportProduct: async (req: Request, res: Response) => {
