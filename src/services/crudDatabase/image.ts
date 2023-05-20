@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 
 // Path to your Firebase service account key file
-import serviceAccount from "./supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
+import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
