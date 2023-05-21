@@ -6,7 +6,7 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import { ImageService } from "../services/crudDatabase/image"
+import ImageService from "../services/crudDatabase/image";
 import {
 	createProduct,
 	getProductByProductId
@@ -63,11 +63,11 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			log("Err",error);
+			log("Err", error);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error+""
+				error: error + ""
 			});
 		}
 	},
@@ -196,31 +196,33 @@ const ProductController = {
 			const userId = String(req.body.userId);
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
-		  
-			const imageArray = imageUrl.split(',');
+
+			const imageArray = imageUrl.split(",");
 			let imageUrls = [];
-		  
+
 			for (let i = 0; i < imageArray.length; i++) {
-			  const uploadedImageUrl = await imageService.upload(imageArray[i], productObj.productName + Date.now());
-			  imageUrls.push(uploadedImageUrl);
+				const uploadedImageUrl = await imageService.upload(
+					imageArray[i],
+					productObj.productName + Date.now()
+				);
+				imageUrls.push(uploadedImageUrl);
 			}
-		  
+
 			productObj.image = imageUrls;
 			await submitTransaction("ManufactureProduct", userObj, productObj);
-		  
+
 			return res.json({
-			  data: null,
-			  message: "successfully",
-			  error: null
+				data: null,
+				message: "successfully",
+				error: null
 			});
-		  } catch (error) {
+		} catch (error) {
 			return res.json({
-			  data: null,
-			  message: "failed",
-			  error: error
+				data: null,
+				message: "failed",
+				error: error
 			});
-		  }
-		  
+		}
 	},
 
 	exportProduct: async (req: Request, res: Response) => {
@@ -415,9 +417,7 @@ const ProductController = {
 				error: error
 			});
 		}
-	},
-
-
+	}
 };
 
 export default ProductController;

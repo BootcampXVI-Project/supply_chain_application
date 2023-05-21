@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import AuthService from "../services/crudDatabase/auth";
+import { Request, Response } from "express";
 import { UserModel } from "../models/UserModel";
 import { AuthModel } from "../models/AuthModel";
 
@@ -22,7 +22,7 @@ export default class AuthController {
 				});
 			}
 			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
-			if (user.status === "UNACTIVE") {
+			if (user.status === "inactive") {
 				otp.otp = await this.authService.sendOtp(phoneNumber);
 				return res.json({
 					message: "OTP sent successfully.",
@@ -30,13 +30,13 @@ export default class AuthController {
 				});
 			}
 
-			if (otp.expired < Date.now) {
-				otp.otp = await this.authService.sendOtp(phoneNumber);
-				return res.json({
-					message: "OTP sent successfully.",
-					status: "verifying"
-				});
-			}
+			// if (otp.expired < Date.now()) {
+			// 	otp.otp = await this.authService.sendOtp(phoneNumber);
+			// 	return res.json({
+			// 		message: "OTP sent successfully.",
+			// 		status: "verifying"
+			// 	});
+			// }
 			return res.json({
 				message: "Login successful",
 				status: "login"
