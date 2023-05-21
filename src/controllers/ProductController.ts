@@ -197,18 +197,20 @@ const ProductController = {
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
 
-			const imageArray = imageUrl.split(",");
-			let imageUrls = [];
+			// const imageArray = imageUrl.split(",");
+			// let imageUrls = [];
 
-			for (let i = 0; i < imageArray.length; i++) {
-				const uploadedImageUrl = await imageService.upload(
-					imageArray[i],
-					productObj.productName + Date.now()
-				);
-				imageUrls.push(uploadedImageUrl);
-			}
+			// for (let i = 0; i < imageArray.length; i++) {
+			// 	const uploadedImageUrl = await imageService.upload(
+			// 		imageArray[i],
+			// 		productObj.productName + Date.now()
+			// 	);
+			// 	imageUrls.push(uploadedImageUrl);
+			// }
 
-			productObj.image = imageUrls;
+			// productObj.image = imageUrls;
+
+			productObj.image = imageUrl;
 			await submitTransaction("ManufactureProduct", userObj, productObj);
 
 			return res.json({

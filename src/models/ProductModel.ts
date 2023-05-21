@@ -41,7 +41,7 @@ interface Product extends Document {
 }
 
 const ProductSchema: Schema<Product> = new Schema<Product>({
-	productId: { type: String, default: uuidv4() },
+	productId: { type: String, default: uuidv4 },
 	productName: { type: String, required: true },
 	dates: {
 		cultivated: { type: String },
