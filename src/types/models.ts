@@ -88,3 +88,10 @@ export type Cooperation = {
 	longitude: string;
 	latitude: string;
 };
+
+
+export type Auth = {
+    phoneNumber: string,
+	otp: string,
+    expired: Date
+}

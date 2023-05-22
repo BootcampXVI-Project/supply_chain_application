@@ -1,4 +1,6 @@
 import twilio from "twilio";
+import { AuthModel } from "../../models/AuthModel";
+import { log } from "console";
 
 // Set up authentication Twilio
 const accountSid = "AC21dec952ef63dfbfeb9d8b9ebcc39629";
@@ -8,8 +10,7 @@ const twilioPhoneNumber = "+15855493070";
 const client = twilio(accountSid, authToken);
 
 export default class AuthService {
-	static async sendOtp(phoneNumber: string) {
-		// Create random OTP
+	async sendOtp(phoneNumber: string) {
 		const digits = "0123456789";
 		let otp = "";
 		for (let i = 0; i < 6; i++) {
@@ -17,8 +18,8 @@ export default class AuthService {
 		}
 
 		// Send OTP message using Twilio API
-		const client = twilio(/* Your Twilio credentials here */);
-		const twilioPhoneNumber = "YOUR_TWILIO_PHONE_NUMBER"; // Replace with your Twilio phone number
+		// const client = twilio(/* Your Twilio credentials here */);
+		// const twilioPhoneNumber = "YOUR_TWILIO_PHONE_NUMBER"; // Replace with your Twilio phone number
 		const message = await client.messages.create({
 			body: `Your OTP is: ${otp}`,
 			from: twilioPhoneNumber,

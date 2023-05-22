@@ -1,0 +1,84 @@
+/auth/login:
+  post:
+    summary: Login
+    description: Login
+    tags:
+      - Auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              phoneNumber:
+                type: string
+                required: true
+              password:
+                type: string
+                required: true
+            example:
+              phoneNumber: "0909090909"
+              password: "123456"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/auth/verify:
+  post:
+    summary: Verify
+    description: Verify
+    tags:
+      - Auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              phoneNumber:
+                type: string
+                required: true
+              smsotp:
+                type: string
+                required: true
+            example:
+              phoneNumber: "0909090909"
+              smsotp: "123456"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/auth/resetPassword:
+  post:
+    summary: Reset Password
+    description: Reset Password
+    tags:
+      - Auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              phoneNumber:
+                type: string
+                required: true
+              isVerified:
+                type: boolean
+                required: true
+              password:
+                type: string
+                required: true
+            example:
+              phoneNumber: "0909090909"
+              isVerified: true
+              password: "123456"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
