@@ -197,11 +197,11 @@ const ProductController = {
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
 
-			const imageArray = productObj.image.split(',');
+			const imageArray = productObj.image;
 			let imageUrls = [];
 
 			for (let i of imageArray) {
-				const uploadedImageUrl = await imageService.upload(i, "image product/" + productObj.productName + "" + Date.now());
+				const uploadedImageUrl = await imageService.upload(i, "image product/" + productObj.productName + "/" + Date.now()) + ".jpg";
 				imageUrls.push(uploadedImageUrl);
 			}
 			productObj.image = imageUrls;
@@ -213,6 +213,7 @@ const ProductController = {
 				error: null
 			});
 		  } catch (error) {
+			console.log(error);
 			return res.json({
 				data: null,
 				message: "failed",
