@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
 import { UserRoleType, UserStatus } from "../types/models";
-import { StringFormat } from "firebase/storage";
 
 interface User {
 	email: string;
@@ -22,7 +21,6 @@ interface UserDB extends User, Document {
 
 const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	email: { type: String, required: true },
-	phone: { type: String, required: true},
 	password: { type: String, required: true },
 	userName: { type: String, required: true },
 	phoneNumber: { type: String, required: true },

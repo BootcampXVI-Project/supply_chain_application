@@ -1,6 +1,4 @@
 import admin from "firebase-admin";
-
-// Path to your Firebase service account key file
 import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
 
 admin.initializeApp({
@@ -10,7 +8,6 @@ admin.initializeApp({
 		projectId: serviceAccount.project_id,
 	}),
 	storageBucket: "gs://supply-chain-9ea64.appspot.com"
-	// Add any other configuration options here
 });
 
 const bucket = admin.storage().bucket();
@@ -29,7 +26,8 @@ export default class ImageService {
 
 			const url = await response[0].getSignedUrl({
 				action: "read",
-				expires: expirationDate // Adjust the expiration date as desired
+				// Adjust the expiration date as desired
+				expires: expirationDate
 			});
 			console.log("Image uploaded successfully.");
 			return url[0];
