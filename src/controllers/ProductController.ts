@@ -6,7 +6,7 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import { ImageService } from "../services/crudDatabase/image"
+import ImageService from "../services/crudDatabase/image"
 import {
 	createProduct,
 	getProductByProductId
@@ -196,8 +196,13 @@ const ProductController = {
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
 
-			const imageArray = imageUrl.split(',');
+			const imageArray = productObj.image.split(',');
 			let imageUrls = [];
+
+			for (let i of imageArray) {
+				const uploadedImageUrl = await imageService.upload(i, "image product/" + productObj.productName + "" + Date.now());
+				imageUrls.push(uploadedImageUrl);
+			}
 
 			for (let i = 0; i < imageArray.length; i++) {
 			  const uploadedImageUrl = await imageService.upload(imageArray[i], productObj.productName + Date.now());

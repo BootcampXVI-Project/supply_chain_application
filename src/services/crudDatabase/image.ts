@@ -22,7 +22,6 @@ export default class ImageService {
 			const expirationDate = new Date(
 				currentDate.getTime() + 365 * 24 * 60 * 60 * 1000
 			);
-			// console.log(imagePath, nameImage);
 
 			const response = await bucket.upload(imagePath, {
 				destination: nameImage
