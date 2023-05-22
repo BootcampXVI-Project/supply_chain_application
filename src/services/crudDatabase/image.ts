@@ -2,7 +2,11 @@ import admin from "firebase-admin";
 import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
 
 admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
+	credential: admin.credential.cert({
+		privateKey: serviceAccount.private_key,
+		clientEmail: serviceAccount.client_email,
+		projectId: serviceAccount.project_id
+	}),
 	storageBucket: "gs://supply-chain-9ea64.appspot.com"
 });
 
