@@ -31,7 +31,7 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],
 		required: true
 	},
-	userId: { type: String, default: uuidv4() },
+	userId: { type: String, default: uuidv4 },
 	status: { type: String, enum: ["active", "inactive"] },
 	identify: { type: String }
 });

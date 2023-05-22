@@ -192,23 +192,23 @@ const ProductController = {
 
 	manufactureProduct: async (req: Request, res: Response) => {
 		try {
-			const imageUrl = req.body.imageUrl;
+			// const imageUrl = req.body.imageUrl;
 			const userId = String(req.body.userId);
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
 
-			const imageArray = imageUrl.split(",");
+			// const imageArray = imageUrl.split(",");
 			let imageUrls = [];
 
-			for (let i = 0; i < imageArray.length; i++) {
-				const uploadedImageUrl = await imageService.upload(
-					imageArray[i],
-					productObj.productName + Date.now()
-				);
-				imageUrls.push(uploadedImageUrl);
-			}
+			// for (let i = 0; i < imageArray.length; i++) {
+			// 	const uploadedImageUrl = await imageService.upload(
+			// 		imageArray[i],
+			// 		productObj.productName + Date.now()
+			// 	);
+			// 	imageUrls.push(uploadedImageUrl);
+			// }
 
-			productObj.image = imageUrls;
+			// productObj.image = imageUrls;
 			await submitTransaction("ManufactureProduct", userObj, productObj);
 
 			return res.json({
