@@ -17,6 +17,9 @@ export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
 
+		console.log(userObj);
+		console.log(userObj.role);
+
 		const orgDetail = orgConst[userObj.role];
 
 		// const orgDetail = orgConst["supplier"];
@@ -102,7 +105,7 @@ export async function evaluateTransaction(
 
 		console.log(`\n *********contract********** ${contract}`);
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		console.log(JSON.stringify(productObj))
+		console.log(JSON.stringify(productObj));
 
 		const result = await contract.evaluateTransaction(
 			funcName,

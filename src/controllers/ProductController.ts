@@ -198,6 +198,7 @@ const ProductController = {
 			const userObj = await getUserByUserId(userId);
 
 			// const imageArray = imageUrl.split(",");
+
 			let imageUrls = [];
 
 			// for (let i = 0; i < imageArray.length; i++) {
@@ -209,6 +210,9 @@ const ProductController = {
 			// }
 
 			// productObj.image = imageUrls;
+
+			productObj.image = imageUrl;
+
 			await submitTransaction("ManufactureProduct", userObj, productObj);
 
 			return res.json({
