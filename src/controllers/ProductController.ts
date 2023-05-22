@@ -6,7 +6,7 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import ImageService from "../services/crudDatabase/image";
+import ImageService from "../services/crudDatabase/image"
 import {
 	createProduct,
 	getProductByProductId
@@ -197,22 +197,14 @@ const ProductController = {
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
 
-			// const imageArray = imageUrl.split(",");
-
+			const imageArray = productObj.image;
 			let imageUrls = [];
 
-			// for (let i = 0; i < imageArray.length; i++) {
-			// 	const uploadedImageUrl = await imageService.upload(
-			// 		imageArray[i],
-			// 		productObj.productName + Date.now()
-			// 	);
-			// 	imageUrls.push(uploadedImageUrl);
-			// }
-
-			// productObj.image = imageUrls;
-
-			productObj.image = imageUrl;
-
+			for (let i of imageArray) {
+				const uploadedImageUrl = await imageService.upload(i, "image product/" + productObj.productName + "/" + Date.now()) + ".jpg";
+				imageUrls.push(uploadedImageUrl);
+			}
+			productObj.image = imageUrls;
 			await submitTransaction("ManufactureProduct", userObj, productObj);
 
 			return res.json({
@@ -220,7 +212,8 @@ const ProductController = {
 				message: "successfully",
 				error: null
 			});
-		} catch (error) {
+		  } catch (error) {
+			console.log(error);
 			return res.json({
 				data: null,
 				message: "failed",

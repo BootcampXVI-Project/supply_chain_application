@@ -1,4 +1,4 @@
-import { User, UserForRegister } from "../../types/models";
+import { UserForRegister } from "../../types/models";
 import { UserModel } from "../../models/UserModel";
 
 export const getAllUsers = async () => {
@@ -30,7 +30,7 @@ export const createNewUser = async (user: UserForRegister) => {
 			};
 		}
 
-		const createdUser = await UserModel.create(user)
+		return await UserModel.create(user)
 			.then((data) => {
 				console.log(data);
 				return {
@@ -45,8 +45,6 @@ export const createNewUser = async (user: UserForRegister) => {
 					message: error
 				};
 			});
-
-		return createdUser;
 	} catch (error) {
 		return {
 			data: null,
@@ -54,3 +52,5 @@ export const createNewUser = async (user: UserForRegister) => {
 		};
 	}
 };
+
+

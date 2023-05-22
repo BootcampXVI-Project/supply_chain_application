@@ -5,7 +5,7 @@ admin.initializeApp({
 	credential: admin.credential.cert({
 		privateKey: serviceAccount.private_key,
 		clientEmail: serviceAccount.client_email,
-		projectId: serviceAccount.project_id
+		projectId: serviceAccount.project_id,
 	}),
 	storageBucket: "gs://supply-chain-9ea64.appspot.com"
 });
@@ -19,7 +19,6 @@ export default class ImageService {
 			const expirationDate = new Date(
 				currentDate.getTime() + 365 * 24 * 60 * 60 * 1000
 			);
-			console.log(imagePath, nameImage);
 
 			const response = await bucket.upload(imagePath, {
 				destination: nameImage
@@ -30,9 +29,8 @@ export default class ImageService {
 				// Adjust the expiration date as desired
 				expires: expirationDate
 			});
-
 			console.log("Image uploaded successfully.");
-			return url;
+			return url[0];
 		} catch (error) {
 			console.error("Error uploading image:", error);
 		}
