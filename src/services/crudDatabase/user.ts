@@ -1,4 +1,4 @@
-import { User, UserForRegister } from "../../types/models";
+import { UserForRegister } from "../../types/models";
 import { UserModel } from "../../models/UserModel";
 
 export const getAllUsers = async () => {
@@ -15,22 +15,22 @@ export const getUserByUserId = async (userId: string) => {
 		.lean();
 };
 
-export const checkExistedUser = async (userId: string) => {
-	const isExisted = await UserModel.exists({ userId: userId });
+export const checkExistedUser = async (phoneNumber: string) => {
+	const isExisted = await UserModel.exists({ phoneNumber: phoneNumber });
 	return Boolean(isExisted);
 };
 
 export const createNewUser = async (user: UserForRegister) => {
 	try {
-		// const isExistedUser: boolean = await checkExistedUser(user.userId);
-		// if (isExistedUser == true) {
-		// 	return {
-		// 		data: {},
-		// 		message: "userid-existed"
-		// 	};
-		// }
+		const isExistedUser: boolean = await checkExistedUser(user.phoneNumber);
+		if (isExistedUser == true) {
+			return {
+				data: {},
+				message: "phone-number-existed"
+			};
+		}
 
-		const createdUser = await UserModel.create(user)
+		return await UserModel.create(user)
 			.then((data) => {
 				console.log(data);
 				return {
@@ -45,8 +45,6 @@ export const createNewUser = async (user: UserForRegister) => {
 					message: error
 				};
 			});
-
-		return createdUser;
 	} catch (error) {
 		return {
 			data: null,

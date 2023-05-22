@@ -4,7 +4,11 @@ import admin from "firebase-admin";
 import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
 
 admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
+	credential: admin.credential.cert({
+		privateKey: serviceAccount.private_key,
+		clientEmail: serviceAccount.client_email,
+		projectId: serviceAccount.project_id,
+	}),
 	storageBucket: "gs://supply-chain-9ea64.appspot.com"
 	// Add any other configuration options here
 });
@@ -18,7 +22,7 @@ export default class ImageService {
 			const expirationDate = new Date(
 				currentDate.getTime() + 365 * 24 * 60 * 60 * 1000
 			);
-			console.log(imagePath, nameImage);
+			// console.log(imagePath, nameImage);
 
 			const response = await bucket.upload(imagePath, {
 				destination: nameImage
@@ -29,7 +33,7 @@ export default class ImageService {
 				expires: expirationDate // Adjust the expiration date as desired
 			});
 			console.log("Image uploaded successfully.");
-			return url;
+			return url[0];
 		} catch (error) {
 			console.error("Error uploading image:", error);
 		}
