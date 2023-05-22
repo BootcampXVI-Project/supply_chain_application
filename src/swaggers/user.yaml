@@ -16,15 +16,15 @@
             example:
               userObj:
                 {
-                  email: "Ryn@gmail.com",
-                  password: "Ryn",
+                  email: "Eden@gmail.com",
+                  password: "Eden",
                   phoneNumber: "0909090909",
-                  userName: "Ryn",
-                  address: "Ryn",
+                  userName: "Eden",
+                  address: "Da Nang",
                   userType: "supplier",
                   role: "supplier",
                   status: "active",
-                  identify: "fwoifwefkdsvdsdvs"
+                  identify: "212de232-35a5-415b-9991-6128398b658c"
                 }
     responses:
       200:

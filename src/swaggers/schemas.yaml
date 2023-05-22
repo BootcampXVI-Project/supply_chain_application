@@ -67,9 +67,24 @@ components:
           type: string
         description:
           type: string
-        certificateUrl: 
+        certificateUrl:
           type: string
-        cooperationId: 
+        cooperationId:
           type: string
-        image: 
+        image:
           type: array
+
+    Cooperation:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        address:
+          type: string
+        founderId:
+          type: string
+        longitude:
+          type: string
+        latitude:
+          type: string
