@@ -15,4 +15,4 @@ configs
 .env
 
 # Firebase config file
-src/services/crudDatabase/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json
+src/config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json
