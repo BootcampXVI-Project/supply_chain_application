@@ -6,7 +6,7 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import ImageService from "../services/crudDatabase/image"
+import ImageService from "../services/crudDatabase/image";
 import {
 	createProduct,
 	getProductByProductId
@@ -201,7 +201,11 @@ const ProductController = {
 			let imageUrls = [];
 
 			for (let i of imageArray) {
-				const uploadedImageUrl = await imageService.upload(i, "image product/" + productObj.productName + "/" + Date.now()) + ".jpg";
+				const uploadedImageUrl =
+					(await imageService.upload(
+						i,
+						"image product/" + productObj.productName + "/" + Date.now()
+					)) + ".jpg";
 				imageUrls.push(uploadedImageUrl);
 			}
 			productObj.image = imageUrls;
@@ -212,7 +216,7 @@ const ProductController = {
 				message: "successfully",
 				error: null
 			});
-		  } catch (error) {
+		} catch (error) {
 			console.log(error);
 			return res.json({
 				data: null,
@@ -339,81 +343,6 @@ const ProductController = {
 		// 		error: error
 		// 	});
 		// }
-	},
-
-	createOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("CreateOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	},
-
-	updateOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("UpdateOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	},
-
-	finishOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("FinishOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
 	}
 };
 

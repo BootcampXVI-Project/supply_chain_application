@@ -89,9 +89,34 @@ export type Cooperation = {
 	latitude: string;
 };
 
-
 export type Auth = {
-    phoneNumber: string,
-	otp: string,
-    expired: Date
-}
+	phoneNumber: string;
+	otp: string;
+	expired: Date;
+};
+
+export type Signature = {
+	distributorSignature: string;
+	retailerSignature: string;
+};
+
+export type ProductItem = {
+	product: Product;
+	quantity: string;
+};
+
+export type DeliveryStatus = {
+	distributedId: string;
+	deliveryDate: string;
+	status: string;
+};
+
+export type Order = {
+	orderID: string;
+	productItemList: ProductItem[];
+	signature: Signature;
+	deliveryStatus: DeliveryStatus[];
+	status: string;
+	distributorId: string;
+	retailerId: string;
+};
