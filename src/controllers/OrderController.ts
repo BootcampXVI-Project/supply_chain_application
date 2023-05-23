@@ -1,8 +1,49 @@
 import { Request, Response } from "express";
-import { submitTransaction } from "../app";
+import { evaluateTransaction, submitTransaction } from "../app";
 import { getUserByUserId } from "../services/crudDatabase/user";
 
+import OrderService from "../services/crudDatabase/order"
+
+const orderService = new OrderService()
+
 const OrderController = {
+
+	getOrder: async (req: Request, res: Response)=> {
+		try {
+			const { userId, orderId } = req.body
+			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			if (userObj.role.toLowerCase() != "distributor" && userObj.role.toLowerCase() != "retailer") {
+				res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				});
+			}
+			console.log(userId);
+			console.log(userObj);
+
+			const order = await orderService.getOrder(userObj, orderId)
+
+			return res.json({
+				data: order,
+				message: "successfully",
+				status: "success"
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				status: "failed"
+			});
+		}
+	},
+
 	createOrder: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.body.userId);
@@ -12,12 +53,12 @@ const OrderController = {
 			console.log(userId);
 			console.log(userObj);
 
-			await submitTransaction("CreateOrder", userObj, orderObj);
+			const order = await orderService.createOrder(userObj, orderObj)
 
 			return res.json({
-				data: null,
+				data: order,
 				message: "successfully",
-				error: null
+				status: "success"
 			});
 		} catch (error) {
 			return res.json({

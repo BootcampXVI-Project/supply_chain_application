@@ -532,108 +532,108 @@ const ProductController = {
 		// }
 	},
 
-	createOrder: async (req: Request, res: Response) => {
-		try {
-			const { userId, orderObj } = req.body;
-			// const userId = String(req.body.userId);
-			// const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-			if (!userObj) {
-				res.json({
-					message: "User not found!",
-					status: "notfound"
-				});
-			}
+	// createOrder: async (req: Request, res: Response) => {
+	// 	try {
+	// 		const { userId, orderObj } = req.body;
+	// 		// const userId = String(req.body.userId);
+	// 		// const orderObj = req.body.orderObj;
+	// 		const userObj = await getUserByUserId(userId);
+	// 		if (!userObj) {
+	// 			res.json({
+	// 				message: "User not found!",
+	// 				status: "notfound"
+	// 			});
+	// 		}
+	//
+	// 		if (userObj.role.toLowerCase() != "distributor") {
+	// 			res.json({
+	// 				message: "Denied permission!",
+	// 				status: "unauthorize"
+	// 			});
+	// 		}
+	//
+	// 		const data = await submitTransaction("CreateOrder", userObj, orderObj);
+	//
+	// 		return res.json({
+	// 			data: data,
+	// 			message: "successfully",
+	// 			status: "success"
+	// 		});
+	//
+	// 	} catch (error) {
+	// 		console.log("createOrder", error);
+	// 		return res.json({
+	// 			message: "failed",
+	// 			status: "failed"
+	// 		});
+	// 	}
+	// },
 
-			if (userObj.role.toLowerCase() != "distributor") {
-				res.json({
-					message: "Denied permission!",
-					status: "unauthorize"
-				});
-			}
-
-			const data = await submitTransaction("CreateOrder", userObj, orderObj);
-
-			return res.json({
-				data: data,
-				message: "successfully",
-				status: "success"
-			});
-
-		} catch (error) {
-			console.log("createOrder", error);
-			return res.json({
-				message: "failed",
-				status: "failed"
-			});
-		}
-	},
-
-	updateOrder: async (req: Request, res: Response) => {
-		try {
-			const { userId, orderId } = req.body;
-			// const userId = String(req.body.userId);
-			// const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-			if (!userObj) {
-				res.json({
-					message: "User not found!",
-					status: "notfound"
-				})
-			}
-
-			if (userObj.role.toLowerCase() != "supplier") {
-				res.json({
-					message: "Denied permission!",
-					status: "unauthorize"
-				})
-			}
-
-			///get order
-			// const orderObj = await
-			// console.log(userId);
-			// console.log(userObj);
-			//
-			// await submitTransaction("UpdateOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	},
-
-	finishOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("FinishOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	}
+	// updateOrder: async (req: Request, res: Response) => {
+	// 	try {
+	// 		const { userId, orderId } = req.body;
+	// 		// const userId = String(req.body.userId);
+	// 		// const orderObj = req.body.orderObj;
+	// 		const userObj = await getUserByUserId(userId);
+	// 		if (!userObj) {
+	// 			res.json({
+	// 				message: "User not found!",
+	// 				status: "notfound"
+	// 			})
+	// 		}
+	//
+	// 		if (userObj.role.toLowerCase() != "supplier") {
+	// 			res.json({
+	// 				message: "Denied permission!",
+	// 				status: "unauthorize"
+	// 			})
+	// 		}
+	//
+	// 		let order = await
+	// 		// const orderObj = await
+	// 		// console.log(userId);
+	// 		// console.log(userObj);
+	// 		//
+	// 		// await submitTransaction("UpdateOrder", userObj, orderObj);
+	//
+	// 		return res.json({
+	// 			data: null,
+	// 			message: "successfully",
+	// 			error: null
+	// 		});
+	// 	} catch (error) {
+	// 		return res.json({
+	// 			data: null,
+	// 			message: "failed",
+	// 			error: error
+	// 		});
+	// 	}
+	// },
+	//
+	// finishOrder: async (req: Request, res: Response) => {
+	// 	try {
+	// 		const userId = String(req.body.userId);
+	// 		const orderObj = req.body.orderObj;
+	// 		const userObj = await getUserByUserId(userId);
+	//
+	// 		console.log(userId);
+	// 		console.log(userObj);
+	//
+	// 		await submitTransaction("FinishOrder", userObj, orderObj);
+	//
+	// 		return res.json({
+	// 			data: null,
+	// 			message: "successfully",
+	// 			error: null
+	// 		});
+	// 	} catch (error) {
+	// 		return res.json({
+	// 			data: null,
+	// 			message: "failed",
+	// 			error: error
+	// 		});
+	// 	}
+	// }
 };
 
 export default ProductController;
