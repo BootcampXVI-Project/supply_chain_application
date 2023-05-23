@@ -1,7 +1,7 @@
 import { ProductModel } from "../../models/ProductModel";
-import { Product } from "../../types/models";
+import { Product, User } from "../../types/models";
 import { getUserByUserId } from "./user";
-import { evaluateTransaction } from "../../app";
+import { evaluateTransaction, evaluateTransactionUserObjProductId } from "../../app";
 import { convertBufferToJavasciptObject } from "../../helpers";
 
 export const checkExistedProduct = async (productId: string) => {
@@ -17,6 +17,16 @@ export const getAllProducts = async (userId: string) => {
 		null
 	);
 	return convertBufferToJavasciptObject(productsBuffer);
+}
+
+export const getProductById = async (productId: string, userObj: User) => {
+	const productBuffer = await evaluateTransactionUserObjProductId(
+		"GetProduct",
+		userObj,
+		String(productId)
+	);
+	return convertBufferToJavasciptObject(productBuffer);
+
 }
 
 export const getProductByProductId = async (productId: string) => {
