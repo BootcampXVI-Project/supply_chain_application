@@ -1,10 +1,23 @@
 import { ProductModel } from "../../models/ProductModel";
 import { Product } from "../../types/models";
+import { getUserByUserId } from "./user";
+import { evaluateTransaction } from "../../app";
+import { convertBufferToJavasciptObject } from "../../helpers";
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
 	return Boolean(isExisted);
 };
+
+export const getAllProducts = async (userId: string) => {
+	const userObj = await getUserByUserId(userId);
+	const productsBuffer = await evaluateTransaction(
+		"GetAllProducts",
+		userObj,
+		null
+	);
+	return convertBufferToJavasciptObject(productsBuffer);
+}
 
 export const getProductByProductId = async (productId: string) => {
 	return await ProductModel.findOne({ productId: productId })
