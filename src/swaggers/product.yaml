@@ -98,6 +98,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -156,6 +157,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -214,6 +216,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -272,6 +275,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -330,6 +334,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -388,6 +393,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -446,6 +452,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
@@ -504,6 +511,7 @@
                       distributorId: "",
                       retailerId: ""
                     },
+                  expiredTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
