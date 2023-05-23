@@ -9,6 +9,7 @@ import {
 import orgConst from "./utils/organizationConstant.json";
 import { createNewUser } from "./services/crudDatabase/user";
 import { Product, User, UserForRegister } from "./types/models";
+import { log } from "console";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
@@ -51,19 +52,42 @@ export async function registerUser(userObj: UserForRegister) {
 
 export async function connectNetwork(userObj: User) {
 	try {
-		const orgDetail = orgConst[userObj.role];
-		const ccp = buildCCPOrg(orgDetail.path);
-		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
+		// userObj =  null;
+		if (userObj) {
+			log(userObj);
+			const orgDetail = orgConst[userObj.role];
+			const ccp = buildCCPOrg(orgDetail.path);
+			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
 
-		const gateway = new Gateway();
-		await gateway.connect(ccp, {
-			wallet: wallet,
-			identity: userObj.userId,
-			discovery: { enabled: true, asLocalhost: true }
-		});
+			console.log(userObj);
+			const gateway = new Gateway();
+			await gateway.connect(ccp, {
+				wallet: wallet,
+				identity: userObj.userId,
+				// identity: "admin",
+				discovery: { enabled: true, asLocalhost: true }
+			});
 
-		const network = await gateway.getNetwork(channelName);
-		return network;
+			const network = await gateway.getNetwork(channelName);
+			return network;
+		} else {
+			const orgDetail = orgConst["consumer"];
+			const ccp = buildCCPOrg(orgDetail.path);
+			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
+			const caClient = buildCAClient(ccp, orgDetail.ca);
+
+			await enrollAdmin(caClient, wallet, orgDetail.msp);
+			const gateway = new Gateway();
+			await gateway.connect(ccp, {
+				wallet: wallet,
+				// identity: userObj.userId,
+				identity: "admin",
+				discovery: { enabled: true, asLocalhost: true }
+			});
+
+			const network = await gateway.getNetwork(channelName);
+			return network;
+		}
 	} catch (error) {
 		console.error(
 			`connectNetwork() --> Failed to connect fabric network: ${error}`
