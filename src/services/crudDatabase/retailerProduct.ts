@@ -7,7 +7,7 @@ export const getAllRetailerProducts = async (userId: string) => {
 		const products = await getAllProducts(userId);
 		let retailerProducts : Product[] = []
 		for (let p of products) {
-			if (p.status.lowercase() == "manufacturer") {
+			if (p.status.lowercase() == "retailer") {
 				retailerProducts.push(p)
 			}
 		}
