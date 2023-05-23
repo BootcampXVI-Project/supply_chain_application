@@ -7,11 +7,6 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import { getProductByProductId } from "../services/crudDatabase/product";
-import {
-	createProduct,
-	getProductByProductId
-} from "../services/crudDatabase/product";
-import { ObjectId } from "../constants";
 import { log } from "console";
 import ImageService from "../services/crudDatabase/image";
 
