@@ -1,0 +1,80 @@
+/order/create:
+  post:
+    summary: Create Order
+    description: Create Order
+    tags:
+      - Order
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              orderObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              orderObj: {}
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/update:
+  patch:
+    summary: Update Order
+    description: Update Order
+    tags:
+      - Order
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              orderObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              orderObj: {}
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/finish:
+  post:
+    summary: Finish Order
+    description: Finish Order
+    tags:
+      - Order
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              orderObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              orderObj: {}
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

@@ -1,19 +1,20 @@
 import admin from "firebase-admin";
 import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
+import { FIREBASE_STORAGE_BUCKET } from "../../constants";
 
 admin.initializeApp({
 	credential: admin.credential.cert({
 		privateKey: serviceAccount.private_key,
 		clientEmail: serviceAccount.client_email,
-		projectId: serviceAccount.project_id,
+		projectId: serviceAccount.project_id
 	}),
-	storageBucket: "gs://supply-chain-9ea64.appspot.com"
+	storageBucket: FIREBASE_STORAGE_BUCKET
 });
 
 const bucket = admin.storage().bucket();
 
 export default class ImageService {
-	static async upload(imagePath: string, nameImage: string) {
+	async upload(imagePath: string, nameImage: string) {
 		try {
 			const currentDate = new Date();
 			const expirationDate = new Date(

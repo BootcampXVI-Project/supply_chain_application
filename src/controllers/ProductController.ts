@@ -6,17 +6,16 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import ImageService from "../services/crudDatabase/image";
+import { getProductByProductId } from "../services/crudDatabase/product";
 import {
 	createProduct,
 	getProductByProductId
 } from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
 import { log } from "console";
-import { User } from "../models/UserModel";
-import { FirebaseStorage } from "firebase/storage";
+import ImageService from "../services/crudDatabase/image";
 
-const imageService = ImageService;
+const imageService: ImageService = new ImageService();
 
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
@@ -343,81 +342,6 @@ const ProductController = {
 		// 		error: error
 		// 	});
 		// }
-	},
-
-	createOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("CreateOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	},
-
-	updateOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("UpdateOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
-	},
-
-	finishOrder: async (req: Request, res: Response) => {
-		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
-			const userObj = await getUserByUserId(userId);
-
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("FinishOrder", userObj, orderObj);
-
-			return res.json({
-				data: null,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error
-			});
-		}
 	}
 };
 
