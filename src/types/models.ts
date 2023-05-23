@@ -64,6 +64,7 @@ export type Product = {
 	productName: string;
 	dates: ProductDates;
 	actors: ProductActors;
+	expiredTime: string;
 	price: string;
 	status: ProductStatus;
 	description: string;
