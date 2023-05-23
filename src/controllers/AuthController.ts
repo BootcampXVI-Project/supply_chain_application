@@ -75,6 +75,7 @@ export default class AuthController {
 				});
 			}
 			return res.json({
+				data: user,
 				message: "Login successful",
 				status: "login"
 			});
