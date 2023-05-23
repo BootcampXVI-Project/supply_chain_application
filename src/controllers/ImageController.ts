@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import ImageService from "../services/crudDatabase/image";
 
-export default class ImageController {
-	imageService = ImageService;
+const imageService: ImageService = new ImageService();
 
+export default class ImageController {
 	async upload(req: Request, res: Response) {
 		try {
 			const { imageString, imagePathNameToFirebase } = req.body;
 
-			let image = await this.imageService.upload(
+			let image = await imageService.upload(
 				imageString,
 				imagePathNameToFirebase
 			);

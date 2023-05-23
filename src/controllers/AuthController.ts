@@ -5,18 +5,16 @@ import { AuthModel } from "../models/AuthModel";
 import { log } from "console";
 import { Auth } from "../types/models";
 
-const authService : AuthService = new AuthService();
+const authService: AuthService = new AuthService();
 
 export default class AuthController {
-	
-
 	async login(req: Request, res: Response) {
 		try {
 			const { phoneNumber, password } = req.body;
 			const currentDate = new Date();
-				const expirationDate = new Date(
-					currentDate.getTime() + 30 * 24 * 60 * 60 * 1000
-				)
+			const expirationDate = new Date(
+				currentDate.getTime() + 30 * 24 * 60 * 60 * 1000
+			);
 			console.log(phoneNumber, password);
 
 			const user = await UserModel.findOne({
@@ -31,22 +29,21 @@ export default class AuthController {
 			}
 			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
 			if (!otp) {
-				log("DEBUG")
+				log("DEBUG");
 				let otp: Auth = {
 					phoneNumber: phoneNumber,
 					otp: await authService.sendOtp(phoneNumber),
 					expired: expirationDate
-				}
+				};
 				if (otp.otp == null) {
 					return res.json({
 						message: "Account not found!",
 						status: "notfound"
-					})
+					});
 				}
-				await AuthModel.create(otp).then((data)=> {
+				await AuthModel.create(otp).then((data) => {
 					console.log(data);
-					
-				})
+				});
 				return res.json({
 					message: "OTP sent successfully.",
 					status: "verifying"
@@ -54,19 +51,22 @@ export default class AuthController {
 			}
 			if (user.status === "inactive") {
 				otp.otp = await authService.sendOtp(phoneNumber);
-				await AuthModel.findOneAndUpdate({phoneNumber: phoneNumber},{otp: otp.otp})
+				await AuthModel.findOneAndUpdate(
+					{ phoneNumber: phoneNumber },
+					{ otp: otp.otp }
+				);
 				if (otp.otp == null) {
 					return res.json({
 						message: "Account not found!",
 						status: "notfound"
-					})
+					});
 				}
 				return res.json({
 					message: "OTP sent successfully.",
 					status: "verifying"
 				});
 			}
-			
+
 			if (otp.expired < new Date()) {
 				otp.otp = await authService.sendOtp(phoneNumber);
 				return res.json({
@@ -87,7 +87,7 @@ export default class AuthController {
 			});
 		}
 	}
-	
+
 	async verify(req: Request, res: Response) {
 		try {
 			const { phoneNumber, smsotp } = req.body;
@@ -108,19 +108,20 @@ export default class AuthController {
 
 				await AuthModel.findOneAndUpdate(
 					{ phoneNumber: phoneNumber },
-					{ 
+					{
 						expired: expirationDate,
 						otp: ""
 					}
 				);
 
-				await UserModel.findOneAndUpdate({
-					phoneNumber: phoneNumber,
+				await UserModel.findOneAndUpdate(
+					{
+						phoneNumber: phoneNumber
 					},
 					{
 						status: "active"
 					}
-				)
+				);
 
 				return res.json({
 					message: "OTP verified successfully.",

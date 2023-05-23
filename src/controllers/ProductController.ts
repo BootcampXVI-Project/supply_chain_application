@@ -6,17 +6,11 @@ import {
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import ImageService from "../services/crudDatabase/image";
-import {
-	createProduct,
-	getProductByProductId
-} from "../services/crudDatabase/product";
-import { ObjectId } from "../constants";
+import { getProductByProductId } from "../services/crudDatabase/product";
 import { log } from "console";
-import { User } from "../models/UserModel";
-import { FirebaseStorage } from "firebase/storage";
+import ImageService from "../services/crudDatabase/image";
 
-const imageService = ImageService;
+const imageService: ImageService = new ImageService();
 
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {

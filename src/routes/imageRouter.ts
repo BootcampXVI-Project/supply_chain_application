@@ -2,8 +2,7 @@ import express from "express";
 import ImageController from "../controllers/ImageController";
 
 const router = express.Router();
-
-let imageController: ImageController;
+const imageController: ImageController = new ImageController();
 
 router.post("/upload", imageController.upload);
 
