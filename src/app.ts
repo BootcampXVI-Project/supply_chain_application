@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import { Gateway } from "fabric-network";
 import { buildWallet, buildCCPOrg, prettyJSONString } from "./utils/AppUtil";
 import {
@@ -10,7 +10,6 @@ import orgConst from "./utils/organizationConstant.json";
 import { createNewUser } from "./services/crudDatabase/user";
 import { Product, User, UserForRegister } from "./types/models";
 import { log } from "console";
-import * as net from "net";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
@@ -29,7 +28,7 @@ export async function registerUser(userObj: UserForRegister) {
 		// const orgDetail = orgConst["distributor"];
 		// const orgDetail = orgConst["retailer"];
 		// const orgDetail = orgConst["consumer"];
-
+		log(orgDetail);
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -164,7 +163,7 @@ export async function evaluateTransactionUserObjProductId(
 
 export async function contract(userObj: User) {
 	const network = await connectNetwork(userObj);
-	return network.getContract(chaincodeName)
+	return network.getContract(chaincodeName);
 }
 
 export async function evaluateGetTxTimestampChannel(userObj: User) {
