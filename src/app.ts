@@ -10,6 +10,7 @@ import orgConst from "./utils/organizationConstant.json";
 import { createNewUser } from "./services/crudDatabase/user";
 import { Product, User, UserForRegister } from "./types/models";
 import { log } from "console";
+import * as net from "net";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
@@ -159,6 +160,11 @@ export async function evaluateTransactionUserObjProductId(
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
+}
+
+export async function contract(userObj: User) {
+	const network = await connectNetwork(userObj);
+	return network.getContract(chaincodeName)
 }
 
 export async function evaluateGetTxTimestampChannel(userObj: User) {

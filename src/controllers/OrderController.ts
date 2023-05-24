@@ -1,79 +1,188 @@
 import { Request, Response } from "express";
-import { submitTransaction } from "../app";
+import { evaluateTransaction, submitTransaction } from "../app";
 import { getUserByUserId } from "../services/crudDatabase/user";
 
+import OrderService from "../services/crudDatabase/order"
+import { log } from "console";
+
+const orderService = new OrderService()
+
 const OrderController = {
-	createOrder: async (req: Request, res: Response) => {
+	getAllOrders: async (req: Request, res: Response)=> {
 		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
+			const { userId } = req.body;
+
 			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				})
+			}
 
-			console.log(userId);
-			console.log(userObj);
-
-			await submitTransaction("CreateOrder", userObj, orderObj);
-
+			const orders = await orderService.getAllOrders(userObj);
 			return res.json({
-				data: null,
+				data: orders,
 				message: "successfully",
-				error: null
+				status: "success"
 			});
 		} catch (error) {
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				status: "failed"
+			});
+		}
+	},
+
+	getOrder: async (req: Request, res: Response)=> {
+		try {
+			const { userId, orderId } = req.body
+			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			// if (userObj.role.toLowerCase() != "distributor" && userObj.role.toLowerCase() != "retailer") {
+			// 	res.json({
+			// 		message: "Denied permission!",
+			// 		status: "unauthorize"
+			// 	});
+			// }
+			console.log(userId);
+			console.log(userObj);
+
+			const order = await orderService.getOrder(userObj, orderId)
+
+			return res.json({
+				data: order,
+				message: "successfully",
+				status: "success"
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				status: "failed"
+			});
+		}
+	},
+
+	createOrder: async (req: Request, res: Response) => {
+		try {
+			const { userId, orderObj } = req.body;
+			// const orderObj = req.body.orderObj;
+			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			if (userObj.role.toLowerCase() != "distributor") {
+				res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				});
+			}
+
+			console.log(userId);
+			console.log(userObj);
+
+			const order = await orderService.createOrder(userObj, orderObj)
+
+			return res.json({
+				data: order,
+				message: "successfully",
+				status: "success"
+			});
+		} catch (error) {
+			console.log("createOrder", error);
+			return res.json({
+				message: "failed",
+				status: "failed"
 			});
 		}
 	},
 
 	updateOrder: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
+			const { userId, orderId } = req.body;
 			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				})
+			}
 
+			if (userObj.role.toLowerCase() != "distributor") {
+				res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				})
+			}
 			console.log(userId);
 			console.log(userObj);
 
-			await submitTransaction("UpdateOrder", userObj, orderObj);
+			const orderObj = await orderService.getOrder(userObj, orderId);
+
+			const order = await submitTransaction("UpdateOrder", userObj, orderObj);
 
 			return res.json({
-				data: null,
+				data: order,
 				message: "successfully",
-				error: null
+				status: "success"
 			});
 		} catch (error) {
+			console.log("updateOrder", error);
 			return res.json({
-				data: null,
 				message: "failed",
-				error: error
+				status: "failed"
 			});
 		}
 	},
 
 	finishOrder: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
-			const orderObj = req.body.orderObj;
+			const { userId, orderId } = req.body;
+			// const userId = String(req.body.userId);
+			// const orderObj = req.body.orderObj;
 			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
 
+			if (userObj.role.toLowerCase() != "retailer") {
+				res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				});
+			}
 			console.log(userId);
 			console.log(userObj);
 
-			await submitTransaction("FinishOrder", userObj, orderObj);
+			const orderObj = await orderService.getOrder(userObj, orderId);
+
+			const order = await submitTransaction("FinishOrder", userObj, orderObj);
 
 			return res.json({
-				data: null,
+				data: order,
 				message: "successfully",
-				error: null
+				status: "success"
 			});
 		} catch (error) {
+			console.log("FinishOrder", error);
 			return res.json({
-				data: null,
 				message: "failed",
-				error: error
+				status: "failed"
 			});
 		}
 	}
