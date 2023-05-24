@@ -8,7 +8,7 @@ router.get("/detail", ProductController.getProduct);
 router.get("/transactions-history", ProductController.getTransactionsHistory);
 
 router.post("/cultivate", ProductController.cultivateProduct);
-router.post("/harvert", ProductController.harvertProduct);
+router.post("/harvest", ProductController.harvestProduct);
 router.post("/import", ProductController.importProduct);
 router.post("/manufacture", ProductController.manufactureProduct);
 router.post("/export", ProductController.exportProduct);

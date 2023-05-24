@@ -1,17 +1,10 @@
-import {
-	evaluateTransaction,
-	evaluateTransactionUserObjProductId,
-	submitTransaction
-} from "../app";
+import { evaluateTransaction, submitTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
-import ImageService from "../services/crudDatabase/image";
-import {
-	createProduct, getProductById
-} from "../services/crudDatabase/product";
-import { ObjectId } from "../constants";
+import { getProductById } from "../services/crudDatabase/product";
 import { log } from "console";
+import ImageService from "../services/crudDatabase/image";
 
 const imageService: ImageService = new ImageService();
 
@@ -21,8 +14,8 @@ const ProductController = {
 			const { userId, productId } = req.body;
 			// const userId = String(req.body.userId);
 			// const productId = String(req.query.productId);
-			const userObj = await getUserByUserId(userId);
 
+			const userObj = await getUserByUserId(userId);
 			const product = await getProductById(productId, userObj);
 
 			return res.json({
@@ -118,7 +111,11 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction("CultivateProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"CultivateProduct",
+				userObj,
+				productObj
+			);
 
 			// const createdProduct = await createProduct(userObj.UserId, productObj);
 
@@ -184,7 +181,11 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction("HarvestProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"HarvestProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -270,7 +271,11 @@ const ProductController = {
 			}
 
 			productObj.price = price;
-			const data = await submitTransaction("ImportProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"ImportProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -324,11 +329,19 @@ const ProductController = {
 			let imageUrls = [];
 
 			for (let i of imageArray) {
-				const uploadedImageUrl = (await imageService.upload( i, "image product/" + productObj.productName + "/" + Date.now() )) + ".jpg";
+				const uploadedImageUrl =
+					(await imageService.upload(
+						i,
+						"image product/" + productObj.productName + "/" + Date.now()
+					)) + ".jpg";
 				imageUrls.push(uploadedImageUrl);
 			}
 			productObj.image = imageUrls;
-			const data = await submitTransaction("ManufactureProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"ManufactureProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -379,7 +392,11 @@ const ProductController = {
 			}
 
 			productObj.price = price;
-			const data = await submitTransaction("ExportProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"ExportProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -429,7 +446,11 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction("DistributeProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"DistributeProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -494,7 +515,6 @@ const ProductController = {
 		}
 	},
 
-
 	addCertificate: async (req: Request, res: Response) => {
 		// try {
 		// 	const { userObj, productObj } = req.body;
@@ -524,110 +544,7 @@ const ProductController = {
 		// 		error: error
 		// 	});
 		// }
-	},
-
-	// createOrder: async (req: Request, res: Response) => {
-	// 	try {
-	// 		const { userId, orderObj } = req.body;
-	// 		// const userId = String(req.body.userId);
-	// 		// const orderObj = req.body.orderObj;
-	// 		const userObj = await getUserByUserId(userId);
-	// 		if (!userObj) {
-	// 			res.json({
-	// 				message: "User not found!",
-	// 				status: "notfound"
-	// 			});
-	// 		}
-	//
-	// 		if (userObj.role.toLowerCase() != "distributor") {
-	// 			res.json({
-	// 				message: "Denied permission!",
-	// 				status: "unauthorize"
-	// 			});
-	// 		}
-	//
-	// 		const data = await submitTransaction("CreateOrder", userObj, orderObj);
-	//
-	// 		return res.json({
-	// 			data: data,
-	// 			message: "successfully",
-	// 			status: "success"
-	// 		});
-	//
-	// 	} catch (error) {
-	// 		console.log("createOrder", error);
-	// 		return res.json({
-	// 			message: "failed",
-	// 			status: "failed"
-	// 		});
-	// 	}
-	// },
-
-	// updateOrder: async (req: Request, res: Response) => {
-	// 	try {
-	// 		const { userId, orderId } = req.body;
-	// 		// const userId = String(req.body.userId);
-	// 		// const orderObj = req.body.orderObj;
-	// 		const userObj = await getUserByUserId(userId);
-	// 		if (!userObj) {
-	// 			res.json({
-	// 				message: "User not found!",
-	// 				status: "notfound"
-	// 			})
-	// 		}
-	//
-	// 		if (userObj.role.toLowerCase() != "supplier") {
-	// 			res.json({
-	// 				message: "Denied permission!",
-	// 				status: "unauthorize"
-	// 			})
-	// 		}
-	//
-	// 		let order = await
-	// 		// const orderObj = await
-	// 		// console.log(userId);
-	// 		// console.log(userObj);
-	// 		//
-	// 		// await submitTransaction("UpdateOrder", userObj, orderObj);
-	//
-	// 		return res.json({
-	// 			data: null,
-	// 			message: "successfully",
-	// 			error: null
-	// 		});
-	// 	} catch (error) {
-	// 		return res.json({
-	// 			data: null,
-	// 			message: "failed",
-	// 			error: error
-	// 		});
-	// 	}
-	// },
-	//
-	// finishOrder: async (req: Request, res: Response) => {
-	// 	try {
-	// 		const userId = String(req.body.userId);
-	// 		const orderObj = req.body.orderObj;
-	// 		const userObj = await getUserByUserId(userId);
-	//
-	// 		console.log(userId);
-	// 		console.log(userObj);
-	//
-	// 		await submitTransaction("FinishOrder", userObj, orderObj);
-	//
-	// 		return res.json({
-	// 			data: null,
-	// 			message: "successfully",
-	// 			error: null
-	// 		});
-	// 	} catch (error) {
-	// 		return res.json({
-	// 			data: null,
-	// 			message: "failed",
-	// 			error: error
-	// 		});
-	// 	}
-	// }
+	}
 };
 
 export default ProductController;
