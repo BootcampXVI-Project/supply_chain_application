@@ -116,10 +116,10 @@
       400:
         description: Failed
 
-/product/harvert:
+/product/harvest:
   post:
-    summary: Harvert Product
-    description: Harvert Product
+    summary: Harvest Product
+    description: Harvest Product
     tags:
       - Product
     requestBody:

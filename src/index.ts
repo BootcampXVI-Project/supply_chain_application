@@ -14,7 +14,13 @@ const app: Express = express();
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 // Middlewares
-app.use(cors());
+app.use(
+	cors({
+		origin: ["*"],
+		methods: ["GET", "POST", "PATCH", "DELETE"],
+		allowedHeaders: ["Content-Type"]
+	})
+);
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

@@ -1,0 +1,29 @@
+/qrcode/generate/{productId}:
+  post:
+    summary: Generate QR Code
+    description: Generate QR Code
+    tags:
+      - QR Code
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+    parameters:
+      - in: query
+        name: productId
+        schema:
+          type: string
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
