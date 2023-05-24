@@ -8,6 +8,12 @@
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 ```
 
+## Grant permission for folder fabric-samples
+
+```bash
+chown -R <ubuntu-user-name> ./fabric-samples
+```
+
 ## Change directory to folder fabric-samples
 
 ```bash

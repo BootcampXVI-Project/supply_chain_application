@@ -1,21 +1,17 @@
 {
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "resolveJsonModule": true,
-        "emitDecoratorMetadata": true,
-        "esModuleInterop": true,
-        "outDir": "dist",
-        "target": "es2017",
-        "moduleResolution": "node",
-        "module": "commonjs",
-        "declaration": true,
-        "sourceMap": true,
-        "noImplicitAny": true
-    },
-    "include": [
-        "./src/**/*"
-    ],
-    "exclude": [
-        "./src/**/*.spec.ts"
-    ]
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"resolveJsonModule": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"outDir": "dist",
+		"target": "es2017",
+		"moduleResolution": "node",
+		"module": "commonjs",
+		"declaration": true,
+		"sourceMap": true,
+		"noImplicitAny": true
+	},
+	"include": ["./src/**/*"],
+	"exclude": ["./src/**/*.spec.ts"]
 }
