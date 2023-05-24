@@ -1,7 +1,7 @@
 import { ProductModel } from "../../models/ProductModel";
 import { Product, User } from "../../types/models";
 import { getUserByUserId } from "./user";
-import { evaluateTransaction, evaluateTransactionUserObjProductId } from "../../app";
+import { contract, evaluateTransaction, evaluateTransactionUserObjProductId } from "../../app";
 import { convertBufferToJavasciptObject } from "../../helpers";
 
 export const checkExistedProduct = async (productId: string) => {
@@ -20,20 +20,16 @@ export const getAllProducts = async (userId: string) => {
 }
 
 export const getProductById = async (productId: string, userObj: User) => {
-	const productBuffer = await evaluateTransactionUserObjProductId(
+	const contractProduct = await contract(userObj);
+
+	const productBuffer = await contractProduct.evaluateTransaction(
 		"GetProduct",
-		userObj,
 		String(productId)
 	);
+
 	return convertBufferToJavasciptObject(productBuffer);
 
 }
-
-export const getProductByProductId = async (productId: string) => {
-	return await ProductModel.findOne({ productId: productId })
-		.select("-__v -_id -createdAt -updatedAt")
-		.lean();
-};
 
 export const createProduct = async (userId: string, productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(

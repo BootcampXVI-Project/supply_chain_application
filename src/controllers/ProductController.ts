@@ -8,8 +8,7 @@ import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import ImageService from "../services/crudDatabase/image";
 import {
-	createProduct, getProductById,
-	getProductByProductId
+	createProduct, getProductById
 } from "../services/crudDatabase/product";
 import { ObjectId } from "../constants";
 import { log } from "console";
@@ -24,12 +23,7 @@ const ProductController = {
 			// const productId = String(req.query.productId);
 			const userObj = await getUserByUserId(userId);
 
-			const productBuffer = await evaluateTransactionUserObjProductId(
-				"GetProduct",
-				userObj,
-				String(productId)
-			);
-			const product = convertBufferToJavasciptObject(productBuffer);
+			const product = await getProductById(productId, userObj);
 
 			return res.json({
 				data: product,
@@ -77,7 +71,7 @@ const ProductController = {
 			const productId = String(req.query.productId);
 
 			const userObj = await getUserByUserId(userId);
-			const productObj = await getProductByProductId(productId);
+			const productObj = await getProductById(productId, userObj);
 			console.log("userObj", userObj);
 			console.log("productObj", productObj);
 

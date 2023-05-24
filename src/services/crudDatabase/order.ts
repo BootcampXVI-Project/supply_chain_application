@@ -1,32 +1,79 @@
-import { evaluateTransaction, evaluateTransactionUserObjProductId, submitTransaction } from "../../app";
+import { contract, evaluateTransaction, evaluateTransactionUserObjProductId, submitTransaction } from "../../app";
 import { Order, User } from "../../types/models";
 import { convertBufferToJavasciptObject } from "../../helpers";
 
 export default class OrderService {
 	async getAllOrders(userObj: User) {
-		const orderBuffer = await evaluateTransaction(
-			"GetAllOrder",
-			userObj,
-			null
-		);
-		return convertBufferToJavasciptObject(orderBuffer);
+		try {
+			const contractOrder = await contract(
+				userObj
+			);
+
+			const orderBuffer = await contractOrder.evaluateTransaction("GetAllOrders");
+
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (e) {
+			console.error(e);
+		}
+
 	};
 
 	async getOrder(userObj: User, orderId: string) {
 		try {
 
-			const orderBuffer = await evaluateTransactionUserObjProductId(
+			const contractOrder = await contract(
+				userObj
+			);
+
+			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetOrder",
-				userObj,
 				String(orderId)
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
-			console.error("Error uploading image:", error);
+			console.error(error);
 		}
 	};
 
 	async createOrder(userObj: any, orderObj: any) {
-		return await submitTransaction("CreateOrder", userObj, orderObj);
+		try {
+			return await submitTransaction("CreateOrder", userObj, orderObj);
+
+		} catch (e) {
+			console.error(e);
+
+		}
+	}
+
+	async updateOrder(userObj: any, orderObj: any) {
+		try {
+			return await submitTransaction("UpdateOrder", userObj, orderObj);
+
+		} catch (e) {
+			console.error(e);
+
+		}
+	}
+
+	async finishOrder(userObj: any, orderObj: any) {
+		try {
+			return await submitTransaction("FinishOrder", userObj, orderObj);
+
+		} catch (e) {
+			console.error(e);
+
+		}
+	}
+
+	async getHistoryOrder(userObj: any, orderId: any) {
+		try {
+			const contractOrder = await contract(
+				userObj
+			);
+
+			return await contractOrder.evaluateTransaction("GetHistoryOrder", orderId);
+		} catch (e) {
+			console.error(e)
+		}
 	}
 }
