@@ -5,3 +5,13 @@ export type RequestFunction = {
 	res: Response;
 	next: NextFunction;
 };
+
+export type Error = {
+	path: any;
+	value: any;
+	message: { match: (arg0: RegExp) => any[] };
+	statusCode: number;
+	status: string;
+	stack: any;
+	isOperational: boolean;
+};
