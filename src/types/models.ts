@@ -113,11 +113,12 @@ export type DeliveryStatus = {
 };
 
 export type Order = {
-	orderID: string;
+	orderId: string;
 	productItemList: ProductItem[];
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
 	status: string;
+	location: string;
 	distributorId: string;
 	retailerId: string;
 };

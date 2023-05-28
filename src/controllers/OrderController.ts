@@ -1,23 +1,20 @@
 import { Request, Response } from "express";
 import { evaluateTransaction, submitTransaction } from "../app";
 import { getUserByUserId } from "../services/crudDatabase/user";
+import OrderService from "../services/crudDatabase/order";
 
-import OrderService from "../services/crudDatabase/order"
-import { log } from "console";
-
-const orderService = new OrderService()
+const orderService = new OrderService();
 
 const OrderController = {
-	getAllOrders: async (req: Request, res: Response)=> {
+	getAllOrders: async (req: Request, res: Response) => {
 		try {
 			const { userId } = req.body;
-
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
 				res.json({
 					message: "User not found!",
 					status: "notfound"
-				})
+				});
 			}
 
 			const orders = await orderService.getAllOrders(userObj);
@@ -35,9 +32,9 @@ const OrderController = {
 		}
 	},
 
-	getOrder: async (req: Request, res: Response)=> {
+	getOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderId } = req.body
+			const { userId, orderId } = req.body;
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
 				res.json({
@@ -55,7 +52,7 @@ const OrderController = {
 			console.log(userId);
 			console.log(userObj);
 
-			const order = await orderService.getOrder(userObj, orderId)
+			const order = await orderService.getOrder(userObj, orderId);
 
 			return res.json({
 				data: order,
@@ -89,11 +86,10 @@ const OrderController = {
 					status: "unauthorize"
 				});
 			}
-
 			console.log(userId);
 			console.log(userObj);
 
-			const order = await orderService.createOrder(userObj, orderObj)
+			const order = await orderService.createOrder(userObj, orderObj);
 
 			return res.json({
 				data: order,
@@ -117,20 +113,19 @@ const OrderController = {
 				res.json({
 					message: "User not found!",
 					status: "notfound"
-				})
+				});
 			}
 
 			if (userObj.role.toLowerCase() != "distributor") {
 				res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
-				})
+				});
 			}
 			console.log(userId);
 			console.log(userObj);
 
 			const orderObj = await orderService.getOrder(userObj, orderId);
-
 			const order = await submitTransaction("UpdateOrder", userObj, orderObj);
 
 			return res.json({
@@ -170,7 +165,6 @@ const OrderController = {
 			console.log(userObj);
 
 			const orderObj = await orderService.getOrder(userObj, orderId);
-
 			const order = await submitTransaction("FinishOrder", userObj, orderObj);
 
 			return res.json({
