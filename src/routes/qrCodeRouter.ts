@@ -3,6 +3,6 @@ import QRCodeController from "../controllers/QRCodeController";
 
 const router = express.Router();
 
-router.post("/generate/:productId", QRCodeController.generateQRCode);
+router.post("/generate/", QRCodeController.generateQRCode);
 
 export default router;

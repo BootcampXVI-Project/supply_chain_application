@@ -1,4 +1,4 @@
-/qrcode/generate/{productId}:
+/qrcode/generate/:
   post:
     summary: Generate QR Code
     description: Generate QR Code

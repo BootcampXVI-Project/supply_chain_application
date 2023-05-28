@@ -29,7 +29,6 @@ export interface UserForRegister {
 }
 
 export interface User {
-	// _id: Types.ObjectId;
 	email: string;
 	password: string;
 	userName: string;
