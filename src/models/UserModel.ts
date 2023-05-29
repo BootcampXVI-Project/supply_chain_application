@@ -6,13 +6,14 @@ interface User {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
 	userId?: string;
 	status?: UserStatus;
-	identify: string;
+	signature: string;
 }
 
 interface UserDB extends User, Document {
@@ -23,6 +24,7 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	userName: { type: String, required: true },
+	fullName: { type: String, required: true },
 	phoneNumber: { type: String, required: true },
 	address: { type: String, required: true },
 	userType: { type: String, required: true },
@@ -32,8 +34,8 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 		required: true
 	},
 	userId: { type: String, default: uuidv4 },
-	status: { type: String, enum: ["active", "inactive"] },
-	identify: { type: String }
+	status: { type: String, enum: ["active", "inactive"], default: "inactive" },
+	signature: { type: String }
 });
 
 const UserModel = mongoose.model<UserDB>("User", UserSchema);

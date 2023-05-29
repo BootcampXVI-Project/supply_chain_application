@@ -1,9 +1,8 @@
-import AuthService from "../services/crudDatabase/auth";
+import AuthService from "../services/authService";
 import { Request, Response } from "express";
+import { Auth } from "../types/models";
 import { UserModel } from "../models/UserModel";
 import { AuthModel } from "../models/AuthModel";
-import { log } from "console";
-import { Auth } from "../types/models";
 
 const authService: AuthService = new AuthService();
 
@@ -29,7 +28,7 @@ export default class AuthController {
 			}
 			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
 			if (!otp) {
-				log("DEBUG");
+				console.log("DEBUG");
 				let otp: Auth = {
 					phoneNumber: phoneNumber,
 					otp: await authService.sendOtp(phoneNumber),

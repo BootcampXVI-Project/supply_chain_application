@@ -14,31 +14,34 @@ export type ProductStatus =
 	| "MANUFACTURED"
 	| "EXPORTED"
 	| "DISTRIBUTED"
+	| "SELLING"
 	| "SOLD";
 
 export interface UserForRegister {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
 	status?: UserStatus;
-	identify: string;
+	signature: string;
 }
 
 export interface User {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
 	userType: UserRoleType;
 	role: UserRoleType;
 	status?: UserStatus;
 	userId?: string;
-	identify: string;
+	signature: string;
 }
 
 export type ProductDates = {
@@ -48,6 +51,7 @@ export type ProductDates = {
 	manufacturered: string;
 	exported: string;
 	distributed: string;
+	selling: string;
 	sold: string;
 };
 
@@ -61,15 +65,16 @@ export type ProductActors = {
 export type Product = {
 	productId: string;
 	productName: string;
+	image: string[];
 	dates: ProductDates;
 	actors: ProductActors;
-	expiredTime: string;
+	expireTime: string;
 	price: string;
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
 	cooperationId: string;
-	image: string[];
+	qrCode: string;
 };
 
 export type ProductHistory = {

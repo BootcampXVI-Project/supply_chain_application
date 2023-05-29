@@ -1,6 +1,6 @@
-import { Cooperation } from "../../types/models";
-import { CooperationModel } from "../../models/CooperationModel";
-import { UserModel } from "../../models/UserModel";
+import { Cooperation } from "../types/models";
+import { CooperationModel } from "../models/CooperationModel";
+import { UserModel } from "../models/UserModel";
 
 export const getAllCooperations = async () => {
 	return await CooperationModel.find({}).lean();

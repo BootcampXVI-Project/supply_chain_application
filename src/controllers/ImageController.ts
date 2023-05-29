@@ -1,5 +1,5 @@
+import ImageService from "../services/imageService";
 import { Request, Response } from "express";
-import ImageService from "../services/crudDatabase/image";
 
 const imageService: ImageService = new ImageService();
 
