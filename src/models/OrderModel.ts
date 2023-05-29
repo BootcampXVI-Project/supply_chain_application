@@ -15,13 +15,16 @@ interface DeliveryStatus {
 	distributedId: string;
 	deliveryDate: string;
 	status: string;
+	longitude: string;
+	latitude: string;
 }
 
 interface Order {
-	orderID: string;
+	orderId: string;
 	productItemList: ProductItem[];
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
+	// status: "shipped" | "shipping" | "not-shipped-yet";
 	status: string;
 	distributorId: string;
 	retailerId: string;
@@ -32,7 +35,7 @@ interface OrderDB extends Order, Document {
 }
 
 const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
-	orderID: { type: String, required: true },
+	orderId: { type: String, required: true },
 	productItemList: { type: [Object], required: true },
 	signature: { type: Object, required: true },
 	deliveryStatus: { type: [Object], required: true },

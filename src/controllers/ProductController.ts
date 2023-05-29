@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 import { evaluateTransaction, submitTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import { getProductById } from "../services/crudDatabase/product";
 import { log } from "console";
@@ -12,9 +12,6 @@ const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
-			// const userId = String(req.body.userId);
-			// const productId = String(req.query.productId);
-
 			const userObj = await getUserByUserId(userId);
 			const product = await getProductById(productId, userObj);
 
@@ -34,11 +31,9 @@ const ProductController = {
 
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
-			const userObj = await getUserByUserId(userId);
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
-				userObj,
+				null,
 				null
 			);
 			const products = convertBufferToJavasciptObject(productsBuffer);
