@@ -18,9 +18,6 @@ export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
 
-		console.log(userObj);
-		console.log(userObj.role);
-
 		const orgDetail = orgConst[userObj.role];
 
 		// const orgDetail = orgConst["supplier"];
@@ -28,7 +25,7 @@ export async function registerUser(userObj: UserForRegister) {
 		// const orgDetail = orgConst["distributor"];
 		// const orgDetail = orgConst["retailer"];
 		// const orgDetail = orgConst["consumer"];
-		log(orgDetail);
+
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -38,7 +35,6 @@ export async function registerUser(userObj: UserForRegister) {
 			caClient,
 			wallet,
 			orgDetail.msp,
-			// userObj.userId,
 			createdUser.data.userId,
 			orgDetail.department
 		);
@@ -166,6 +162,20 @@ export async function evaluateTransactionUserObjProductId(
 	}
 }
 
+export async function evaluateTransactionUserObjAnyParam(
+	funcName: string,
+	userObj: User,
+	param: any
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(chaincodeName);
+		return await contract.evaluateTransaction(funcName, param);
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction ${funcName}`);
+	}
+}
+
 export async function contract(userObj: User) {
 	const network = await connectNetwork(userObj);
 	return network.getContract(chaincodeName);
@@ -186,7 +196,3 @@ export async function evaluateGetTxTimestampChannel(userObj: User) {
 		throw new Error(`Failed to evaluate transaction GetTxTimestampChannel`);
 	}
 }
-
-async function main() {}
-
-// main();

@@ -29,7 +29,6 @@ export interface UserForRegister {
 }
 
 export interface User {
-	// _id: Types.ObjectId;
 	email: string;
 	password: string;
 	userName: string;
@@ -111,14 +110,17 @@ export type DeliveryStatus = {
 	distributedId: string;
 	deliveryDate: string;
 	status: string;
+	longitude: string;
+	latitude: string;
 };
 
 export type Order = {
-	orderID: string;
+	orderId: string;
 	productItemList: ProductItem[];
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
 	status: string;
+	location: string;
 	distributorId: string;
 	retailerId: string;
 };

@@ -2,12 +2,13 @@ import qrCode from "qrcode";
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import { getProductById } from "../services/crudDatabase/product";
+import { PRODUCTION_URL } from "../constants";
 
 const QRCodeController = {
 	generateQRCode: async (req: Request, res: Response) => {
 		try {
-			const productId = req.params.productId as string;
-			const userId = req.body.userId as string;
+			const productId = String(req.query.productId);
+			const userId = String(req.body.userId);
 			const userObj = await getUserByUserId(userId);
 			const productObj = await getProductById(productId, userObj);
 
@@ -19,7 +20,11 @@ const QRCodeController = {
 				});
 			}
 
-			const qrCodeImage = await qrCode.toDataURL(JSON.stringify(productObj));
+			const qrCodeImage = await qrCode.toDataURL(
+				`${PRODUCTION_URL}/product/${productId}`
+			);
+
+			// save into network or database
 
 			return res.json({
 				data: qrCodeImage,
