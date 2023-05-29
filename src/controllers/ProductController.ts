@@ -11,9 +11,10 @@ const imageService: ImageService = new ImageService();
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId } = req.body;
-			// const userId = String(req.body.userId);
-			// const productId = String(req.query.productId);
+			// const { userId, productId } = String(req.query);
+			const userId = String(req.query.userId);
+			const productId = String(req.query.productId);
+			console.log(userId, productId);
 
 			const userObj = await getUserByUserId(userId);
 			const product = await getProductById(productId, userObj);
@@ -24,6 +25,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			console.log("getProduct", error);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -34,13 +36,15 @@ const ProductController = {
 
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
+			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
+			console.log("Debug",userId);
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
 				userObj,
 				null
 			);
+			console.log("getAll");
 			const products = convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
@@ -104,6 +108,7 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
+			console.log(userObj);
 			if (userObj.role.toLowerCase() != "supplier") {
 				res.json({
 					message: "Denied permission!",
