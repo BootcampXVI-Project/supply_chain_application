@@ -15,6 +15,8 @@ interface DeliveryStatus {
 	distributedId: string;
 	deliveryDate: string;
 	status: string;
+	longitude: string;
+	latitude: string;
 }
 
 interface Order {
@@ -24,7 +26,6 @@ interface Order {
 	deliveryStatus: DeliveryStatus[];
 	// status: "shipped" | "shipping" | "not-shipped-yet";
 	status: string;
-	location: string;
 	distributorId: string;
 	retailerId: string;
 }
@@ -39,7 +40,6 @@ const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 	signature: { type: Object, required: true },
 	deliveryStatus: { type: [Object], required: true },
 	status: { type: String, required: true },
-	location: { type: String, required: true },
 	distributorId: { type: String, required: true },
 	retailerId: { type: String, required: true }
 });
