@@ -11,7 +11,7 @@ import {
 } from "./utils/CAUtil";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic8";
+const chaincodeName = "basic";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
