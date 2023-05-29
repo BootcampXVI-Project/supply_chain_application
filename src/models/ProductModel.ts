@@ -17,6 +17,7 @@ interface ProductDates {
 	manufacturered: string;
 	exported: string;
 	distributed: string;
+	selling: string;
 	sold: string;
 }
 
@@ -30,20 +31,22 @@ interface ProductActors {
 interface Product extends Document {
 	productId: string;
 	productName: string;
+	image: string[];
 	dates: ProductDates;
 	actors: ProductActors;
-	expiredTime: string;
+	expireTime: string;
 	price: string;
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
 	cooperationId: string;
-	image: string[];
+	qrCode: string;
 }
 
 const ProductSchema: Schema<Product> = new Schema<Product>({
 	productId: { type: String, default: uuidv4 },
 	productName: { type: String, required: true },
+	image: { type: [String], required: true },
 	dates: {
 		cultivated: { type: String },
 		harvested: { type: String },
@@ -59,7 +62,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		distributorId: { type: String },
 		retailerId: { type: String }
 	},
-	expiredTime: {type: String},
+	expireTime: { type: String },
 	price: { type: String, required: true },
 	status: {
 		type: String,
@@ -70,6 +73,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 			"MANUFACTURED",
 			"EXPORTED",
 			"DISTRIBUTED",
+			"SELLING",
 			"SOLD"
 		],
 		required: true
@@ -77,7 +81,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 	description: { type: String, required: true },
 	certificateUrl: { type: String, required: true },
 	cooperationId: { type: String, required: true },
-	image: { type: [String], required: true }
+	qrCode: { type: String, required: true }
 });
 
 const ProductModel = mongoose.model<Product>("Product", ProductSchema);

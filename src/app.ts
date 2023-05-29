@@ -1,15 +1,14 @@
 import path from "path";
+import orgConst from "./utils/organizationConstant.json";
 import { Gateway } from "fabric-network";
-import { buildWallet, buildCCPOrg, prettyJSONString } from "./utils/AppUtil";
+import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
+import { Product, User, UserForRegister } from "./types/models";
+import { createNewUser } from "./services/userService";
 import {
 	buildCAClient,
 	enrollAdmin,
 	registerAndEnrollUser
 } from "./utils/CAUtil";
-import orgConst from "./utils/organizationConstant.json";
-import { createNewUser } from "./services/crudDatabase/user";
-import { Product, User, UserForRegister } from "./types/models";
-import { log } from "console";
 
 const channelName = "supplychain-channel";
 const chaincodeName = "basic";
@@ -18,14 +17,8 @@ export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
 
+		// role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer"
 		const orgDetail = orgConst[userObj.role];
-
-		// const orgDetail = orgConst["supplier"];
-		// const orgDetail = orgConst["manufacturer"];
-		// const orgDetail = orgConst["distributor"];
-		// const orgDetail = orgConst["retailer"];
-		// const orgDetail = orgConst["consumer"];
-
 		const ccp = buildCCPOrg(orgDetail.path);
 		const caClient = buildCAClient(ccp, orgDetail.ca);
 		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -48,9 +41,8 @@ export async function registerUser(userObj: UserForRegister) {
 
 export async function connectNetwork(userObj: User) {
 	try {
-		// userObj =  null;
+		console.log(userObj);
 		if (userObj) {
-			log(userObj);
 			const orgDetail = orgConst[userObj.role];
 			const ccp = buildCCPOrg(orgDetail.path);
 			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));

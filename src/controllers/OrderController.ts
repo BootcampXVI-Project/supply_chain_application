@@ -1,7 +1,7 @@
+import OrderService from "../services/orderService";
 import { Request, Response } from "express";
+import { getUserByUserId } from "../services/userService";
 import { evaluateTransaction, submitTransaction } from "../app";
-import { getUserByUserId } from "../services/crudDatabase/user";
-import OrderService from "../services/crudDatabase/order";
 
 const orderService = new OrderService();
 

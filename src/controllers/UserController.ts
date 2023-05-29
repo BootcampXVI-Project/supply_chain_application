@@ -1,26 +1,24 @@
-import {
-	evaluateTransaction,
-	evaluateTransactionUserObjProductId,
-	submitTransaction,
-	registerUser
-} from "../app";
-import { convertBufferToJavasciptObject } from "../helpers";
-import { getUserByUserId, getAllUsers } from "../services/crudDatabase/user";
+import { registerUser } from "../app";
 import { Request, Response } from "express";
-
+import { getUserByUserId, getAllUsers } from "../services/userService";
 
 const UserController = {
-	// DONE
 	createUser: async (req: Request, res: Response) => {
 		try {
 			const userObj = req.body.userObj;
 			const createdUser = await registerUser(userObj);
 
-			return res.json({
-				data: createdUser,
-				message: "successfully",
-				error: null
-			});
+			return createdUser
+				? res.json({
+						data: createdUser,
+						message: "successfully",
+						error: null
+				  })
+				: res.json({
+						data: null,
+						message: "failed",
+						error: null
+				  });
 		} catch (error) {
 			return res.json({
 				data: null,

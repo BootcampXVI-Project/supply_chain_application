@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
+import { getUserByUserId } from "../services/userService";
+import { getProductById } from "../services/productService";
+import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	evaluateTransaction,
 	evaluateTransactionUserObjAnyParam,
 	submitTransaction
 } from "../app";
-import { convertBufferToJavasciptObject } from "../helpers";
-import { getUserByUserId } from "../services/crudDatabase/user";
-import { getProductById } from "../services/crudDatabase/product";
 
 const DistributorController = {
 	getAllProducts: async (req: Request, res: Response) => {

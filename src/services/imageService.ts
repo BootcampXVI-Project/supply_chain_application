@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
-import serviceAccount from "../../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
-import { FIREBASE_STORAGE_BUCKET } from "../../constants";
+import serviceAccount from "../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
+import { FIREBASE_STORAGE_BUCKET } from "../constants";
 
 admin.initializeApp({
 	credential: admin.credential.cert({

@@ -9,7 +9,11 @@ jspm_packages/
 dist
 
 # Organizations config files
-configs
+configs/connection-consumer.json
+configs/connection-distributor.json
+configs/connection-manufacturer.json
+configs/connection-retailer.json
+configs/connection-supplier.json
 
 # Environment variables
 .env

@@ -19,12 +19,13 @@
                   email: "Eden@gmail.com",
                   password: "Eden",
                   phoneNumber: "+84909090909",
+                  fullName: "Eden Hazard",
                   userName: "Eden",
                   address: "Da Nang",
                   userType: "supplier",
                   role: "supplier",
-                  status: "active",
-                  identify: "212de232-35a5-415b-9991-6128398b658c"
+                  status: "inactive",
+                  signature: "http://localhost:4000/image1.img"
                 }
     responses:
       200:

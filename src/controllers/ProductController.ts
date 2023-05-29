@@ -1,19 +1,21 @@
+import qrCode from "qrcode";
+import ImageService from "../services/imageService";
+import { getUserByUserId } from "../services/userService";
+import { getProductById } from "../services/productService";
 import { Request, Response } from "express";
-import { evaluateTransaction, submitTransaction } from "../app";
+import { PRODUCTION_URL } from "../constants";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { getUserByUserId } from "../services/crudDatabase/user";
-import { getProductById } from "../services/crudDatabase/product";
-import { log } from "console";
-import ImageService from "../services/crudDatabase/image";
+import { evaluateTransaction, submitTransaction } from "../app";
+import { isConstructorDeclaration } from "typescript";
 
 const imageService: ImageService = new ImageService();
 
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId } = req.body;
-			const userObj = await getUserByUserId(userId);
-			const product = await getProductById(productId, userObj);
+			const { userId, productId } = req.query;
+			const userObj = await getUserByUserId(String(userId));
+			const product = await getProductById(String(productId), userObj);
 
 			return res.json({
 				data: product,
@@ -44,7 +46,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			log("Err", error);
+			console.log("Err", error);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -57,20 +59,15 @@ const ProductController = {
 		try {
 			const userId = String(req.query.userId);
 			const productId = String(req.query.productId);
-
 			const userObj = await getUserByUserId(userId);
 			const productObj = await getProductById(productId, userObj);
-			console.log("userObj", userObj);
-			console.log("productObj", productObj);
 
 			const transactionsBuffer = await evaluateTransaction(
 				"GetHistory",
 				userObj,
 				productObj
 			);
-			console.log("transactionsBuffer", transactionsBuffer);
 			const transactions = convertBufferToJavasciptObject(transactionsBuffer);
-			console.log("transactions", transactions);
 
 			return res.json({
 				data: transactions,
@@ -89,18 +86,16 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productObj } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
 			if (userObj.role.toLowerCase() != "supplier") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -145,18 +140,17 @@ const ProductController = {
 	harvestProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
+
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
 
 			if (userObj.role.toLowerCase() != "supplier") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -164,14 +158,14 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
 					status: "notfound"
 				});
 			}
 
 			if (productObj.status.toLowerCase() != "cultivated") {
-				res.json({
+				return res.json({
 					message: "Product is not cultivated or was harvested"
 				});
 			}
@@ -201,15 +195,15 @@ const ProductController = {
 			const userId = String(req.body.userId);
 			const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "supplier") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -234,18 +228,16 @@ const ProductController = {
 	importProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId, price } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "manufacturer") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -253,14 +245,13 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
 					status: "notfound"
 				});
 			}
-
 			if (productObj.status.toLowerCase() != "harvested") {
-				res.json({
+				return res.json({
 					message: "Product is not harvested or was imported"
 				});
 			}
@@ -289,19 +280,16 @@ const ProductController = {
 	manufactureProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId, imageUrl } = req.body;
-			// const imageUrl = req.body.imageUrl;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
-					status: "notfound"
+					status: "user-notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "manufacturer") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -309,29 +297,38 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
-					status: "notfound"
+					status: "product-notfound"
+				});
+			}
+			if (productObj.status.toLowerCase() != "imported") {
+				return res.json({
+					message: "Product is not imported or was manufactured",
+					status: "failed"
 				});
 			}
 
-			if (productObj.status.toLowerCase() != "imported") {
-				res.json({
-					message: "Product is not imported or was manufactured"
-				});
-			}
+			// Upload image onto Firebase Storage
 			const imageArray = imageUrl;
 			let imageUrls = [];
-
 			for (let i of imageArray) {
 				const uploadedImageUrl =
 					(await imageService.upload(
 						i,
-						"image product/" + productObj.productName + "/" + Date.now()
+						"product_images/" + productObj.productName + "/" + Date.now()
 					)) + ".jpg";
 				imageUrls.push(uploadedImageUrl);
 			}
 			productObj.image = imageUrls;
+
+			// Generate QR code for product
+			const qrCodeString = await qrCode.toDataURL(
+				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`
+			);
+			console.log("qrCodeString", qrCodeString);
+			productObj.qrCode = qrCodeString;
+
 			const data = await submitTransaction(
 				"ManufactureProduct",
 				userObj,
@@ -344,7 +341,7 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("manufacturer", error);
+			console.log("manufacturer1", error);
 			return res.json({
 				message: "failed",
 				status: "failed"
@@ -355,18 +352,16 @@ const ProductController = {
 	exportProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId, price } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "manufacturer") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -374,14 +369,13 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
 					status: "notfound"
 				});
 			}
-
 			if (productObj.status.toLowerCase() != "manufactured") {
-				res.json({
+				return res.json({
 					message: "Product is not manufactured or was exported"
 				});
 			}
@@ -410,18 +404,16 @@ const ProductController = {
 	distributeProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "distributor") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -429,14 +421,14 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
 					status: "notfound"
 				});
 			}
 
 			if (productObj.status.toLowerCase() != "exported") {
-				res.json({
+				return res.json({
 					message: "Product is not exported or was distributed"
 				});
 			}
@@ -464,18 +456,16 @@ const ProductController = {
 	sellProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId, price } = req.body;
-			// const userId = String(req.body.userId);
-			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "retailer") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
@@ -483,14 +473,14 @@ const ProductController = {
 
 			const productObj = await getProductById(productId, userObj);
 			if (!productObj) {
-				res.json({
+				return res.json({
 					message: "Product not found!",
 					status: "notfound"
 				});
 			}
 
 			if (productObj.status.toLowerCase() != "selling") {
-				res.json({
+				return res.json({
 					message: "Product is not distributed or was sold"
 				});
 			}
