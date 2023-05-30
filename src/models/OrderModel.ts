@@ -28,6 +28,7 @@ interface Order {
 	status: string;
 	distributorId: string;
 	retailerId: string;
+	qrCode: string;
 }
 
 interface OrderDB extends Order, Document {
@@ -41,7 +42,8 @@ const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 	deliveryStatus: { type: [Object], required: true },
 	status: { type: String, required: true },
 	distributorId: { type: String, required: true },
-	retailerId: { type: String, required: true }
+	retailerId: { type: String, required: true },
+	qrCode: { type: String, required: true }
 });
 
 const OrderModel = mongoose.model<OrderDB>("Order", OrderSchema);

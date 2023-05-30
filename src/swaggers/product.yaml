@@ -138,7 +138,7 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
     responses:
       200:
         description: Successfully
@@ -168,7 +168,7 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
               price: "100000"
     responses:
       200:
@@ -199,7 +199,7 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
               imageUrl:
                 [
                   "http://localhost:4000/image1.img",
@@ -234,7 +234,7 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
               price: "100000"
     responses:
       200:
@@ -262,7 +262,38 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/retailer-import:
+  post:
+    summary: Retailer Import Product
+    description: Retailer Import Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productId:
+                type: string
+                required: true
+              price:
+                type: string
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
+              price: "100000"
     responses:
       200:
         description: Successfully
@@ -292,7 +323,7 @@
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
               price: "100000"
     responses:
       200:

@@ -1,6 +1,5 @@
 import { UserForRegister } from "../types/models";
 import { UserModel } from "../models/UserModel";
-import { error } from "console";
 
 export const getAllUsers = async () => {
 	return await UserModel.find({}).lean();
@@ -12,15 +11,28 @@ export const getUserByUserId = async (userId: string) => {
 		.lean();
 };
 
-export const checkExistedUser = async (phoneNumber: string) => {
+export const checkExistedUserEmail = async (email: string) => {
+	const isExisted = await UserModel.exists({ email: email });
+	return Boolean(isExisted);
+};
+
+export const checkExistedUserPhoneNumber = async (phoneNumber: string) => {
 	const isExisted = await UserModel.exists({ phoneNumber: phoneNumber });
 	return Boolean(isExisted);
 };
 
 export const createNewUser = async (user: UserForRegister) => {
 	try {
-		const isExistedUser: boolean = await checkExistedUser(user.phoneNumber);
-		if (isExistedUser == true) {
+		const [isExistedUserEmail, isExistedUserPhoneNumber] = await Promise.all([
+			checkExistedUserEmail(user.email),
+			checkExistedUserPhoneNumber(user.phoneNumber)
+		]);
+
+		if (isExistedUserEmail) {
+			throw new Error("email-existed");
+		}
+
+		if (isExistedUserPhoneNumber) {
 			throw new Error("phone-number-existed");
 		}
 
@@ -37,7 +49,7 @@ export const createNewUser = async (user: UserForRegister) => {
 	} catch (error) {
 		return {
 			data: null,
-			error: error
+			error: error.message
 		};
 	}
 };

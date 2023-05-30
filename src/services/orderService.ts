@@ -1,21 +1,14 @@
-import {
-	contract,
-	evaluateTransaction,
-	evaluateTransactionUserObjProductId,
-	submitTransaction
-} from "../app";
-import { Order, User } from "../types/models";
+import { User } from "../types/models";
+import { contract, submitTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
 
 export default class OrderService {
 	async getAllOrders(userObj: User) {
 		try {
 			const contractOrder = await contract(userObj);
-
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetAllOrders"
 			);
-
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (e) {
 			console.error(e);
@@ -25,7 +18,6 @@ export default class OrderService {
 	async getOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);
-
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetOrder",
 				String(orderId)
@@ -63,7 +55,6 @@ export default class OrderService {
 	async getHistoryOrder(userObj: any, orderId: any) {
 		try {
 			const contractOrder = await contract(userObj);
-
 			return await contractOrder.evaluateTransaction(
 				"GetHistoryOrder",
 				orderId

@@ -24,7 +24,6 @@ export interface UserForRegister {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
 	role: UserRoleType;
 	status?: UserStatus;
 	signature: string;
@@ -37,7 +36,6 @@ export interface User {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
 	role: UserRoleType;
 	status?: UserStatus;
 	userId?: string;
@@ -127,4 +125,5 @@ export type Order = {
 	location: string;
 	distributorId: string;
 	retailerId: string;
+	qrCode: string;
 };

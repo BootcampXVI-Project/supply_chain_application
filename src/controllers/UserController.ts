@@ -8,7 +8,7 @@ const UserController = {
 			const userObj = req.body.userObj;
 			const createdUser = await registerUser(userObj);
 
-			return createdUser
+			return createdUser.data !== null
 				? res.json({
 						data: createdUser,
 						message: "successfully",
@@ -17,13 +17,13 @@ const UserController = {
 				: res.json({
 						data: null,
 						message: "failed",
-						error: null
+						error: createdUser.error
 				  });
 		} catch (error) {
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	},

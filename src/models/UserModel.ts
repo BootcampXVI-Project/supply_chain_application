@@ -9,7 +9,6 @@ interface User {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
 	role: UserRoleType;
 	userId?: string;
 	status?: UserStatus;
@@ -27,7 +26,6 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	fullName: { type: String, required: true },
 	phoneNumber: { type: String, required: true },
 	address: { type: String, required: true },
-	userType: { type: String, required: true },
 	role: {
 		type: String,
 		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],

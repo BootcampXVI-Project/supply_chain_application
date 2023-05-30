@@ -1,7 +1,7 @@
 import OrderService from "../services/orderService";
 import { Request, Response } from "express";
+import { submitTransaction } from "../app";
 import { getUserByUserId } from "../services/userService";
-import { evaluateTransaction, submitTransaction } from "../app";
 
 const orderService = new OrderService();
 
@@ -11,7 +11,7 @@ const OrderController = {
 			const { userId } = req.body;
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
@@ -36,24 +36,25 @@ const OrderController = {
 		try {
 			const { userId, orderId } = req.body;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
-			// if (userObj.role.toLowerCase() != "distributor" && userObj.role.toLowerCase() != "retailer") {
-			// 	res.json({
-			// 		message: "Denied permission!",
-			// 		status: "unauthorize"
-			// 	});
-			// }
-			console.log(userId);
-			console.log(userObj);
+			if (
+				userObj.role.toLowerCase() != "manufacturer" ||
+				userObj.role.toLowerCase() != "distributor" ||
+				userObj.role.toLowerCase() != "retailer"
+			) {
+				res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				});
+			}
 
 			const order = await orderService.getOrder(userObj, orderId);
-
 			return res.json({
 				data: order,
 				message: "successfully",
@@ -71,33 +72,28 @@ const OrderController = {
 	createOrder: async (req: Request, res: Response) => {
 		try {
 			const { userId, orderObj } = req.body;
-			// const orderObj = req.body.orderObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "distributor") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
 			}
-			console.log(userId);
-			console.log(userObj);
 
 			const order = await orderService.createOrder(userObj, orderObj);
-
 			return res.json({
 				data: order,
 				message: "successfully",
 				status: "success"
 			});
 		} catch (error) {
-			console.log("createOrder", error);
 			return res.json({
 				message: "failed",
 				status: "failed"
@@ -109,21 +105,19 @@ const OrderController = {
 		try {
 			const { userId, orderId } = req.body;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "distributor") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
 			}
-			console.log(userId);
-			console.log(userObj);
 
 			const orderObj = await orderService.getOrder(userObj, orderId);
 			const order = await submitTransaction("UpdateOrder", userObj, orderObj);
@@ -145,24 +139,20 @@ const OrderController = {
 	finishOrder: async (req: Request, res: Response) => {
 		try {
 			const { userId, orderId } = req.body;
-			// const userId = String(req.body.userId);
-			// const orderObj = req.body.orderObj;
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
-				res.json({
+				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
 			if (userObj.role.toLowerCase() != "retailer") {
-				res.json({
+				return res.json({
 					message: "Denied permission!",
 					status: "unauthorize"
 				});
 			}
-			console.log(userId);
-			console.log(userObj);
 
 			const orderObj = await orderService.getOrder(userObj, orderId);
 			const order = await submitTransaction("FinishOrder", userObj, orderObj);
@@ -173,7 +163,6 @@ const OrderController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("FinishOrder", error);
 			return res.json({
 				message: "failed",
 				status: "failed"
