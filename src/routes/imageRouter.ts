@@ -5,5 +5,6 @@ const router = express.Router();
 const imageController: ImageController = new ImageController();
 
 router.post("/upload", imageController.upload);
+router.post("/publish-base64", imageController.base64ToPublicImage);
 
 export default router;

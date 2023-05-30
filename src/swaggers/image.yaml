@@ -1,0 +1,38 @@
+/image/upload:
+  post:
+    summary: Upload Image To Firebase Storage
+    description: Upload Image To Firebase Storage
+    tags:
+      - Image
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/image/publish-base64:
+  post:
+    summary: Upload Base64 Image String To Firebase Storage
+    description: Upload Base64 Image String To Firebase Storage
+    tags:
+      - Image
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              base64String:
+                type: string
+                required: true
+              imageName:
+                type: string
+                required: true
+            example:
+              base64String: "data:image/png;base64,iVBORw0KGgoAAAANSUh..."
+              imageName: "image1"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

@@ -17,3 +17,6 @@ export const SWAGGER_URL = `${HOST_URL}/api-docs/`;
 
 export const FIREBASE_STORAGE_BUCKET =
 	process.env.FIREBASE_STORAGE_BUCKET || "";
+
+export const CHANNEL_NAME = process.env.CHANNEL_NAME || "supplychain-channel";
+export const CHAINCODE_NAME = process.env.CHAINCODE_NAME || "basic";
