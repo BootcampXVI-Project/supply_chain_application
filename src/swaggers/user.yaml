@@ -22,7 +22,6 @@
                   fullName: "Eden Hazard",
                   userName: "Eden",
                   address: "Da Nang",
-                  userType: "supplier",
                   role: "supplier",
                   status: "inactive",
                   signature: "http://localhost:4000/image1.img"

@@ -11,31 +11,36 @@ import {
 } from "./utils/CAUtil";
 
 const channelName = "supplychain-channel";
-const chaincodeName = "basic";
+const chaincodeName = "basic5";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
 
-		// role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer"
-		const orgDetail = orgConst[userObj.role];
-		const ccp = buildCCPOrg(orgDetail.path);
-		const caClient = buildCAClient(ccp, orgDetail.ca);
-		const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
+		if (createdUser.data !== null) {
+			// role: "supplier" | "manufacturer" | "distributor" | "retailer" | "consumer"
+			const orgDetail = orgConst[userObj.role];
+			const ccp = buildCCPOrg(orgDetail.path);
+			const caClient = buildCAClient(ccp, orgDetail.ca);
+			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
 
-		await enrollAdmin(caClient, wallet, orgDetail.msp);
-		await registerAndEnrollUser(
-			caClient,
-			wallet,
-			orgDetail.msp,
-			createdUser.data.userId,
-			orgDetail.department
-		);
+			await enrollAdmin(caClient, wallet, orgDetail.msp);
+			await registerAndEnrollUser(
+				caClient,
+				wallet,
+				orgDetail.msp,
+				createdUser.data.userId,
+				orgDetail.department
+			);
+		}
 
-		return createdUser.data;
+		return createdUser;
 	} catch (error) {
 		console.error(`registerUser() --> Failed to register user, ${error}`);
-		throw new Error(`Failed to register user, ${error}`);
+		return {
+			data: null,
+			error: error.message
+		};
 	}
 }
 
@@ -82,6 +87,11 @@ export async function connectNetwork(userObj: User) {
 		);
 		throw new Error(`Failed to connect fabric network: ${error}`);
 	}
+}
+
+export async function contract(userObj: User) {
+	const network = await connectNetwork(userObj);
+	return network.getContract(chaincodeName);
 }
 
 export async function submitTransaction(
@@ -161,11 +171,6 @@ export async function evaluateTransactionUserObjAnyParam(
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
 	}
-}
-
-export async function contract(userObj: User) {
-	const network = await connectNetwork(userObj);
-	return network.getContract(chaincodeName);
 }
 
 export async function evaluateGetTxTimestampChannel(userObj: User) {

@@ -1,12 +1,11 @@
 import qrCode from "qrcode";
 import ImageService from "../services/imageService";
-import { getUserByUserId } from "../services/userService";
-import { getProductById } from "../services/productService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
+import { getUserByUserId } from "../services/userService";
+import { getProductById } from "../services/productService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransaction, submitTransaction } from "../app";
-import { isConstructorDeclaration } from "typescript";
 
 const imageService: ImageService = new ImageService();
 
@@ -86,8 +85,8 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productObj } = req.body;
-
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
@@ -164,7 +163,7 @@ const ProductController = {
 				});
 			}
 
-			if (productObj.status.toLowerCase() != "cultivated") {
+			if (productObj.status.toLowerCase() != "cultivating") {
 				return res.json({
 					message: "Product is not cultivated or was harvested"
 				});
@@ -310,23 +309,22 @@ const ProductController = {
 			}
 
 			// Upload image onto Firebase Storage
-			const imageArray = imageUrl;
-			let imageUrls = [];
-			for (let i of imageArray) {
-				const uploadedImageUrl =
-					(await imageService.upload(
-						i,
-						"product_images/" + productObj.productName + "/" + Date.now()
-					)) + ".jpg";
-				imageUrls.push(uploadedImageUrl);
-			}
-			productObj.image = imageUrls;
+			// const imageArray = imageUrl;
+			// let imageUrls = [];
+			// for (let i of imageArray) {
+			// 	const uploadedImageUrl =
+			// 		(await imageService.upload(
+			// 			i,
+			// 			"product_images/" + productObj.productName + "/" + Date.now()
+			// 		)) + ".jpg";
+			// 	imageUrls.push(uploadedImageUrl);
+			// }
+			// productObj.image = imageUrls;
 
 			// Generate QR code for product
 			const qrCodeString = await qrCode.toDataURL(
 				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`
 			);
-			console.log("qrCodeString", qrCodeString);
 			productObj.qrCode = qrCodeString;
 
 			const data = await submitTransaction(
@@ -453,6 +451,56 @@ const ProductController = {
 		}
 	},
 
+	importRetailerProduct: async (req: Request, res: Response) => {
+		try {
+			const { userId, productId, price } = req.body;
+
+			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+			if (userObj.role.toLowerCase() != "retailer") {
+				return res.json({
+					message: "Denied permission!",
+					status: "unauthorize"
+				});
+			}
+
+			const productObj = await getProductById(productId, userObj);
+			if (!productObj) {
+				return res.json({
+					message: "Product not found!",
+					status: "notfound"
+				});
+			}
+			if (productObj.status.toLowerCase() != "distributed") {
+				return res.json({
+					message: "Product is not distributed or was selling"
+				});
+			}
+
+			const data = await submitTransaction(
+				"ImportRetailerProduct",
+				userObj,
+				productObj
+			);
+
+			return res.json({
+				data: data,
+				message: "successfully",
+				status: "success"
+			});
+		} catch (error) {
+			return res.json({
+				message: "failed",
+				status: "failed"
+			});
+		}
+	},
+
 	sellProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId, price } = req.body;
@@ -478,21 +526,19 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-
 			if (productObj.status.toLowerCase() != "selling") {
 				return res.json({
-					message: "Product is not distributed or was sold"
+					message: "Product is not selling or was sold"
 				});
 			}
-			const data = await submitTransaction("SellProduct", userObj, productObj);
 
+			const data = await submitTransaction("SellProduct", userObj, productObj);
 			return res.json({
 				data: data,
 				message: "successfully",
 				status: "success"
 			});
 		} catch (error) {
-			console.log("sellproduct", error);
 			return res.json({
 				message: "failed",
 				status: "failed"
