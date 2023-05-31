@@ -10,10 +10,10 @@
       400:
         description: Failed
 
-/image/publish-base64:
+/image/generate-publish-qrcode:
   post:
-    summary: Upload Base64 Image String To Firebase Storage
-    description: Upload Base64 Image String To Firebase Storage
+    summary: Generate & Publish QR Code To Firebase Storage
+    description: Generate & Publish QR Code To Firebase Storage
     tags:
       - Image
     requestBody:
@@ -22,15 +22,15 @@
           schema:
             type: object
             properties:
-              base64String:
+              qrCodeEncodeData:
                 type: string
                 required: true
-              imageName:
+              storageImageNamePath:
                 type: string
                 required: true
             example:
-              base64String: "data:image/png;base64,iVBORw0KGgoAAAANSUh..."
-              imageName: "image1"
+              qrCodeEncodeData: "http://localhost:4000/product/Product1"
+              storageImageNamePath: "qrcode/products/Product1.png"
     responses:
       200:
         description: Successfully

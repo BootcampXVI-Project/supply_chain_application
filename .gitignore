@@ -23,3 +23,6 @@ src/config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json
 
 # Temporary file
 temp/
+
+# Temporary generated QR Code file
+image.png

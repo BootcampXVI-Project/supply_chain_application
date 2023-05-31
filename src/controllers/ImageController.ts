@@ -27,20 +27,26 @@ export default class ImageController {
 		}
 	}
 
-	async base64ToPublicImage(req: Request, res: Response) {
+	async generateAndPublishQRCode(req: Request, res: Response) {
 		try {
-			const { base64String, imageString } = req.body;
+			const { qrCodeEncodeData, storageImageNamePath } = req.body;
 
-			const publicImageUrl = await imageService.base64ToPublicImage(
-				base64String,
-				imageString
+			const publicImageUrl = await imageService.generateAndPublishQRCode(
+				qrCodeEncodeData,
+				storageImageNamePath
 			);
 
-			return res.json({
-				message: "successfull",
-				data: publicImageUrl,
-				error: null
-			});
+			return publicImageUrl
+				? res.json({
+						message: "successfull",
+						data: publicImageUrl,
+						error: null
+				  })
+				: res.json({
+						message: "failed",
+						data: null,
+						error: null
+				  });
 		} catch (error) {
 			return res.json({
 				message: "failed",

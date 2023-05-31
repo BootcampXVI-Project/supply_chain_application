@@ -1,9 +1,12 @@
 import OrderService from "../services/orderService";
+import ImageService from "../services/imageService";
 import { Request, Response } from "express";
+import { PRODUCTION_URL } from "../constants";
 import { submitTransaction } from "../app";
 import { getUserByUserId } from "../services/userService";
 
-const orderService = new OrderService();
+const orderService: OrderService = new OrderService();
+const imageService: ImageService = new ImageService();
 
 const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
@@ -87,16 +90,25 @@ const OrderController = {
 				});
 			}
 
+			// Generate QR code for order
+			const orderId = "Order1";
+			const qrCodeString = await imageService.generateAndPublishQRCode(
+				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
+				`qrcode/orders/${orderId}`
+			);
+			orderObj.qrCode = qrCodeString;
+
 			const order = await orderService.createOrder(userObj, orderObj);
 			return res.json({
 				data: order,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			return res.json({
 				message: "failed",
-				status: "failed"
+				data: null,
+				error: error.message
 			});
 		}
 	},

@@ -10,8 +10,8 @@ export default class OrderService {
 				"GetAllOrders"
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			return error.message;
 		}
 	}
 
@@ -24,31 +24,31 @@ export default class OrderService {
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
-			console.error(error);
+			return error.message;
 		}
 	}
 
 	async createOrder(userObj: any, orderObj: any) {
 		try {
 			return await submitTransaction("CreateOrder", userObj, orderObj);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			return error.message;
 		}
 	}
 
 	async updateOrder(userObj: any, orderObj: any) {
 		try {
 			return await submitTransaction("UpdateOrder", userObj, orderObj);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			return error.message;
 		}
 	}
 
 	async finishOrder(userObj: any, orderObj: any) {
 		try {
 			return await submitTransaction("FinishOrder", userObj, orderObj);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			return error.message;
 		}
 	}
 
@@ -59,8 +59,8 @@ export default class OrderService {
 				"GetHistoryOrder",
 				orderId
 			);
-		} catch (e) {
-			console.error(e);
+		} catch (error) {
+			return error.message;
 		}
 	}
 }
