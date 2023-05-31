@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
-import routing from "./routes/index";
+import routing from "./routes";
 import connectDatabase from "./config/connectDatabaseConfig";
 import { swaggerSpecs } from "./config/swaggerConfig";
 import { PORT, HOST_URL, SWAGGER_URL } from "./constants";

@@ -5,8 +5,8 @@ dotenv.config();
 
 export const ObjectId = mongoose.Types.ObjectId;
 
-export const MONGODB_URI = process.env.MONGODB_URI || "";
 export const PORT = process.env.PORT || 4000;
+export const MONGODB_URI = process.env.MONGODB_URI || "";
 export const NODE_ENV = process.env.NODE_ENV || "development";
 
 export const DEVELOPMENT_URL = `http://localhost:${PORT}`;
