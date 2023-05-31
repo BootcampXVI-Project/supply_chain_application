@@ -157,6 +157,23 @@ export async function evaluateTransactionUserObjProductId(
 	}
 }
 
+export async function evaluateTransactionUserObjCounterName(
+	funcName: string,
+	userObj: User,
+	counterName: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`\n evaluateTransaction()--> ${funcName}`);
+		const result = await contract.evaluateTransaction(funcName, counterName);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction ${funcName}`);
+	}
+}
+
 export async function evaluateTransactionUserObjAnyParam(
 	funcName: string,
 	userObj: User,

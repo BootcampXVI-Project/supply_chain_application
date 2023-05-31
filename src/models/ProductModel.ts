@@ -1,14 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import mongoose, { Schema, Document, Types } from "mongoose";
-
-type ProductStatus =
-	| "CULTIVATING"
-	| "HARVESTED"
-	| "IMPORTED"
-	| "MANUFACTURED"
-	| "EXPORTED"
-	| "DISTRIBUTED"
-	| "SOLD";
+import mongoose, { Schema, Document } from "mongoose";
+import { ProductStatus, ProductStatusArray } from "../types/models";
 
 interface ProductDates {
 	cultivated: string;
@@ -63,20 +55,12 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		retailerId: { type: String }
 	},
 	expireTime: { type: String },
-	price: { type: String, required: true },
+	price: { type: String, required: true, default: "0" },
 	status: {
 		type: String,
-		enum: [
-			"CULTIVATING",
-			"HARVESTED",
-			"IMPORTED",
-			"MANUFACTURED",
-			"EXPORTED",
-			"DISTRIBUTED",
-			"SELLING",
-			"SOLD"
-		],
-		required: true
+		enum: ProductStatusArray,
+		required: true,
+		default: "CULTIVATING"
 	},
 	description: { type: String, required: true },
 	certificateUrl: { type: String, required: true },

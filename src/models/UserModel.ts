@@ -1,6 +1,11 @@
+import {
+	UserRole,
+	UserRoleArray,
+	UserStatus,
+	UserStatusArray
+} from "../types/models";
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
-import { UserRoleType, UserStatus } from "../types/models";
 
 interface User {
 	email: string;
@@ -9,7 +14,7 @@ interface User {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	role: UserRoleType;
+	role: UserRole;
 	userId?: string;
 	status?: UserStatus;
 	signature: string;
@@ -28,11 +33,12 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	address: { type: String, required: true },
 	role: {
 		type: String,
-		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],
-		required: true
+		enum: UserRoleArray,
+		required: true,
+		default: "supplier"
 	},
 	userId: { type: String, default: uuidv4 },
-	status: { type: String, enum: ["active", "inactive"], default: "inactive" },
+	status: { type: String, enum: UserStatusArray, default: "inactive" },
 	signature: { type: String }
 });
 

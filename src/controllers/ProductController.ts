@@ -44,11 +44,10 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("Err", error);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error + ""
+				error: error.message
 			});
 		}
 	},

@@ -24,13 +24,13 @@ const OrderController = {
 			return res.json({
 				data: orders,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			return res.json({
 				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -52,7 +52,8 @@ const OrderController = {
 				userObj.role.toLowerCase() != "retailer"
 			) {
 				res.json({
-					message: "Denied permission!",
+					message:
+						"Denied permission! User must be a manufacturer or distributor or retailer!",
 					status: "unauthorize"
 				});
 			}
@@ -61,13 +62,13 @@ const OrderController = {
 			return res.json({
 				data: order,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			return res.json({
 				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -83,14 +84,15 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "distributor") {
+			if (userObj.role.toLowerCase() != "manufacturer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a manufacturer!",
 					status: "unauthorize"
 				});
 			}
 
 			// Generate QR code for order
+			// const orderId = getNextCounter("OrderCounterNO");
 			const orderId = "Order1";
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
@@ -126,7 +128,7 @@ const OrderController = {
 			}
 			if (userObj.role.toLowerCase() != "distributor") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a distributor!",
 					status: "unauthorize"
 				});
 			}
@@ -137,13 +139,13 @@ const OrderController = {
 			return res.json({
 				data: order,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
-			console.log("updateOrder", error);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -159,9 +161,9 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "retailer") {
+			if (userObj.role.toLowerCase() != "distributor") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a distributor!",
 					status: "unauthorize"
 				});
 			}
@@ -172,13 +174,10 @@ const OrderController = {
 			return res.json({
 				data: order,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
-			return res.json({
-				message: "failed",
-				status: "failed"
-			});
+			return res.json({ data: null, message: "failed", error: error.message });
 		}
 	}
 };

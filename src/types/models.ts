@@ -1,11 +1,19 @@
 export type UserStatus = "active" | "inactive";
+export const UserStatusArray = ["active", "inactive"];
 
-export type UserRoleType =
+export type UserRole =
 	| "supplier"
 	| "manufacturer"
 	| "distributor"
 	| "retailer"
 	| "consumer";
+export const UserRoleArray = [
+	"supplier",
+	"manufacturer",
+	"distributor",
+	"retailer",
+	"consumer"
+];
 
 export type ProductStatus =
 	| "CULTIVATING"
@@ -16,6 +24,19 @@ export type ProductStatus =
 	| "DISTRIBUTED"
 	| "SELLING"
 	| "SOLD";
+export const ProductStatusArray = [
+	"CULTIVATING",
+	"HARVESTED",
+	"IMPORTED",
+	"MANUFACTURED",
+	"EXPORTED",
+	"DISTRIBUTED",
+	"SELLING",
+	"SOLD"
+];
+
+export type OrderStatus = "NOT-SHIPPED-YET" | "SHIPPING" | "SHIPPED";
+export const OrderStatusArray = ["NOT-SHIPPED-YET", "SHIPPING", "SHIPPED"];
 
 export interface UserForRegister {
 	email: string;
@@ -24,7 +45,7 @@ export interface UserForRegister {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	role: UserRoleType;
+	role: UserRole;
 	status?: UserStatus;
 	signature: string;
 }
@@ -36,7 +57,7 @@ export interface User {
 	fullName: string;
 	phoneNumber: string;
 	address: string;
-	role: UserRoleType;
+	role: UserRole;
 	status?: UserStatus;
 	userId?: string;
 	signature: string;
@@ -111,7 +132,7 @@ export type ProductItem = {
 export type DeliveryStatus = {
 	distributedId: string;
 	deliveryDate: string;
-	status: string;
+	status: OrderStatus;
 	longitude: string;
 	latitude: string;
 };
@@ -121,9 +142,12 @@ export type Order = {
 	productItemList: ProductItem[];
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
-	status: string;
+	status: OrderStatus;
 	location: string;
 	distributorId: string;
 	retailerId: string;
 	qrCode: string;
+	createDate: string;
+	updateDate: string;
+	finishDate: string;
 };

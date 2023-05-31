@@ -5,8 +5,19 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	contract,
 	evaluateTransaction,
-	evaluateTransactionUserObjProductId
+	evaluateTransactionUserObjCounterName
 } from "../app";
+
+export const getCounter = async (userId: string, counterName: string) => {
+	// counterName: "ProductCounterNO" || "OrderCounterNO"
+	const userObj = await getUserByUserId(userId);
+	const counterBuffer = await evaluateTransactionUserObjCounterName(
+		"getCounter",
+		userObj,
+		counterName
+	);
+	return convertBufferToJavasciptObject(counterBuffer);
+};
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
