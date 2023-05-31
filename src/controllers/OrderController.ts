@@ -11,8 +11,9 @@ const imageService: ImageService = new ImageService();
 const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
-			const { userId } = req.body;
+			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
@@ -37,7 +38,8 @@ const OrderController = {
 
 	getOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderId } = req.body;
+			const userId = String(req.query.userId);
+			const orderId = String(req.query.orderId);
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
@@ -52,9 +54,10 @@ const OrderController = {
 				userObj.role.toLowerCase() != "retailer"
 			) {
 				res.json({
+					data: null,
 					message:
 						"Denied permission! User must be a manufacturer or distributor or retailer!",
-					status: "unauthorize"
+					error: "unauthorize"
 				});
 			}
 
@@ -117,7 +120,7 @@ const OrderController = {
 
 	updateOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderId } = req.body;
+			const { userId, orderObj } = req.body;
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
@@ -133,7 +136,6 @@ const OrderController = {
 				});
 			}
 
-			const orderObj = await orderService.getOrder(userObj, orderId);
 			const order = await submitTransaction("UpdateOrder", userObj, orderObj);
 
 			return res.json({
