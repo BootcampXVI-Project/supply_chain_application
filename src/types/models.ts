@@ -130,7 +130,7 @@ export type ProductItem = {
 };
 
 export type DeliveryStatus = {
-	distributedId: string;
+	distributorId: string;
 	deliveryDate: string;
 	status: OrderStatus;
 	longitude: string;

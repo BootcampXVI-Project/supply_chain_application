@@ -13,7 +13,7 @@ interface ProductItem {
 }
 
 interface DeliveryStatus {
-	distributedId: string;
+	distributorId: string;
 	deliveryDate: string;
 	status: string;
 	longitude: string;

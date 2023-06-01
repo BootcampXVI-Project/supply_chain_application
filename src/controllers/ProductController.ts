@@ -322,7 +322,7 @@ const ProductController = {
 			// Generate QR code for product
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`,
-				`qrcode/products/${productId}.img`
+				`qrcode/products/${productId}`
 			);
 			productObj.qrCode = qrCodeString;
 
