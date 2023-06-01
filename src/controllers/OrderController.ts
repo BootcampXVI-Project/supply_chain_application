@@ -2,13 +2,61 @@ import OrderService from "../services/orderService";
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
-import { submitTransaction } from "../app";
 import { getUserByUserId } from "../services/userService";
+import { getNextCounterID } from "../services/productService";
+import { submitTransaction, submitTransactionOrderAddress } from "../app";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
 
 const OrderController = {
+	getAllOrdersByAddress: async (req: Request, res: Response) => {
+		try {
+			const userId = String(req.query.userId);
+			const longitude = String(req.query.longitude);
+			const latitude = String(req.query.latitude);
+			const shippingStatus = String(req.query.shippingStatus);
+
+			const userObj = await getUserByUserId(userId);
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+			if (
+				userObj.role.toLowerCase() != "manufacturer" &&
+				userObj.role.toLowerCase() != "distributor" &&
+				userObj.role.toLowerCase() != "retailer"
+			) {
+				return res.json({
+					data: null,
+					message:
+						"Denied permission! User must be a manufacturer or distributor or retailer!",
+					error: "unauthorize"
+				});
+			}
+
+			const orders = await orderService.getAllOrdersByAddress(
+				userObj,
+				longitude,
+				latitude,
+				shippingStatus
+			);
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.query.userId);
@@ -18,6 +66,18 @@ const OrderController = {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
+				});
+			}
+			if (
+				userObj.role.toLowerCase() != "manufacturer" &&
+				userObj.role.toLowerCase() != "distributor" &&
+				userObj.role.toLowerCase() != "retailer"
+			) {
+				return res.json({
+					data: null,
+					message:
+						"Denied permission! User must be a manufacturer or distributor or retailer!",
+					error: "unauthorize"
 				});
 			}
 
@@ -49,11 +109,11 @@ const OrderController = {
 				});
 			}
 			if (
-				userObj.role.toLowerCase() != "manufacturer" ||
-				userObj.role.toLowerCase() != "distributor" ||
+				userObj.role.toLowerCase() != "manufacturer" &&
+				userObj.role.toLowerCase() != "distributor" &&
 				userObj.role.toLowerCase() != "retailer"
 			) {
-				res.json({
+				return res.json({
 					data: null,
 					message:
 						"Denied permission! User must be a manufacturer or distributor or retailer!",
@@ -95,11 +155,11 @@ const OrderController = {
 			}
 
 			// Generate QR code for order
-			// const orderId = getNextCounter("OrderCounterNO");
 			const orderId = "Order1";
+			//(await getNextCounterID(userId, "OrderCounterNO")) || ;
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
-				`qrcode/orders/${orderId}`
+				`qrcode/orders/${orderId}.img`
 			);
 			orderObj.qrCode = qrCodeString;
 
@@ -120,7 +180,7 @@ const OrderController = {
 
 	updateOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderObj } = req.body;
+			const { userId, orderObj, longitude, latitude } = req.body;
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
@@ -136,7 +196,13 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransaction("UpdateOrder", userObj, orderObj);
+			const order = await submitTransactionOrderAddress(
+				"UpdateOrder",
+				userObj,
+				orderObj,
+				longitude,
+				latitude
+			);
 
 			return res.json({
 				data: order,
@@ -154,7 +220,7 @@ const OrderController = {
 
 	finishOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderId } = req.body;
+			const { userId, orderId, longitude, latitude } = req.body;
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
@@ -171,7 +237,13 @@ const OrderController = {
 			}
 
 			const orderObj = await orderService.getOrder(userObj, orderId);
-			const order = await submitTransaction("FinishOrder", userObj, orderObj);
+			const order = await submitTransactionOrderAddress(
+				"FinishOrder",
+				userObj,
+				orderObj,
+				longitude,
+				latitude
+			);
 
 			return res.json({
 				data: order,

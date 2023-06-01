@@ -114,6 +114,32 @@ export async function submitTransaction(
 	}
 }
 
+export async function submitTransactionOrderAddress(
+	funcName: string,
+	userObj: User,
+	orderObj: Product,
+	longitude: string,
+	latitude: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		const result = await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(orderObj),
+			longitude,
+			latitude
+		);
+
+		console.log(`submitTransaction()--> Result: committed: ${funcName}`);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}`);
+	}
+}
+
 export async function evaluateTransaction(
 	funcName: string,
 	userObj: User,
@@ -151,6 +177,28 @@ export async function evaluateTransactionUserObjProductId(
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const result = await contract.evaluateTransaction(funcName, productId);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction ${funcName}`);
+	}
+}
+
+export async function evaluateTransactionLongitudeLatitude(
+	funcName: string,
+	userObj: User,
+	longitude: string,
+	latitude: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`\n evaluateTransaction()--> ${funcName}`);
+		const result = await contract.evaluateTransaction(
+			funcName,
+			longitude,
+			latitude
+		);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);

@@ -19,6 +19,13 @@ export const getCounter = async (userId: string, counterName: string) => {
 	return convertBufferToJavasciptObject(counterBuffer);
 };
 
+export const getNextCounterID = async (userId: string, counterName: string) => {
+	const counterID = await getCounter(userId, counterName);
+	return counterName == "ProductCounterNO"
+		? `Product${counterID + 1}`
+		: `Order${counterID + 1}`;
+};
+
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
 	return Boolean(isExisted);

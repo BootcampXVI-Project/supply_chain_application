@@ -15,6 +15,26 @@ export default class OrderService {
 		}
 	}
 
+	async getAllOrdersByAddress(
+		userObj: User,
+		longitude: string,
+		latitude: string,
+		shippingStatus: string
+	) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersByAddress",
+				longitude,
+				latitude,
+				shippingStatus
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
 	async getOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);
