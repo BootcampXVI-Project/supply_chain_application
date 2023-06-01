@@ -1,3 +1,5 @@
+import "firebase/storage";
+import QRCode from "qrcode";
 import admin from "firebase-admin";
 import serviceAccount from "../config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json";
 import { FIREBASE_STORAGE_BUCKET } from "../constants";
@@ -11,29 +13,46 @@ admin.initializeApp({
 	storageBucket: FIREBASE_STORAGE_BUCKET
 });
 
-const bucket = admin.storage().bucket();
+const storageBucket = admin.storage().bucket();
 
 export default class ImageService {
-	async upload(imagePath: string, nameImage: string) {
+	async upload(imagePath: string, imageName: string) {
 		try {
 			const currentDate = new Date();
+			// Expired after 1 year
 			const expirationDate = new Date(
 				currentDate.getTime() + 365 * 24 * 60 * 60 * 1000
 			);
 
-			const response = await bucket.upload(imagePath, {
-				destination: nameImage
+			const response = await storageBucket.upload(imagePath, {
+				destination: imageName
 			});
-
 			const url = await response[0].getSignedUrl({
 				action: "read",
-				// Adjust the expiration date as desired
 				expires: expirationDate
 			});
-			console.log("Image uploaded successfully.");
+
 			return url[0];
 		} catch (error) {
 			console.error("Error uploading image:", error);
+			return null;
+		}
+	}
+
+	async generateAndPublishQRCode(encodeData: string, imageNamePath: string) {
+		try {
+			QRCode.toFile("./image.png", encodeData, {
+				errorCorrectionLevel: "H"
+			})
+				.then(() => {})
+				.catch((error) => {
+					throw error;
+				});
+
+			const publicImage = await this.upload("./image.png", imageNamePath);
+			return publicImage;
+		} catch (error) {
+			return null;
 		}
 	}
 }

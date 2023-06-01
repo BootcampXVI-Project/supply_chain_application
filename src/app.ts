@@ -1,6 +1,7 @@
 import path from "path";
 import orgConst from "./utils/organizationConstant.json";
 import { Gateway } from "fabric-network";
+import { CHANNEL_NAME, CHAINCODE_NAME } from "./constants";
 import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
 import { Product, User, UserForRegister } from "./types/models";
 import { createNewUser } from "./services/userService";
@@ -9,9 +10,6 @@ import {
 	enrollAdmin,
 	registerAndEnrollUser
 } from "./utils/CAUtil";
-
-const channelName = "supplychain-channel";
-const chaincodeName = "basic5";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
@@ -61,7 +59,7 @@ export async function connectNetwork(userObj: User) {
 				discovery: { enabled: true, asLocalhost: true }
 			});
 
-			const network = await gateway.getNetwork(channelName);
+			const network = await gateway.getNetwork(CHANNEL_NAME);
 			return network;
 		} else {
 			const orgDetail = orgConst["consumer"];
@@ -78,7 +76,7 @@ export async function connectNetwork(userObj: User) {
 				discovery: { enabled: true, asLocalhost: true }
 			});
 
-			const network = await gateway.getNetwork(channelName);
+			const network = await gateway.getNetwork(CHANNEL_NAME);
 			return network;
 		}
 	} catch (error) {
@@ -91,7 +89,7 @@ export async function connectNetwork(userObj: User) {
 
 export async function contract(userObj: User) {
 	const network = await connectNetwork(userObj);
-	return network.getContract(chaincodeName);
+	return network.getContract(CHAINCODE_NAME);
 }
 
 export async function submitTransaction(
@@ -101,12 +99,38 @@ export async function submitTransaction(
 ) {
 	try {
 		const network = await connectNetwork(userObj);
-		const contract = network.getContract(chaincodeName);
+		const contract = network.getContract(CHAINCODE_NAME);
 
 		const result = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
 			JSON.stringify(productObj)
+		);
+
+		console.log(`submitTransaction()--> Result: committed: ${funcName}`);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}`);
+	}
+}
+
+export async function submitTransactionOrderAddress(
+	funcName: string,
+	userObj: User,
+	orderObj: Product,
+	longitude: string,
+	latitude: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		const result = await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(orderObj),
+			longitude,
+			latitude
 		);
 
 		console.log(`submitTransaction()--> Result: committed: ${funcName}`);
@@ -123,7 +147,7 @@ export async function evaluateTransaction(
 ) {
 	try {
 		const network = await connectNetwork(userObj);
-		const contract = network.getContract(chaincodeName);
+		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n *********contract********** ${contract}`);
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
@@ -149,10 +173,49 @@ export async function evaluateTransactionUserObjProductId(
 ) {
 	try {
 		const network = await connectNetwork(userObj);
-		const contract = network.getContract(chaincodeName);
+		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const result = await contract.evaluateTransaction(funcName, productId);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction ${funcName}`);
+	}
+}
+
+export async function evaluateTransactionLongitudeLatitude(
+	funcName: string,
+	userObj: User,
+	longitude: string,
+	latitude: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`\n evaluateTransaction()--> ${funcName}`);
+		const result = await contract.evaluateTransaction(
+			funcName,
+			longitude,
+			latitude
+		);
+		return result;
+	} catch (error) {
+		throw new Error(`Failed to evaluate transaction ${funcName}`);
+	}
+}
+
+export async function evaluateTransactionUserObjCounterName(
+	funcName: string,
+	userObj: User,
+	counterName: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`\n evaluateTransaction()--> ${funcName}`);
+		const result = await contract.evaluateTransaction(funcName, counterName);
 		return result;
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
@@ -166,7 +229,7 @@ export async function evaluateTransactionUserObjAnyParam(
 ) {
 	try {
 		const network = await connectNetwork(userObj);
-		const contract = network.getContract(chaincodeName);
+		const contract = network.getContract(CHAINCODE_NAME);
 		return await contract.evaluateTransaction(funcName, param);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}`);
@@ -176,7 +239,7 @@ export async function evaluateTransactionUserObjAnyParam(
 export async function evaluateGetTxTimestampChannel(userObj: User) {
 	try {
 		const network = await connectNetwork(userObj);
-		const contract = network.getContract(chaincodeName);
+		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction() --> "GetTxTimestampChannel"`);
 		const result = await contract.evaluateTransaction(

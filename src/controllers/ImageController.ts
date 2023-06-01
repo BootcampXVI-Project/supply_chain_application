@@ -12,16 +12,46 @@ export default class ImageController {
 				imageString,
 				imagePathNameToFirebase
 			);
+
 			return res.json({
-				message: "successfull!",
+				message: "successfull",
 				data: image,
-				status: "success"
+				error: null
 			});
-		} catch (err) {
-			console.log("ERR", err);
+		} catch (error) {
 			return res.json({
 				message: "failed",
-				status: "failed"
+				data: null,
+				error: error.message
+			});
+		}
+	}
+
+	async generateAndPublishQRCode(req: Request, res: Response) {
+		try {
+			const { qrCodeEncodeData, storageImageNamePath } = req.body;
+
+			const publicImageUrl = await imageService.generateAndPublishQRCode(
+				qrCodeEncodeData,
+				storageImageNamePath
+			);
+
+			return publicImageUrl
+				? res.json({
+						message: "successfull",
+						data: publicImageUrl,
+						error: null
+				  })
+				: res.json({
+						message: "failed",
+						data: null,
+						error: null
+				  });
+		} catch (error) {
+			return res.json({
+				message: "failed",
+				data: null,
+				error: error.message
 			});
 		}
 	}

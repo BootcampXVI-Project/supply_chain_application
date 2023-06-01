@@ -1,9 +1,9 @@
-import { Wallet, Wallets } from "fabric-network";
 import * as fs from "fs";
 import * as path from "path";
+import { Wallet, Wallets } from "fabric-network";
 
-export const buildCCPOrg = (name_path: string): Record<string, any> => {
-	const ccpPath = path.resolve(__dirname, "../../configs/" + name_path);
+export const buildCCPOrg = (pathName: string): Record<string, any> => {
+	const ccpPath = path.resolve(__dirname, "../../configs/" + pathName);
 
 	const fileExists = fs.existsSync(ccpPath);
 	if (!fileExists) {
@@ -102,12 +102,9 @@ export const buildCCPConsumer = (): Record<string, any> => {
 };
 
 export const buildWallet = async (walletPath: string): Promise<Wallet> => {
-	// Create a new  wallet : Note that wallet is for managing identities.
+	// Create a new  wallet
 	let wallet: Wallet;
 	if (walletPath) {
-		// remove any pre-existing wallet from prior runs
-		// fs.rmSync(walletPath, { recursive: true, force: true });
-
 		wallet = await Wallets.newFileSystemWallet(walletPath);
 		console.log(`Built a file system wallet at ${walletPath}`);
 	} else {

@@ -1,5 +1,4 @@
 import { Express } from "express";
-import qrCodeRouter from "./qrCodeRouter";
 import imageRouter from "./imageRouter";
 import authRouter from "./authRouter";
 import userRouter from "./userRouter";
@@ -9,7 +8,6 @@ import orderRouter from "./orderRouter";
 import retailerProductRouter from "./retailerProductRouter";
 
 function routing(app: Express) {
-	app.use("/qrcode", qrCodeRouter);
 	app.use("/image", imageRouter);
 	app.use("/auth", authRouter);
 	app.use("/user", userRouter);

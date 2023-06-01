@@ -5,8 +5,8 @@ dotenv.config();
 
 export const ObjectId = mongoose.Types.ObjectId;
 
-export const MONGODB_URI = process.env.MONGODB_URI || "";
 export const PORT = process.env.PORT || 4000;
+export const MONGODB_URI = process.env.MONGODB_URI || "";
 export const NODE_ENV = process.env.NODE_ENV || "development";
 
 export const DEVELOPMENT_URL = `http://localhost:${PORT}`;
@@ -17,3 +17,8 @@ export const SWAGGER_URL = `${HOST_URL}/api-docs/`;
 
 export const FIREBASE_STORAGE_BUCKET =
 	process.env.FIREBASE_STORAGE_BUCKET || "";
+
+export const ADMIN_USER_ID = process.env.ADMIN_USER_ID || "admin";
+export const ADMIN_USER_PASSWORD = process.env.ADMIN_USER_PASSWORD || "adminpw";
+export const CHANNEL_NAME = process.env.CHANNEL_NAME || "supplychain-channel";
+export const CHAINCODE_NAME = process.env.CHAINCODE_NAME || "basic";

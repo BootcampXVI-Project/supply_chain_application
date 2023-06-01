@@ -1,8 +1,6 @@
-import dotenv from "dotenv";
 import mongoose, { ConnectOptions } from "mongoose";
 import { MONGODB_URI } from "../constants";
 
-dotenv.config();
 mongoose.set("strictQuery", false);
 
 const connectDatabase = () => {

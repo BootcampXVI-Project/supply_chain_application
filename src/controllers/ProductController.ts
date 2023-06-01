@@ -1,4 +1,3 @@
-import qrCode from "qrcode";
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
@@ -45,11 +44,10 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("Err", error);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error + ""
+				error: error.message
 			});
 		}
 	},
@@ -322,8 +320,9 @@ const ProductController = {
 			// productObj.image = imageUrls;
 
 			// Generate QR code for product
-			const qrCodeString = await qrCode.toDataURL(
-				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`
+			const qrCodeString = await imageService.generateAndPublishQRCode(
+				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`,
+				`qrcode/products/${productId}.img`
 			);
 			productObj.qrCode = qrCodeString;
 
@@ -339,7 +338,7 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("manufacturer1", error);
+			console.log("manufacturer", error);
 			return res.json({
 				message: "failed",
 				status: "failed"
