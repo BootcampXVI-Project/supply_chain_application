@@ -21,11 +21,11 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getProduct", error);
+			console.log("getProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	},
@@ -34,13 +34,12 @@ const ProductController = {
 		try {
 			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
-			console.log("Debug",userId);
+
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
 				userObj,
 				null
 			);
-			console.log("getAll");
 			const products = convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
@@ -49,6 +48,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			console.log("getAllProducts", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -77,10 +77,11 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			console.log("getTransactionsHistory", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	},
@@ -96,10 +97,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			console.log(userObj);
-			if (userObj.role.toLowerCase() != "supplier") {
+			if (userObj.role != "supplier") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a supplier!",
 					status: "unauthorize"
 				});
 			}
@@ -110,32 +110,17 @@ const ProductController = {
 				productObj
 			);
 
-			// const createdProduct = await createProduct(userObj.UserId, productObj);
-
-			// if (createdProduct.data) {
-			// 	return res.json({
-			// 		data: createdProduct.data,
-			// 		message: "successfully",
-			// 		error: null
-			// 	});
-			// } else {
-			// 	return res.json({
-			// 		data: null,
-			// 		message: "failed",
-			// 		error: createdProduct.data
-			// 	});
-			// }
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
-			console.log("cultivateProduct", error);
+			console.log("cultivateProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -143,20 +128,17 @@ const ProductController = {
 	harvestProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
-			console.log(userId, productId);
-			
-
 			const userObj = await getUserByUserId(userId);
+
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
 				});
 			}
-
-			if (userObj.role.toLowerCase() != "supplier") {
+			if (userObj.role != "supplier") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a supplier!",
 					status: "unauthorize"
 				});
 			}
@@ -187,10 +169,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("harvestProduct", error);
+			console.log("harvestProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -207,9 +190,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "supplier") {
+			if (userObj.role != "supplier") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a supplier!",
 					status: "unauthorize"
 				});
 			}
@@ -222,10 +205,11 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			console.log("updateProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	},
@@ -241,9 +225,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "manufacturer") {
+			if (userObj.role != "manufacturer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a manufacturer!",
 					status: "unauthorize"
 				});
 			}
@@ -274,10 +258,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("importProduct", error);
+			console.log("importProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -293,9 +278,9 @@ const ProductController = {
 					status: "user-notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "manufacturer") {
+			if (userObj.role != "manufacturer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a manufacturer!",
 					status: "unauthorize"
 				});
 			}
@@ -346,10 +331,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("manufacturer", error);
+			console.log("manufactureProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -365,9 +351,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "manufacturer") {
+			if (userObj.role != "manufacturer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a manufacturer!",
 					status: "unauthorize"
 				});
 			}
@@ -398,10 +384,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("export", error);
+			console.log("exportProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -417,9 +404,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "distributor") {
+			if (userObj.role != "distributor") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a distributor!",
 					status: "unauthorize"
 				});
 			}
@@ -450,10 +437,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log(" Distribute", error);
+			console.log("distributeProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -469,9 +457,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "retailer") {
+			if (userObj.role != "retailer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a retailer!",
 					status: "unauthorize"
 				});
 			}
@@ -501,9 +489,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
+			console.log("importRetailProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -519,9 +509,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "retailer") {
+			if (userObj.role != "retailer") {
 				return res.json({
-					message: "Denied permission!",
+					message: "Denied permission! User must be a retailer!",
 					status: "unauthorize"
 				});
 			}
@@ -546,9 +536,11 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
+			console.log("sellProduct", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	},
@@ -579,7 +571,7 @@ const ProductController = {
 		// 	return res.json({
 		// 		data: null,
 		// 		message: "failed",
-		// 		error: error
+		// 		error: error.message
 		// 	});
 		// }
 	}

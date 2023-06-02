@@ -1,4 +1,3 @@
-import { ProductModel } from "../models/ProductModel";
 import { Product } from "../types/models";
 import { getAllProducts } from "./productService";
 
@@ -12,24 +11,25 @@ export const getAllRetailerProducts = async (userId: string) => {
 			}
 		}
 		return retailerProducts;
-	} catch (e) {
-		console.log("BUG", e);
+	} catch (error) {
+		console.log("getAllRetailerProducts", error.message);
 		return null;
 	}
 };
 
-export const getProductByRetailerId = async (userId: string) => {
+export const getProductsByRetailerId = async (userId: string) => {
 	try {
 		const products = await getAllRetailerProducts(userId);
 		let retailerProducts: Product[] = [];
+
 		for (let p of products) {
 			if (p.actors.manufacturerId.toString() === userId.toString()) {
 				retailerProducts.push(p);
 			}
 		}
 		return retailerProducts;
-	} catch (e) {
-		console.log("BUG", e);
+	} catch (error) {
+		console.log("getProductByRetailerId", error.message);
 		return null;
 	}
 };

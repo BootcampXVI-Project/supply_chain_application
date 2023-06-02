@@ -10,7 +10,7 @@ const UserController = {
 
 			return createdUser.data !== null
 				? res.json({
-						data: createdUser,
+						data: createdUser.data,
 						message: "successfully",
 						error: null
 				  })
@@ -41,7 +41,7 @@ const UserController = {
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	},
@@ -60,7 +60,7 @@ const UserController = {
 			return res.json({
 				data: null,
 				message: "failed",
-				error: error
+				error: error.message
 			});
 		}
 	}
