@@ -3,7 +3,6 @@ import { evaluateTransaction, submitTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { getUserByUserId } from "../services/crudDatabase/user";
 import { getProductById } from "../services/crudDatabase/product";
-import { log } from "console";
 import ImageService from "../services/crudDatabase/image";
 
 const imageService: ImageService = new ImageService();
@@ -53,7 +52,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			log("Err", error);
+			console.log("Err", error);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -155,6 +154,8 @@ const ProductController = {
 	harvestProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
+			console.log(userId, productId);
+			
 			// const userId = String(req.body.userId);
 			// const productObj = req.body.productObj;
 			const userObj = await getUserByUserId(userId);
@@ -179,9 +180,9 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-
-			if (productObj.status.toLowerCase() != "cultivated") {
-				res.json({
+			console.log("HARVEST: "+productObj.status.toLowerCase())
+			if (productObj.status.toLowerCase() != "cultivating") {
+				return res.json({
 					message: "Product is not cultivated or was harvested"
 				});
 			}

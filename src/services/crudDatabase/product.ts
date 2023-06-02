@@ -3,6 +3,7 @@ import { Product, User } from "../../types/models";
 import { getUserByUserId } from "./user";
 import { contract, evaluateTransaction, evaluateTransactionUserObjProductId } from "../../app";
 import { convertBufferToJavasciptObject } from "../../helpers";
+import { log } from "console";
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });

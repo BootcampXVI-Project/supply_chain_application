@@ -1,0 +1,14 @@
+service: nodejs-aws-lambda
+provider:
+  name: aws
+  runtime: nodejs18.x
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+functions:
+  app:
+    handler: dist/app.handler
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}

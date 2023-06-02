@@ -22,6 +22,6 @@ POST http://localhost:4000/image/upload
 Content-Type: application/json
 
 {
-  "imageString": "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/Images%20product%2FMật%20ong%2F1684723468253.jpg?alt=media&token=d8acdd79-7473-4971-b68f-06f61549126b",
-  "imagePathNameToFirebase": "tezt/tezt.jpg"
+  "imageString": "D:\\GO\\Code\\SeniorProject\\bido1.jpg",
+  "imagePathNameToFirebase": "/tezt.jpg"
 }
