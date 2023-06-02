@@ -27,6 +27,7 @@ interface Product extends Document {
 	dates: ProductDates;
 	actors: ProductActors;
 	expireTime: string;
+	amount: string;
 	price: string;
 	status: ProductStatus;
 	description: string;
@@ -55,6 +56,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		retailerId: { type: String }
 	},
 	expireTime: { type: String },
+	amount: { type: String },
 	price: { type: String, required: true, default: "0" },
 	status: {
 		type: String,

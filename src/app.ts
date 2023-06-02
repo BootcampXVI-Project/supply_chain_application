@@ -69,12 +69,14 @@ export async function connectNetwork(userObj: User) {
 
 			await enrollAdmin(caClient, wallet, orgDetail.msp);
 			const gateway = new Gateway();
+			console.log("co");
 			await gateway.connect(ccp, {
 				wallet: wallet,
 				// identity: userObj.userId,
 				identity: "admin",
 				discovery: { enabled: true, asLocalhost: true }
 			});
+			console.log("nnet");
 
 			const network = await gateway.getNetwork(CHANNEL_NAME);
 			return network;
@@ -98,6 +100,7 @@ export async function submitTransaction(
 	productObj: Product
 ) {
 	try {
+		console.log(productObj);
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
@@ -146,7 +149,9 @@ export async function evaluateTransaction(
 	productObj: Product
 ) {
 	try {
+		console.log("eva",userObj);
 		const network = await connectNetwork(userObj);
+		console.log("eval");
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n *********contract********** ${contract}`);

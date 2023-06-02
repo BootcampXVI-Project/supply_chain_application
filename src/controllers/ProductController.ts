@@ -21,6 +21,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
+			console.log("getProduct", error);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -31,11 +32,15 @@ const ProductController = {
 
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
+			const userId = String(req.query.userId);
+			const userObj = await getUserByUserId(userId);
+			console.log("Debug",userId);
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
-				null,
+				userObj,
 				null
 			);
+			console.log("getAll");
 			const products = convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
@@ -91,6 +96,7 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
+			console.log(userObj);
 			if (userObj.role.toLowerCase() != "supplier") {
 				return res.json({
 					message: "Denied permission!",
@@ -137,6 +143,8 @@ const ProductController = {
 	harvestProduct: async (req: Request, res: Response) => {
 		try {
 			const { userId, productId } = req.body;
+			console.log(userId, productId);
+			
 
 			const userObj = await getUserByUserId(userId);
 			if (!userObj) {

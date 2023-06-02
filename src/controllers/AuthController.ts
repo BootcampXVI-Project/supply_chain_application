@@ -26,29 +26,31 @@ export default class AuthController {
 					status: "failed"
 				});
 			}
-			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
-			if (!otp) {
-				console.log("DEBUG");
-				let otp: Auth = {
-					phoneNumber: phoneNumber,
-					otp: await authService.sendOtp(phoneNumber),
-					expired: expirationDate
-				};
-				if (otp.otp == null) {
+			if (user.status === "inactive") {
+
+				let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
+				if (!otp) {
+					log("DEBUG");
+					let otp: Auth = {
+						phoneNumber: phoneNumber,
+						otp: await authService.sendOtp(phoneNumber),
+						expired: expirationDate
+					};
+					if (otp.otp == null) {
+						return res.json({
+							message: "Account not found!",
+							status: "notfound"
+						});
+					}
+					await AuthModel.create(otp).then((data) => {
+						console.log(data);
+					});
 					return res.json({
-						message: "Account not found!",
-						status: "notfound"
+						message: "OTP sent successfully.",
+						status: "verifying"
 					});
 				}
-				await AuthModel.create(otp).then((data) => {
-					console.log(data);
-				});
-				return res.json({
-					message: "OTP sent successfully.",
-					status: "verifying"
-				});
-			}
-			if (user.status === "inactive") {
+
 				otp.otp = await authService.sendOtp(phoneNumber);
 				await AuthModel.findOneAndUpdate(
 					{ phoneNumber: phoneNumber },
@@ -64,20 +66,22 @@ export default class AuthController {
 					message: "OTP sent successfully.",
 					status: "verifying"
 				});
+
+				if (otp.expired < new Date()) {
+					otp.otp = await authService.sendOtp(phoneNumber);
+					return res.json({
+						message: "OTP sent successfully.",
+						status: "verifying"
+					});
+				}
 			}
 
-			if (otp.expired < new Date()) {
-				otp.otp = await authService.sendOtp(phoneNumber);
-				return res.json({
-					message: "OTP sent successfully.",
-					status: "verifying"
-				});
-			}
 			return res.json({
 				data: user,
 				message: "Login successful",
 				status: "login"
 			});
+
 		} catch (err) {
 			console.log("ERR", err);
 			return res.json({
