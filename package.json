@@ -10,9 +10,7 @@
 	},
 	"scripts": {
 		"start": "npm run build && nodemon dist/index.js",
-		"start:dev": "npm run build && nodemon ./dist/index.ts",
 		"build": "tsc",
-		"build:watch": "tsc -w",
 		"prepublishOnly": "npm run build"
 	},
 	"engineStrict": true,

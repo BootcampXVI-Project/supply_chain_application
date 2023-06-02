@@ -27,10 +27,8 @@ export default class AuthController {
 				});
 			}
 			if (user.status === "inactive") {
-
 				let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
 				if (!otp) {
-					log("DEBUG");
 					let otp: Auth = {
 						phoneNumber: phoneNumber,
 						otp: await authService.sendOtp(phoneNumber),
@@ -62,18 +60,19 @@ export default class AuthController {
 						status: "notfound"
 					});
 				}
+
+				// if (otp.expired < new Date()) {
+				// 	otp.otp = await authService.sendOtp(phoneNumber);
+				// 	return res.json({
+				// 		message: "OTP sent successfully.",
+				// 		status: "verifying"
+				// 	});
+				// }
+
 				return res.json({
 					message: "OTP sent successfully.",
 					status: "verifying"
 				});
-
-				if (otp.expired < new Date()) {
-					otp.otp = await authService.sendOtp(phoneNumber);
-					return res.json({
-						message: "OTP sent successfully.",
-						status: "verifying"
-					});
-				}
 			}
 
 			return res.json({
@@ -81,7 +80,6 @@ export default class AuthController {
 				message: "Login successful",
 				status: "login"
 			});
-
 		} catch (err) {
 			console.log("ERR", err);
 			return res.json({

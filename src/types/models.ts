@@ -1,48 +1,11 @@
-export type UserStatus = "active" | "inactive";
-export const UserStatusArray = ["active", "inactive"];
-
-export type UserRole =
-	| "supplier"
-	| "manufacturer"
-	| "distributor"
-	| "retailer"
-	| "consumer";
-export const UserRoleArray = [
-	"supplier",
-	"manufacturer",
-	"distributor",
-	"retailer",
-	"consumer"
-];
-
-export type ProductStatus =
-	| "CULTIVATING"
-	| "HARVESTED"
-	| "IMPORTED"
-	| "MANUFACTURED"
-	| "EXPORTED"
-	| "DISTRIBUTED"
-	| "SELLING"
-	| "SOLD";
-export const ProductStatusArray = [
-	"CULTIVATING",
-	"HARVESTED",
-	"IMPORTED",
-	"MANUFACTURED",
-	"EXPORTED",
-	"DISTRIBUTED",
-	"SELLING",
-	"SOLD"
-];
-
-export type OrderStatus = "NOT-SHIPPED-YET" | "SHIPPING" | "SHIPPED";
-export const OrderStatusArray = ["NOT-SHIPPED-YET", "SHIPPING", "SHIPPED"];
+import { UserRole, UserStatus, ProductStatus, OrderStatus } from "./types";
 
 export interface UserForRegister {
 	email: string;
 	password: string;
 	userName: string;
 	fullName: string;
+	avatar: string;
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
@@ -55,6 +18,7 @@ export interface User {
 	password: string;
 	userName: string;
 	fullName: string;
+	avatar: string;
 	phoneNumber: string;
 	address: string;
 	role: UserRole;

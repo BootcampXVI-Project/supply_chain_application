@@ -1,5 +1,5 @@
 import { Product } from "./ProductModel";
-import { OrderStatus, OrderStatusArray } from "../types/models";
+import { OrderStatus, OrderStatusArray } from "../types/types";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
 interface Signature {

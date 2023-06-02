@@ -3,7 +3,7 @@ import {
 	UserRoleArray,
 	UserStatus,
 	UserStatusArray
-} from "../types/models";
+} from "../types/types";
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
 
@@ -12,6 +12,7 @@ interface User {
 	password: string;
 	userName: string;
 	fullName: string;
+	avatar: string;
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
@@ -29,6 +30,7 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	password: { type: String, required: true },
 	userName: { type: String, required: true },
 	fullName: { type: String, required: true },
+	avatar: { type: String, required: true },
 	phoneNumber: { type: String, required: true },
 	address: { type: String, required: true },
 	role: {

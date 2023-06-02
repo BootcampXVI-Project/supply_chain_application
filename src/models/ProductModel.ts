@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document } from "mongoose";
-import { ProductStatus, ProductStatusArray } from "../types/models";
+import { ProductStatus, ProductStatusArray } from "../types/types";
 
 interface ProductDates {
 	cultivated: string;

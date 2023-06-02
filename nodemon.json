@@ -1,3 +1,4 @@
 {
-	"ext": ".ts, .js, .json, .yaml"
+	"ext": ".ts, .js, .json, .yaml",
+	"exe": "npm run start"
 }
