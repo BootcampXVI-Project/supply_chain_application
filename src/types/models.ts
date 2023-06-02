@@ -52,12 +52,13 @@ export type Product = {
 	dates: ProductDates;
 	actors: ProductActors;
 	expireTime: string;
-	amount: string;
 	price: string;
+	amount: string;
+	unit: string;
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
-	cooperationId: string;
+	supplierId: string;
 	qrCode: string;
 };
 
@@ -66,16 +67,6 @@ export type ProductHistory = {
 	txId: string;
 	timestamp: Date;
 	isDelete: boolean;
-};
-
-export type Cooperation = {
-	cooperationId: string;
-	name: string;
-	description: string;
-	address: string;
-	founderId: string;
-	longitude: string;
-	latitude: string;
 };
 
 export type Auth = {

@@ -25,9 +25,9 @@ const OrderController = {
 				});
 			}
 			if (
-				userObj.role.toLowerCase() != "manufacturer" &&
-				userObj.role.toLowerCase() != "distributor" &&
-				userObj.role.toLowerCase() != "retailer"
+				userObj.role != "manufacturer" &&
+				userObj.role != "distributor" &&
+				userObj.role != "retailer"
 			) {
 				return res.json({
 					data: null,
@@ -69,9 +69,9 @@ const OrderController = {
 				});
 			}
 			if (
-				userObj.role.toLowerCase() != "manufacturer" &&
-				userObj.role.toLowerCase() != "distributor" &&
-				userObj.role.toLowerCase() != "retailer"
+				userObj.role != "manufacturer" &&
+				userObj.role != "distributor" &&
+				userObj.role != "retailer"
 			) {
 				return res.json({
 					data: null,
@@ -109,9 +109,9 @@ const OrderController = {
 				});
 			}
 			if (
-				userObj.role.toLowerCase() != "manufacturer" &&
-				userObj.role.toLowerCase() != "distributor" &&
-				userObj.role.toLowerCase() != "retailer"
+				userObj.role != "manufacturer" &&
+				userObj.role != "distributor" &&
+				userObj.role != "retailer"
 			) {
 				return res.json({
 					data: null,
@@ -147,7 +147,7 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "manufacturer") {
+			if (userObj.role != "manufacturer") {
 				return res.json({
 					message: "Denied permission! User must be a manufacturer!",
 					status: "unauthorize"
@@ -189,7 +189,7 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "distributor") {
+			if (userObj.role != "distributor") {
 				return res.json({
 					message: "Denied permission! User must be a distributor!",
 					status: "unauthorize"
@@ -229,7 +229,7 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role.toLowerCase() != "distributor") {
+			if (userObj.role != "distributor") {
 				return res.json({
 					message: "Denied permission! User must be a distributor!",
 					status: "unauthorize"

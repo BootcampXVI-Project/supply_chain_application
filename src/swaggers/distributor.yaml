@@ -1,0 +1,79 @@
+/distributor/product/all:
+  get:
+    summary: Get All Products Of Distributor
+    description: Get All Products Of Distributor
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+    tags:
+      - Distributor
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/distributor/product/update:
+  patch:
+    summary: Distributor Update Product
+    description: Distributor Update Product
+    tags:
+      - Distributor
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productObj:
+                type: object
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productObj:
+                {
+                  productId: "Product1",
+                  productName: "Gạo tẻ",
+                  dates:
+                    {
+                      cultivated: "",
+                      harvested: "",
+                      imported: "",
+                      manufacturered: "",
+                      exported: "",
+                      distributed: "",
+                      selling: "",
+                      sold: ""
+                    },
+                  actors:
+                    {
+                      supplierId: "",
+                      manufacturerId: "",
+                      distributorId: "",
+                      retailerId: ""
+                    },
+                  expireTime: "",
+                  price: "100000",
+                  amount: "1",
+                  unit: "kg",
+                  status: "",
+                  description: "Gạo tẻ đạt chuẩn",
+                  certificateUrl: "http://localhost:4000/image1.img",
+                  supplierId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  qrCode: "",
+                  image:
+                    [
+                      "http://localhost:4000/image1.img",
+                      "http://localhost:4000/image2.img"
+                    ]
+                }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
