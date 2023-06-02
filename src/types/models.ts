@@ -1,11 +1,19 @@
 export type UserStatus = "active" | "inactive";
+export const UserStatusArray = ["active", "inactive"];
 
-export type UserRoleType =
+export type UserRole =
 	| "supplier"
 	| "manufacturer"
 	| "distributor"
 	| "retailer"
 	| "consumer";
+export const UserRoleArray = [
+	"supplier",
+	"manufacturer",
+	"distributor",
+	"retailer",
+	"consumer"
+];
 
 export type ProductStatus =
 	| "CULTIVATING"
@@ -14,31 +22,45 @@ export type ProductStatus =
 	| "MANUFACTURED"
 	| "EXPORTED"
 	| "DISTRIBUTED"
+	| "SELLING"
 	| "SOLD";
+export const ProductStatusArray = [
+	"CULTIVATING",
+	"HARVESTED",
+	"IMPORTED",
+	"MANUFACTURED",
+	"EXPORTED",
+	"DISTRIBUTED",
+	"SELLING",
+	"SOLD"
+];
+
+export type OrderStatus = "NOT-SHIPPED-YET" | "SHIPPING" | "SHIPPED";
+export const OrderStatusArray = ["NOT-SHIPPED-YET", "SHIPPING", "SHIPPED"];
 
 export interface UserForRegister {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
-	role: UserRoleType;
+	role: UserRole;
 	status?: UserStatus;
-	identify: string;
+	signature: string;
 }
 
 export interface User {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
-	role: UserRoleType;
+	role: UserRole;
 	status?: UserStatus;
 	userId?: string;
-	identify: string;
+	signature: string;
 }
 
 export type ProductDates = {
@@ -48,6 +70,7 @@ export type ProductDates = {
 	manufacturered: string;
 	exported: string;
 	distributed: string;
+	selling: string;
 	sold: string;
 };
 
@@ -61,16 +84,17 @@ export type ProductActors = {
 export type Product = {
 	productId: string;
 	productName: string;
+	image: string[];
 	dates: ProductDates;
 	actors: ProductActors;
-	expiredTime: string;
+	expireTime: string;
 	amount: string;
 	price: string;
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
 	cooperationId: string;
-	image: string[];
+	qrCode: string;
 };
 
 export type ProductHistory = {
@@ -109,7 +133,7 @@ export type ProductItem = {
 export type DeliveryStatus = {
 	distributedId: string;
 	deliveryDate: string;
-	status: string;
+	status: OrderStatus;
 	longitude: string;
 	latitude: string;
 };
@@ -119,8 +143,12 @@ export type Order = {
 	productItemList: ProductItem[];
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
-	status: string;
+	status: OrderStatus;
 	location: string;
 	distributorId: string;
 	retailerId: string;
+	qrCode: string;
+	createDate: string;
+	updateDate: string;
+	finishDate: string;
 };

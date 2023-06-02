@@ -1,18 +1,23 @@
+import {
+	UserRole,
+	UserRoleArray,
+	UserStatus,
+	UserStatusArray
+} from "../types/models";
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
-import { UserRoleType, UserStatus } from "../types/models";
 
 interface User {
 	email: string;
 	password: string;
 	userName: string;
+	fullName: string;
 	phoneNumber: string;
 	address: string;
-	userType: UserRoleType;
-	role: UserRoleType;
+	role: UserRole;
 	userId?: string;
 	status?: UserStatus;
-	identify: string;
+	signature: string;
 }
 
 interface UserDB extends User, Document {
@@ -23,17 +28,18 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	userName: { type: String, required: true },
+	fullName: { type: String, required: true },
 	phoneNumber: { type: String, required: true },
 	address: { type: String, required: true },
-	userType: { type: String, required: true },
 	role: {
 		type: String,
-		enum: ["supplier", "manufacturer", "distributor", "retailer", "consumer"],
-		required: true
+		enum: UserRoleArray,
+		required: true,
+		default: "supplier"
 	},
 	userId: { type: String, default: uuidv4 },
-	status: { type: String, enum: ["active", "inactive"] },
-	identify: { type: String }
+	status: { type: String, enum: UserStatusArray, default: "inactive" },
+	signature: { type: String }
 });
 
 const UserModel = mongoose.model<UserDB>("User", UserSchema);

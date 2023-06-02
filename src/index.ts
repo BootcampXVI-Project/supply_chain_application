@@ -3,9 +3,9 @@ import cors from "cors";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
-import routing from "./routes/index";
-import connectDatabase from "./config/connectDatabase";
-import { swaggerSpecs } from "./config/configSwagger";
+import routing from "./routes";
+import connectDatabase from "./config/connectDatabaseConfig";
+import { swaggerSpecs } from "./config/swaggerConfig";
 import { PORT, HOST_URL, SWAGGER_URL } from "./constants";
 
 const app: Express = express();
@@ -14,14 +14,7 @@ const app: Express = express();
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 // Middlewares
-app.use(
-	cors()
-	// 	{
-	// 	origin: ["*"],
-	// 	methods: ["GET", "POST", "PATCH", "DELETE"],
-	// 	allowedHeaders: ["Content-Type"]
-	// }
-);
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

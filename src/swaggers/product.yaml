@@ -89,6 +89,7 @@
                       manufacturered: "",
                       exported: "",
                       distributed: "",
+                      selling: "",
                       sold: ""
                     },
                   actors:
@@ -98,16 +99,17 @@
                       distributorId: "",
                       retailerId: ""
                     },
-                  expiredTime: "",
+                  expireTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
+                  certificateUrl: "http://localhost:4000/image1.img",
                   cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  qrCode: "",
                   image:
                     [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
+                      "http://localhost:4000/image1.img",
+                      "http://localhost:4000/image2.img"
                     ]
                 }
     responses:
@@ -131,44 +133,12 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
     responses:
       200:
         description: Successfully
@@ -190,44 +160,16 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
+                required: true
+              price:
+                type: string
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
+              price: "100000"
     responses:
       200:
         description: Successfully
@@ -249,44 +191,20 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
+                required: true
+              imageUrl:
+                type: array
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
+              imageUrl:
+                [
+                  "http://localhost:4000/image1.img",
+                  "http://localhost:4000/image2.img"
+                ]
     responses:
       200:
         description: Successfully
@@ -308,44 +226,16 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
+                required: true
+              price:
+                type: string
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
+              price: "100000"
     responses:
       200:
         description: Successfully
@@ -367,44 +257,43 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product/retailer-import:
+  post:
+    summary: Retailer Import Product
+    description: Retailer Import Product
+    tags:
+      - Product
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                type: string
+                required: true
+              productId:
+                type: string
+                required: true
+              price:
+                type: string
+                required: true
+            example:
+              userId: "g53a0000-8669-4a07-a23a-d18055600000"
+              productId: "Product1"
+              price: "100000"
     responses:
       200:
         description: Successfully
@@ -426,44 +315,16 @@
               userId:
                 type: string
                 required: true
-              productObj:
-                type: object
+              productId:
+                type: string
+                required: true
+              price:
+                type: string
                 required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
-              productObj:
-                {
-                  productId: "Product1",
-                  productName: "Gạo tẻ",
-                  dates:
-                    {
-                      cultivated: "",
-                      harvested: "",
-                      imported: "",
-                      manufacturered: "",
-                      exported: "",
-                      distributed: "",
-                      sold: ""
-                    },
-                  actors:
-                    {
-                      supplierId: "",
-                      manufacturerId: "",
-                      distributorId: "",
-                      retailerId: ""
-                    },
-                  expiredTime: "",
-                  price: "100000",
-                  status: "",
-                  description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
-                  cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
-                  image:
-                    [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
-                    ]
-                }
+              productId: "Product1"
+              price: "100000"
     responses:
       200:
         description: Successfully
@@ -502,6 +363,7 @@
                       manufacturered: "",
                       exported: "",
                       distributed: "",
+                      selling: "",
                       sold: ""
                     },
                   actors:
@@ -511,16 +373,17 @@
                       distributorId: "",
                       retailerId: ""
                     },
-                  expiredTime: "",
+                  expireTime: "",
                   price: "100000",
                   status: "",
                   description: "Gạo tẻ đạt chuẩn",
-                  certificateUrl: "http://localhost:4000/0.img",
+                  certificateUrl: "http://localhost:4000/image1.img",
                   cooperationId: "g53a0000-8669-4a07-a23a-d18055601111",
+                  qrCode: "",
                   image:
                     [
-                      "http://localhost:4000/1.img",
-                      "http://localhost:4000/2.img"
+                      "http://localhost:4000/image1.img",
+                      "http://localhost:4000/image2.img"
                     ]
                 }
     responses:

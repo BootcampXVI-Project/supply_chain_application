@@ -1,0 +1,8 @@
+### upload
+POST http://localhost:4000/image/upload
+Content-Type: application/json
+
+{
+  "imageString": "D:\\GO\\Code\\SeniorProject\\bido1.jpg",
+  "imagePathNameToFirebase": "/tezt.jpg"
+}

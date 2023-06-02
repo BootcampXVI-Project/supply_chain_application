@@ -1,7 +1,7 @@
 {
 	"name": "supply_chain_application",
-	"version": "1.0.0",
 	"description": "Supply Chain Application",
+	"version": "1.0.0",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"engines": {
@@ -9,7 +9,7 @@
 		"npm": ">=6"
 	},
 	"scripts": {
-		"start": "npm run build && node dist/index.js",
+		"start": "npm run build && nodemon dist/index.js",
 		"start:dev": "npm run build && nodemon ./dist/index.ts",
 		"build": "tsc",
 		"build:watch": "tsc -w",
@@ -37,7 +37,7 @@
 		"express": "^4.18.2",
 		"fabric-ca-client": "^2.2.17",
 		"fabric-network": "^2.2.17",
-		"firebase": "^9.22.0",
+		"firebase": "^9.22.1",
 		"firebase-admin": "^11.8.0",
 		"lodash": "^4.17.21",
 		"mongoose": "^7.1.1",
@@ -54,25 +54,5 @@
 		"@types/node": "^14.17.32",
 		"@types/qrcode": "^1.5.0",
 		"typescript": "~4.9.4"
-	},
-	"nyc": {
-		"extension": [
-			".ts",
-			".tsx"
-		],
-		"exclude": [
-			"coverage/**",
-			"dist/**"
-		],
-		"reporter": [
-			"text-summary",
-			"html"
-		],
-		"all": true,
-		"check-coverage": true,
-		"statements": 100,
-		"branches": 100,
-		"functions": 100,
-		"lines": 100
 	}
 }

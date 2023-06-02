@@ -1,9 +1,30 @@
-import { ProductModel } from "../../models/ProductModel";
-import { Product, User } from "../../types/models";
-import { getUserByUserId } from "./user";
-import { contract, evaluateTransaction, evaluateTransactionUserObjProductId } from "../../app";
-import { convertBufferToJavasciptObject } from "../../helpers";
-import { log } from "console";
+import { getUserByUserId } from "./userService";
+import { Product, User } from "../types/models";
+import { ProductModel } from "../models/ProductModel";
+import { convertBufferToJavasciptObject } from "../helpers";
+import {
+	contract,
+	evaluateTransaction,
+	evaluateTransactionUserObjCounterName
+} from "../app";
+
+export const getCounter = async (userId: string, counterName: string) => {
+	// counterName: "ProductCounterNO" || "OrderCounterNO"
+	const userObj = await getUserByUserId(userId);
+	const counterBuffer = await evaluateTransactionUserObjCounterName(
+		"getCounter",
+		userObj,
+		counterName
+	);
+	return convertBufferToJavasciptObject(counterBuffer);
+};
+
+export const getNextCounterID = async (userId: string, counterName: string) => {
+	const counterID = await getCounter(userId, counterName);
+	return counterName == "ProductCounterNO"
+		? `Product${counterID + 1}`
+		: `Order${counterID + 1}`;
+};
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
@@ -18,7 +39,7 @@ export const getAllProducts = async (userId: string) => {
 		null
 	);
 	return convertBufferToJavasciptObject(productsBuffer);
-}
+};
 
 export const getProductById = async (productId: string, userObj: User) => {
 	const contractProduct = await contract(userObj);
@@ -29,8 +50,7 @@ export const getProductById = async (productId: string, userObj: User) => {
 	);
 
 	return convertBufferToJavasciptObject(productBuffer);
-
-}
+};
 
 export const createProduct = async (userId: string, productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(

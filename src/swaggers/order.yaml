@@ -1,3 +1,76 @@
+/order/all:
+  get:
+    summary: Get All Orders
+    description: Get All Orders
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/by-address:
+  get:
+    summary: Get All Orders By Address
+    description: Get All Orders By Address
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+          required: true
+      - in: query
+        name: longitude
+        schema:
+          type: string
+          required: true
+      - in: query
+        name: latitude
+        schema:
+          type: string
+          required: true
+      - in: query
+        name: shippingStatus
+        schema:
+          type: string
+          required: true
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/detail:
+  get:
+    summary: Get Order
+    description: Get Order
+    parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+          required: true
+      - in: query
+        name: orderId
+        schema:
+          type: string
+          required: true
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
 /order/create:
   post:
     summary: Create Order
@@ -43,9 +116,17 @@
               orderObj:
                 type: object
                 required: true
+              longitude:
+                type: string
+                required: true
+              latitude:
+                type: string
+                required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               orderObj: {}
+              longitude: "145.0922"
+              latitude: "87.9234"
     responses:
       200:
         description: Successfully
@@ -70,9 +151,17 @@
               orderObj:
                 type: object
                 required: true
+              longitude:
+                type: string
+                required: true
+              latitude:
+                type: string
+                required: true
             example:
               userId: "g53a0000-8669-4a07-a23a-d18055600000"
               orderObj: {}
+              longitude: "145.0922"
+              latitude: "87.9234"
     responses:
       200:
         description: Successfully

@@ -1,9 +1,8 @@
-import AuthService from "../services/crudDatabase/auth";
+import AuthService from "../services/authService";
 import { Request, Response } from "express";
+import { Auth } from "../types/models";
 import { UserModel } from "../models/UserModel";
 import { AuthModel } from "../models/AuthModel";
-import { log } from "console";
-import { Auth } from "../types/models";
 
 const authService: AuthService = new AuthService();
 

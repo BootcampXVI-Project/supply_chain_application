@@ -1,12 +1,11 @@
-import { log } from "console";
+import { Request, Response } from "express";
 import {
 	createNewCooperation,
 	deleteCooperationById,
 	getAllCooperations,
 	getCooperationByCooperationId,
 	updateCooperation
-} from "../services/crudDatabase/cooperation";
-import { Request, Response } from "express";
+} from "../services/cooperationService";
 
 const CooperationController = {
 	createCooperation: async (req: Request, res: Response) => {

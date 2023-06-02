@@ -1,0 +1,38 @@
+/image/upload:
+  post:
+    summary: Upload Image To Firebase Storage
+    description: Upload Image To Firebase Storage
+    tags:
+      - Image
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/image/generate-publish-qrcode:
+  post:
+    summary: Generate & Publish QR Code To Firebase Storage
+    description: Generate & Publish QR Code To Firebase Storage
+    tags:
+      - Image
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              qrCodeEncodeData:
+                type: string
+                required: true
+              storageImageNamePath:
+                type: string
+                required: true
+            example:
+              qrCodeEncodeData: "http://localhost:4000/product/Product1"
+              storageImageNamePath: "qrcode/products/Product1.png"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

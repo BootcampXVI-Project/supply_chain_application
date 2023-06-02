@@ -1,5 +1,5 @@
 import twilio from "twilio";
-import { AuthModel } from "../../models/AuthModel";
+import { AuthModel } from "../models/AuthModel";
 
 // Set up authentication Twilio
 const accountSid = "AC21dec952ef63dfbfeb9d8b9ebcc39629";

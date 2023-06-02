@@ -5,5 +5,9 @@ const router = express.Router();
 const imageController: ImageController = new ImageController();
 
 router.post("/upload", imageController.upload);
+router.post(
+	"/generate-publish-qrcode",
+	imageController.generateAndPublishQRCode
+);
 
 export default router;
