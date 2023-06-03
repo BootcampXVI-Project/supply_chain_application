@@ -16,6 +16,7 @@ admin.initializeApp({
 const storageBucket = admin.storage().bucket();
 
 export default class ImageService {
+	storage: any;
 	async upload(imagePath: string, imageName: string) {
 		try {
 			const currentDate = new Date();
@@ -55,4 +56,25 @@ export default class ImageService {
 			return null;
 		}
 	}
+
+	// async convertFileToUrl(file: File): Promise<string> {
+	// 	const imageName = this.generateImageName();
+	// 	const filePath = `images/${imageName}`;
+	// 	const fileRef = this.storage.ref(filePath);
+	
+	// 	const task = this.storage.upload(filePath, file);
+	// 	await task.snapshotChanges().pipe(
+	// 	  finalize(async () => {
+	// 		const downloadUrl = await fileRef.getDownloadURL().toPromise();
+	// 		return downloadUrl;
+	// 	  })
+	// 	).toPromise();
+	//   }
+	// generateImageName() {
+	// 	throw new Error("Method not implemented.");
+	// }
 }
+function finalize(arg0: () => Promise<any>): any {
+	throw new Error("Function not implemented.");
+}
+
