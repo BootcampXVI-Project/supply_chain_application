@@ -1,0 +1,44 @@
+### get all product
+GET https://f20f59bc6393.ngrok.app/product/all
+
+### cultivated
+POST https://f20f59bc6393.ngrok.app/product/cultivate
+Content-Type: application/json
+
+{
+  "userId": "5d131a98-4649-4e86-8bce-de325544b5ab",
+  "productObj": {
+    "productId": "Product4",
+    "productName": "Bí đỏ Cấp Tiến",
+    "dates": {
+      "cultivated": "",
+      "harvested": "",
+      "imported": "",
+      "manufacturered": "",
+      "exported": "",
+      "distributed": "",
+      "selling": "",
+      "sold": ""
+    },
+    "actors": {
+      "supplierId": "",
+      "manufacturerId": "",
+      "distributorId": "",
+      "retailerId": ""
+    },
+    "expireTime": "",
+    "price": "100000",
+    "amount": "10",
+    "unit": "kg",
+    "status": "",
+    "description": "Bí đỏ xã Cấp Tiến, huyện Tiên Lãng, Tp.Hải Phòng",
+    "certificateUrl": "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/02493b8a258bbdedc902a26c94e50c6d1324895618.pumpkin.jpg",
+    "supplierId": "5d131a98-4649-4e86-8bce-de325544b5ab",
+    "qrCode": "",
+    "image": [
+      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/02493b8a258bbdedc902a26c94e50c6d1324895618.pumpkin.jpg",
+      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/10cdb1aa3e146e98bff2b6f8245e8cb9dduong1.jpg",
+      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/d09bd172b92c70ba7beb5d7343724789sup-bi-do-kem-tuoi.jpg"
+    ]
+  }
+}

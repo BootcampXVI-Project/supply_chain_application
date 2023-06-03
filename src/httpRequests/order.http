@@ -1,0 +1,74 @@
+### GET ALL ORDER
+GET https://f20f59bc6393.ngrok.app/order/all?userId=9e3c5b83-cff9-4c97-98b2-01209553431c
+Content-Type: application/json
+
+### CREATE ORDER
+POST https://f20f59bc6393.ngrok.app/order/create
+Content-Type: application/json
+
+{
+  "userId": "9e3c5b83-cff9-4c97-98b2-01209553431c",
+  "orderObj": {
+    "orderId": "Order2",
+    "productItemList": [
+      {
+        "product": {
+          "productId": "Product1",
+          "image": [
+            "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2F2fce33e4-7477-425b-a3cb-1eb49aee94a2?alt=media&token=9d337143-4fef-4ee9-8ce4-91d6c0a20df4",
+            "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2Fa58bd183-db42-4852-88c4-43277acec60f?alt=media&token=fefd3e4c-00c3-49ff-9e72-38e77e614e11",
+            "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2F0551c7eb-efb6-4800-960e-3cb3d46e8002?alt=media&token=bb0d89c3-6f3b-4e9d-a9a2-a5894c9adc54",
+            "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2Fef6b6043-86e7-403e-a603-db595fa3b8cc?alt=media&token=b6d0cbfe-099f-40ec-83f9-230b7d5991a6"
+          ],
+          "productName": "Mật ong sú vẹt - Vị mật ngọt biển cả",
+          "dates": {
+            "cultivated": "2023-06-03 09:37:48.94 +0000 UTC",
+            "harvested": "",
+            "imported": "",
+            "manufacturered": "",
+            "exported": "",
+            "distributed": "",
+            "selling": "",
+            "sold": ""
+          },
+          "actors": {
+            "supplierId": "5d131a98-4649-4e86-8bce-de325544b5ab",
+            "manufacturerId": "",
+            "distributorId": "",
+            "retailerId": ""
+          },
+          "expireTime": "",
+          "price": "1200000",
+          "amount": "1",
+          "unit": "l",
+          "status": "CULTIVATING",
+          "description": "OVN - Vườn quốc gia Xuân Thủy được UNESCO công nhận là Khu dự trữ sinh quyển thế giới khu vực ven biển liên tỉnh đồng bằng châu thổ Sông Hồng. Vườn có diện tích 7.100 ha, hệ sinh thái thực vật tại vườn khá đa dạng và phong phú, đặc biệt là hệ sinh thái thực vật tại vùng ngập mặn. Nói đến hệ sinh thái thực vật ngập mặn không thể không nói đến cây sú, vẹt.",
+          "certificateUrl": "http://localhost:4000/image1.img",
+          "supplierId": "5d131a98-4649-4e86-8bce-de325544b5ab",
+          "qrCode": ""
+        },
+        "quantity": "2"
+      }
+    ],
+    "deliveryStatus": [
+      {
+        "distributorId": "0ef0ce7c-edcb-40ef-90d5-fb563ddd34fd",
+        "deliveryDate": "2023-06-01 01:03:33.675 +0000 UTC",
+        "status": "NOT-SHIPPED-YET",
+        "longitude": "123.456",
+        "latitude": "78.910"
+      }
+    ],
+    "signature": {
+      "distributorSignature": "signature1",
+      "retailerSignature": "signature2"
+    },
+    "status": "NOT-SHIPPED-YET",
+    "distributorId": "0ef0ce7c-edcb-40ef-90d5-fb563ddd34fd",
+    "retailerId": "3206c2cb-ab7d-45b5-98fa-c35313754e6d",
+    "qrCode": "",
+    "createDate": "2023-06-01 01:03:33.675 +0000 UTC",
+    "updateDate": "",
+    "finishDate": ""
+  }
+}
