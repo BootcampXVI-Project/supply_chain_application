@@ -35,5 +35,5 @@ export const ProductStatusArray = [
 export type UserStatus = "active" | "inactive";
 export const UserStatusArray = ["active", "inactive"];
 
-export type OrderStatus = "NOT-SHIPPED-YET" | "SHIPPING" | "SHIPPED";
-export const OrderStatusArray = ["NOT-SHIPPED-YET", "SHIPPING", "SHIPPED"];
+export type OrderStatus = "PENDING" | "SHIPPING" | "SHIPPED";
+export const OrderStatusArray = ["PENDING", "SHIPPING", "SHIPPED"];

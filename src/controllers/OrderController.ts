@@ -98,8 +98,8 @@ const OrderController = {
 
 	getOrder: async (req: Request, res: Response) => {
 		try {
+			const orderId = String(req.params.orderId);
 			const userId = String(req.query.userId);
-			const orderId = String(req.query.orderId);
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {

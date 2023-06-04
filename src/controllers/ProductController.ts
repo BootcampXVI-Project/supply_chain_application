@@ -11,9 +11,10 @@ const imageService: ImageService = new ImageService();
 const ProductController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId } = req.query;
-			const userObj = await getUserByUserId(String(userId));
-			const product = await getProductById(String(productId), userObj);
+			const productId = String(req.params.productId);
+			const userId = String(req.query.userId);
+			const userObj = await getUserByUserId(userId);
+			const product = await getProductById(productId, userObj);
 
 			return res.json({
 				data: product,

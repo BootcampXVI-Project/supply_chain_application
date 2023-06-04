@@ -54,7 +54,7 @@ Content-Type: application/json
       {
         "distributorId": "0ef0ce7c-edcb-40ef-90d5-fb563ddd34fd",
         "deliveryDate": "2023-06-01 01:03:33.675 +0000 UTC",
-        "status": "NOT-SHIPPED-YET",
+        "status": "PENDING",
         "longitude": "123.456",
         "latitude": "78.910"
       }
@@ -63,7 +63,7 @@ Content-Type: application/json
       "distributorSignature": "signature1",
       "retailerSignature": "signature2"
     },
-    "status": "NOT-SHIPPED-YET",
+    "status": "PENDING",
     "distributorId": "0ef0ce7c-edcb-40ef-90d5-fb563ddd34fd",
     "retailerId": "3206c2cb-ab7d-45b5-98fa-c35313754e6d",
     "qrCode": "",

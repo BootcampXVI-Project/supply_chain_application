@@ -43,12 +43,10 @@ export const getAllProducts = async (userId: string) => {
 
 export const getProductById = async (productId: string, userObj: User) => {
 	const contractProduct = await contract(userObj);
-
 	const productBuffer = await contractProduct.evaluateTransaction(
 		"GetProduct",
 		String(productId)
 	);
-
 	return convertBufferToJavasciptObject(productBuffer);
 };
 
