@@ -38,7 +38,7 @@ export default class ImageController {
 
 			return publicImageUrl
 				? res.json({
-						message: "successfull",
+						message: "successfully",
 						data: publicImageUrl,
 						error: null
 				  })

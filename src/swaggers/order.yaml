@@ -48,10 +48,10 @@
       400:
         description: Failed
 
-/order/detail:
+/order:
   get:
-    summary: Get Order
-    description: Get Order
+    summary: Get Detail Order
+    description: Get Detail Order
     parameters:
       - in: query
         name: userId

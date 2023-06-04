@@ -25,4 +25,7 @@ src/config/supply-chain-9ea64-firebase-adminsdk-hz2j8-94d0fecb0a.json
 temp/
 
 # Temporary generated QR Code file
-image.png
+image.jpg
+
+# Fake data folder
+mockData/

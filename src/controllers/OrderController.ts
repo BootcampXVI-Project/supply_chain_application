@@ -159,7 +159,7 @@ const OrderController = {
 			//(await getNextCounterID(userId, "OrderCounterNO")) || ;
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
-				`qrcode/orders/${orderId}.img`
+				`qrcode/orders/${orderId}.jpg`
 			);
 			orderObj.qrCode = qrCodeString;
 

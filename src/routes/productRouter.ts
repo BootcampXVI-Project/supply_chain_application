@@ -4,7 +4,6 @@ import ProductController from "../controllers/ProductController";
 const router = express.Router();
 
 router.get("/all", ProductController.getAllProducts);
-router.get("/detail", ProductController.getProduct);
 router.get("/transactions-history", ProductController.getTransactionsHistory);
 
 router.post("/cultivate", ProductController.cultivateProduct);
@@ -17,5 +16,6 @@ router.post("/retailer-import", ProductController.importRetailerProduct);
 router.post("/sell", ProductController.sellProduct);
 
 router.patch("/update", ProductController.updateProduct);
+router.get("/", ProductController.getProduct);
 
 export default router;

@@ -2,11 +2,11 @@
   get:
     summary: Get All Products
     description: Get All Products
-    parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
+    # parameters:
+    #   - in: query
+    #     name: userId
+    #     schema:
+    #       type: string
     tags:
       - Product
     responses:
@@ -15,16 +15,16 @@
       400:
         description: Failed
 
-/product/detail:
+/product:
   get:
-    summary: Get Product
-    description: Get Product
+    summary: Get Detail Product
+    description: Get Detail Product
     parameters:
       - in: query
         name: userId
         schema:
           type: string
-      - in: query
+      - in: path
         name: productId
         schema:
           type: string
