@@ -89,7 +89,12 @@ router.post(
 router.patch(
 	"/update",
 	jwtGuard,
-	Roles(UserRole.MANUFACTURER, UserRole.DISTRIBUTOR, UserRole.RETAILER),
+	Roles(
+		UserRole.SUPPLIER,
+		UserRole.MANUFACTURER,
+		UserRole.DISTRIBUTOR,
+		UserRole.RETAILER
+	),
 	ProductController.updateProduct
 );
 
