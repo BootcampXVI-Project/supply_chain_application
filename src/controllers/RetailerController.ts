@@ -1,23 +1,17 @@
 import { Request, Response } from "express";
 import { getUserByUserId } from "../services/userService";
-import { getProductsByRetailerId } from "../services/retailerProductService";
+import { getProductsByRetailerId } from "../services/retailerService";
 
-const RetailerProductController = {
+const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
 		try {
 			const { userId } = req.body;
 			const userObj = await getUserByUserId(userId);
-			
+
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "undefined"
-				});
-			}
-			if (userObj.role != "retailer") {
-				return res.json({
-					message: "Denied permission! User must be a retailer!",
-					status: "unauthorized"
 				});
 			}
 
@@ -45,4 +39,4 @@ const RetailerProductController = {
 	}
 };
 
-export default RetailerProductController;
+export default RetailerController;

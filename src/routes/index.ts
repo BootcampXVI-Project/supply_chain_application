@@ -5,7 +5,8 @@ import userRouter from "./userRouter";
 import productRouter from "./productRouter";
 import orderRouter from "./orderRouter";
 import distributorRouter from "./distributorRouter";
-import retailerProductRouter from "./retailerProductRouter";
+import retailerRouter from "./retailerRouter";
+import supplierRouter from "./supplierRouter";
 
 function routing(app: Express) {
 	app.use("/image", imageRouter);
@@ -14,7 +15,8 @@ function routing(app: Express) {
 	app.use("/product", productRouter);
 	app.use("/order", orderRouter);
 	app.use("/distributor", distributorRouter);
-	app.use("/retailer", retailerProductRouter);
+	app.use("/retailer", retailerRouter);
+	app.use("/supplier", supplierRouter);
 
 	app.use("*", (req, res, next) => {
 		res.status(404).json({
