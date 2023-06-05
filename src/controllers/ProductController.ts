@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
 import { DecodeUser } from "../types/common";
 import { getUserByUserId } from "../services/userService";
-import { getProductById } from "../services/productService";
+import {
+	getDetailProductById,
+	getProductById
+} from "../services/productService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransaction, submitTransaction } from "../app";
 
@@ -42,7 +45,8 @@ const ProductController = {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
 			const userObj = await getUserByUserId(user.userId);
-			const product = await getProductById(productId, userObj);
+			// const product = await getProductById(productId, userObj);
+			const product = await getDetailProductById(productId, userObj);
 
 			return res.json({
 				data: product,
