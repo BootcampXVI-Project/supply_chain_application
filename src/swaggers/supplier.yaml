@@ -1,21 +1,9 @@
-/distributor/product/all:
-  get:
-    summary: Get All Products Of Distributor
-    description: Get All Products Of Distributor
-    tags:
-      - Distributor
-    responses:
-      200:
-        description: Successfully
-      400:
-        description: Failed
-
-/distributor/product/update:
+/supplier/product/update:
   patch:
-    summary: Distributor Update Product
-    description: Distributor Update Product
+    summary: Supplier Update Product
+    description: Supplier Update Product
     tags:
-      - Distributor
+      - Supplier
     requestBody:
       content:
         application/json:

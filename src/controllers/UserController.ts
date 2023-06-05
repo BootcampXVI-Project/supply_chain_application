@@ -48,7 +48,7 @@ const UserController = {
 
 	getUser: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.query.userId);
+			const userId = String(req.params.userId);
 			const users = await getUserByUserId(userId);
 
 			return res.json({

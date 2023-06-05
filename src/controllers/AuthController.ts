@@ -10,11 +10,11 @@ export default class AuthController {
 	async login(req: Request, res: Response) {
 		try {
 			const { phoneNumber, password } = req.body;
+
 			const currentDate = new Date();
 			const expirationDate = new Date(
 				currentDate.getTime() + 30 * 24 * 60 * 60 * 1000
 			);
-			console.log(phoneNumber, password);
 
 			const user = await UserModel.findOne({
 				phoneNumber: phoneNumber,
@@ -75,14 +75,18 @@ export default class AuthController {
 				});
 			}
 
+			const payload = { userId: user.userId, role: user.role };
+			const token = await authService.generateAccessToken(payload);
+
 			return res.json({
-				data: user,
+				data: { user: user, token: token },
 				message: "Login successful",
 				status: "login"
 			});
-		} catch (err) {
-			console.log("ERR", err);
+		} catch (error) {
+			console.log("ERR", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
 				status: "failed"
 			});

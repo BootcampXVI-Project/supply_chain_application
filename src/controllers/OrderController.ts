@@ -5,6 +5,7 @@ import { PRODUCTION_URL } from "../constants";
 import { getUserByUserId } from "../services/userService";
 import { getNextCounterID } from "../services/productService";
 import { submitTransaction, submitTransactionOrderAddress } from "../app";
+import { DecodeUser } from "../types/common";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
@@ -12,28 +13,16 @@ const imageService: ImageService = new ImageService();
 const OrderController = {
 	getAllOrdersByAddress: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.query.userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 			const longitude = String(req.query.longitude);
 			const latitude = String(req.query.latitude);
 			const shippingStatus = String(req.query.shippingStatus);
 
-			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (
-				userObj.role != "manufacturer" &&
-				userObj.role != "distributor" &&
-				userObj.role != "retailer"
-			) {
-				return res.json({
-					data: null,
-					message:
-						"Denied permission! User must be a manufacturer or distributor or retailer!",
-					error: "unauthorize"
 				});
 			}
 
@@ -59,25 +48,13 @@ const OrderController = {
 
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.query.userId);
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (
-				userObj.role != "manufacturer" &&
-				userObj.role != "distributor" &&
-				userObj.role != "retailer"
-			) {
-				return res.json({
-					data: null,
-					message:
-						"Denied permission! User must be a manufacturer or distributor or retailer!",
-					error: "unauthorize"
 				});
 			}
 
@@ -98,26 +75,14 @@ const OrderController = {
 
 	getOrder: async (req: Request, res: Response) => {
 		try {
+			const user = req.user as DecodeUser;
 			const orderId = String(req.params.orderId);
-			const userId = String(req.query.userId);
-			const userObj = await getUserByUserId(userId);
+			const userObj = await getUserByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (
-				userObj.role != "manufacturer" &&
-				userObj.role != "distributor" &&
-				userObj.role != "retailer"
-			) {
-				return res.json({
-					data: null,
-					message:
-						"Denied permission! User must be a manufacturer or distributor or retailer!",
-					error: "unauthorize"
 				});
 			}
 
@@ -138,8 +103,9 @@ const OrderController = {
 
 	createOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderObj } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const orderObj = req.body.orderObj;
 
 			if (!userObj) {
 				return res.json({
@@ -147,18 +113,12 @@ const OrderController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role != "manufacturer") {
-				return res.json({
-					message: "Denied permission! User must be a manufacturer!",
-					status: "unauthorize"
-				});
-			}
 
 			// Generate QR code for order
 			const orderId = "Order1";
 			//(await getNextCounterID(userId, "OrderCounterNO")) || ;
 			const qrCodeString = await imageService.generateAndPublishQRCode(
-				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
+				`${PRODUCTION_URL}/order/${orderId}`,
 				`qrcode/orders/${orderId}.jpg`
 			);
 			orderObj.qrCode = qrCodeString;
@@ -180,19 +140,14 @@ const OrderController = {
 
 	updateOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderObj, longitude, latitude } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { orderObj, longitude, latitude } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "distributor") {
-				return res.json({
-					message: "Denied permission! User must be a distributor!",
-					status: "unauthorize"
 				});
 			}
 
@@ -220,19 +175,14 @@ const OrderController = {
 
 	finishOrder: async (req: Request, res: Response) => {
 		try {
-			const { userId, orderId, longitude, latitude } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { orderId, longitude, latitude } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "distributor") {
-				return res.json({
-					message: "Denied permission! User must be a distributor!",
-					status: "unauthorize"
 				});
 			}
 
