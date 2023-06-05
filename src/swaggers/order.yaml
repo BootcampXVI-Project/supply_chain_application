@@ -48,18 +48,18 @@
       400:
         description: Failed
 
-/order/detail:
+/order:
   get:
-    summary: Get Order
-    description: Get Order
+    summary: Get Detail Order
+    description: Get Detail Order
     parameters:
-      - in: query
-        name: userId
+      - in: path
+        name: orderId
         schema:
           type: string
           required: true
       - in: query
-        name: orderId
+        name: userId
         schema:
           type: string
           required: true

@@ -15,17 +15,17 @@
       400:
         description: Failed
 
-/product/detail:
+/product:
   get:
-    summary: Get Product
-    description: Get Product
+    summary: Get Detail Product
+    description: Get Detail Product
     parameters:
-      - in: query
-        name: userId
+      - in: path
+        name: productId
         schema:
           type: string
       - in: query
-        name: productId
+        name: userId
         schema:
           type: string
     tags:

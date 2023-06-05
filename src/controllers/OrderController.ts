@@ -98,8 +98,8 @@ const OrderController = {
 
 	getOrder: async (req: Request, res: Response) => {
 		try {
+			const orderId = String(req.params.orderId);
 			const userId = String(req.query.userId);
-			const orderId = String(req.query.orderId);
 			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
@@ -159,7 +159,7 @@ const OrderController = {
 			//(await getNextCounterID(userId, "OrderCounterNO")) || ;
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/detail?orderId=${orderId}`,
-				`qrcode/orders/${orderId}.img`
+				`qrcode/orders/${orderId}.jpg`
 			);
 			orderObj.qrCode = qrCodeString;
 
