@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+import { DecodeUser } from "../types/common";
 import { getUserByUserId } from "../services/userService";
 import { getProductsByRetailerId } from "../services/retailerService";
 
 const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
 		try {
-			const { userId } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -15,7 +16,7 @@ const RetailerController = {
 				});
 			}
 
-			const products = await getProductsByRetailerId(userId);
+			const products = await getProductsByRetailerId(user.userId);
 			if (products == null) {
 				return res.json({
 					message: "This retailer don't have any product!",

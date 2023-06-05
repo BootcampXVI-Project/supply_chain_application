@@ -1,0 +1,11 @@
+/retailer/product/all:
+  get:
+    summary: Get All Products Of Retailer
+    description: Get All Products Of Retailer
+    tags:
+      - Retailer
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed

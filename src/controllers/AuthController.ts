@@ -22,8 +22,9 @@ export default class AuthController {
 			});
 			if (!user) {
 				return res.json({
-					message: "user not found",
-					status: "failed"
+					data: null,
+					message: "User not found!",
+					error: "user-notfound"
 				});
 			}
 			if (user.status === "inactive") {
@@ -36,16 +37,18 @@ export default class AuthController {
 					};
 					if (otp.otp == null) {
 						return res.json({
+							data: null,
 							message: "Account not found!",
-							status: "notfound"
+							error: "account-notfound"
 						});
 					}
 					await AuthModel.create(otp).then((data) => {
 						console.log(data);
 					});
 					return res.json({
-						message: "OTP sent successfully.",
-						status: "verifying"
+						data: null,
+						message: "OTP sent successfully!",
+						error: null
 					});
 				}
 
@@ -56,22 +59,25 @@ export default class AuthController {
 				);
 				if (otp.otp == null) {
 					return res.json({
+						data: null,
 						message: "Account not found!",
-						status: "notfound"
+						error: "account-notfound"
 					});
 				}
 
 				// if (otp.expired < new Date()) {
 				// 	otp.otp = await authService.sendOtp(phoneNumber);
 				// 	return res.json({
-				// 		message: "OTP sent successfully.",
-				// 		status: "verifying"
+				// data: null,
+				// message: "OTP sent successfully!",
+				// error: null
 				// 	});
 				// }
 
 				return res.json({
-					message: "OTP sent successfully.",
-					status: "verifying"
+					data: null,
+					message: "OTP sent successfully!",
+					error: null
 				});
 			}
 
@@ -80,15 +86,15 @@ export default class AuthController {
 
 			return res.json({
 				data: { user: user, token: token },
-				message: "Login successful",
-				status: "login"
+				message: "Login successfully!",
+				error: null
 			});
 		} catch (error) {
-			console.log("ERR", error.message);
+			console.log("error", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	}
@@ -100,8 +106,9 @@ export default class AuthController {
 			let otp = await AuthModel.findOne({ phoneNumber: phoneNumber });
 			if (!otp) {
 				return res.json({
-					message: "user not found",
-					status: "failed"
+					data: null,
+					message: "User not found!",
+					error: "user-notfound"
 				});
 			}
 
@@ -118,7 +125,6 @@ export default class AuthController {
 						otp: ""
 					}
 				);
-
 				await UserModel.findOneAndUpdate(
 					{
 						phoneNumber: phoneNumber
@@ -129,20 +135,23 @@ export default class AuthController {
 				);
 
 				return res.json({
-					message: "OTP verified successfully.",
-					status: "verified"
+					data: null,
+					message: "OTP verified successfully!",
+					error: null
 				});
 			}
 
 			return res.json({
-				message: "Invalid OTP.",
-				status: "FailedVerified"
+				data: null,
+				message: "Invalid OTP!",
+				error: "failed"
 			});
-		} catch (err) {
-			console.log("ERR", err);
+		} catch (error) {
+			console.log("error", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	}
@@ -154,8 +163,9 @@ export default class AuthController {
 			let user = await UserModel.findOne({ phoneNumber: phoneNumber });
 			if (!user) {
 				return res.json({
-					message: "user not found",
-					status: "failed"
+					data: null,
+					message: "User not found!",
+					error: "user-notfound"
 				});
 			}
 
@@ -166,22 +176,25 @@ export default class AuthController {
 					{ user: user }
 				);
 				return res.json({
-					message: "Reset password successfull!",
-					status: "reseted"
+					data: null,
+					message: "Reset password successfully!",
+					error: null
 				});
 			}
 
 			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
 			otp.otp = await authService.sendOtp(phoneNumber);
 			return res.json({
-				message: "OTP sent successfully.",
-				status: "verifying"
+				data: null,
+				message: "OTP sent successfully!",
+				error: null
 			});
-		} catch (err) {
-			console.log("ERR", err);
+		} catch (error) {
+			console.log("error", error.message);
 			return res.json({
+				data: null,
 				message: "failed",
-				status: "failed"
+				error: error.message
 			});
 		}
 	}
