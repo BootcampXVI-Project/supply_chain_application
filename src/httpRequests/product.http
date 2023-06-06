@@ -8,8 +8,8 @@ Content-Type: application/json
 {
   "userId": "5d131a98-4649-4e86-8bce-de325544b5ab",
   "productObj": {
-    "productId": "Product4",
-    "productName": "Bí đỏ Cấp Tiến",
+    "productId": "",
+    "productName": "Bơ Đắk Lắk",
     "dates": {
       "cultivated": "",
       "harvested": "",
@@ -27,18 +27,19 @@ Content-Type: application/json
       "retailerId": ""
     },
     "expireTime": "",
-    "price": "100000",
-    "amount": "10",
+    "price": "1980000",
+    "amount": "500",
     "unit": "kg",
     "status": "",
-    "description": "Bí đỏ xã Cấp Tiến, huyện Tiên Lãng, Tp.Hải Phòng",
-    "certificateUrl": "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/02493b8a258bbdedc902a26c94e50c6d1324895618.pumpkin.jpg",
+    "description": "OVN - Quả (Trái) bơ có nguồn gốc từ châu Mỹ xa xôi, là loại quả có dưỡng chất phong phú. Cây bơ được du nhập vào Việt Nam từ những năm 1940, xuất hiện đầu tiên ở Lâm Đồng. Ngày nay, loài cây này được trồng ở nhiều địa phương những khu vực như: Đắk Lắk, Lâm Đồng, Đồng Nai, Bà Rịa-Vũng Tàu, Phú Thọ và cũng được trồng thử thành công ở Chợ Lách - Bến Tre. Tuy nhiên, nhờ dưỡng chất tốt nên quả bơ Đắk Lắk luôn được nhiều khách hàng yêu thích và coi như là một loại đặc sản làm quà mỗi khi có dịp tới thăm Buôn Ma Thuột.\n",
+    "certificateUrl": "",
     "supplierId": "5d131a98-4649-4e86-8bce-de325544b5ab",
     "qrCode": "",
     "image": [
-      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/02493b8a258bbdedc902a26c94e50c6d1324895618.pumpkin.jpg",
-      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/10cdb1aa3e146e98bff2b6f8245e8cb9dduong1.jpg",
-      "http://ocop.gov.vn/publish/thumbnail/2005578/120x120xdefault/upload/2005578/20210617/d09bd172b92c70ba7beb5d7343724789sup-bi-do-kem-tuoi.jpg"
+      "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2F8993e69e-7e50-49a4-8aa0-a0e2789d05b2?alt=media&token=2b1d4b18-215d-489f-aa7b-268ee56c7f2b",
+      "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2F36721003-9ba3-4105-b6ec-322825f97467?alt=media&token=aa5c4363-6955-4de9-b0fb-f900f01026fe",
+      "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2Fb0a0fd0a-af1c-4d4e-88a5-0a84af44263b?alt=media&token=a88ca930-7475-4aca-95c7-f1a9e83b563f",
+      "https://firebasestorage.googleapis.com/v0/b/supply-chain-9ea64.appspot.com/o/images%2F7f048b90-67db-47d1-b2f9-c62bad9f92e2?alt=media&token=8830474b-eb6d-4afd-8a48-07d20be150fb"
     ]
   }
 }

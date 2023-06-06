@@ -4,7 +4,7 @@ import { PRODUCTION_URL } from "../constants";
 import { getUserByUserId } from "../services/userService";
 import { getProductById } from "../services/productService";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { evaluateTransaction, submitTransaction } from "../app";
+import { evaluateGetWithNoArgs, evaluateTransaction, submitTransaction } from "../app";
 
 const imageService: ImageService = new ImageService();
 
@@ -35,12 +35,12 @@ const ProductController = {
 			const userId = String(req.query.userId);
 			const userObj = await getUserByUserId(userId);
 
-			const productsBuffer = await evaluateTransaction(
+			const productsBuffer = await evaluateGetWithNoArgs(
 				"GetAllProducts",
 				userObj,
-				null
 			);
-			const products = convertBufferToJavasciptObject(productsBuffer);
+			const products = await convertBufferToJavasciptObject(productsBuffer);
+			console.log(products);
 
 			return res.json({
 				data: products,
@@ -62,22 +62,25 @@ const ProductController = {
 			const userId = String(req.query.userId);
 			const productId = String(req.query.productId);
 			const userObj = await getUserByUserId(userId);
+			if (!userObj){
+				console.log(null);
+			}
 			const productObj = await getProductById(productId, userObj);
 
 			const transactionsBuffer = await evaluateTransaction(
-				"GetHistory",
+				"GetProductTransactionHistory",
 				userObj,
 				productObj
 			);
-			const transactions = convertBufferToJavasciptObject(transactionsBuffer);
-
+			const transactions = await convertBufferToJavasciptObject(transactionsBuffer);
+			// console.log("DEBUG3", transactions);
 			return res.json({
 				data: transactions,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			console.log("getTransactionsHistory", error.message);
+			console.log("getTransactionsory", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -197,10 +200,10 @@ const ProductController = {
 				});
 			}
 
-			await submitTransaction("SupplierUpdateProduct", userObj, productObj);
+			const data = await submitTransaction("SupplierUpdateProduct", userObj, productObj);
 
 			return res.json({
-				data: null,
+				data: data,
 				message: "successfully",
 				error: null
 			});
