@@ -10,6 +10,7 @@ import {
 	JWT_SECRET_KEY,
 	EXPIRES_IN
 } from "../constants";
+import { checkExistedUserId, getUserByUserId } from "./userService";
 
 const { hashSync, compareSync, genSaltSync } = pkg;
 const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
@@ -65,8 +66,14 @@ export default class AuthService {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
 
-		// Kiểm tra logic xác thực token ở đây
+		// verify token
+		const decodeTokenValue = await this.decodeToken(token);
+		const isExistedUser = checkExistedUserId(decodeTokenValue.userId);
+		if (!isExistedUser) {
+			return res.status(401).json({ message: "Unauthorized" });
+		}
 
+		// check expired token and refresh
 		const isTokenExpired = await this.checkTokenExpired(token);
 		if (isTokenExpired) {
 			this.refreshToken(token, (err, newToken) => {
@@ -95,7 +102,7 @@ export default class AuthService {
 			phoneNumber
 		};
 		const newToken = await this.generateAccessToken(newTokenPayload);
-		
+
 		callback(null, newToken);
 	}
 }
