@@ -31,7 +31,7 @@ router.get(
 	"/all/of-retailer",
 	jwtGuard,
 	Roles(UserRole.RETAILER),
-	OrderController.GetAllOrdersOfRetailer
+	OrderController.getAllOrdersOfRetailer
 );
 
 router.get(

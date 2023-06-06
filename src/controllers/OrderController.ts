@@ -146,7 +146,7 @@ const OrderController = {
 		}
 	},
 
-	GetAllOrdersOfRetailer: async (req: Request, res: Response) => {
+	getAllOrdersOfRetailer: async (req: Request, res: Response) => {
 		try {
 			const status = req.query.status;
 			const statusValue = Boolean(status) ? String(status) : "";
