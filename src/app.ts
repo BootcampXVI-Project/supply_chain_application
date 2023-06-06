@@ -135,11 +135,10 @@ export async function evaluateTransaction(
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
-
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		return await contract.evaluateTransaction(
 			funcName,
-			JSON.stringify(productObj)
+			productObj.productId
 		);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
@@ -209,14 +208,17 @@ export async function evaluateTransactionUserObjAnyParam(
 	}
 }
 
-export async function evaluateGetTxTimestampChannel(userObj: User) {
+export async function evaluateGetWithNoArgs(funcName: string,
+																						userObj: User,) {
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
-		console.log(`\n evaluateTransaction() --> "GetTxTimestampChannel"`);
-		return await contract.evaluateTransaction("GetTxTimestampChannel", null);
+		console.log(`\n evaluateTransaction() --> "GetWithNoArgs"`);
+		const datas = await contract.evaluateTransaction(funcName);
+		console.log("Data", datas);
+		return datas
 	} catch (error) {
-		throw new Error(`Failed to evaluate GetTxTimestampChannel, ${error}`);
+		throw new Error(`Failed to evaluate GETWITHNOARGS, ${error}`);
 	}
 }

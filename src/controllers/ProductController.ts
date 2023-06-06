@@ -8,7 +8,7 @@ import {
 	getProductById
 } from "../services/productService";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { evaluateTransaction, submitTransaction } from "../app";
+import { evaluateGetWithNoArgs, evaluateTransaction, submitTransaction } from "../app";
 
 const imageService: ImageService = new ImageService();
 
@@ -45,7 +45,6 @@ const ProductController = {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
 			const userObj = await getUserByUserId(user.userId);
-			// const product = await getProductById(productId, userObj);
 			const product = await getDetailProductById(productId, userObj);
 
 			return res.json({
@@ -71,19 +70,18 @@ const ProductController = {
 			const productObj = await getProductById(productId, userObj);
 
 			const transactionsBuffer = await evaluateTransaction(
-				"GetHistory",
+				"GetProductTransactionHistory",
 				userObj,
 				productObj
 			);
-			const transactions = convertBufferToJavasciptObject(transactionsBuffer);
-
+			const transactions = await convertBufferToJavasciptObject(transactionsBuffer);
 			return res.json({
 				data: transactions,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			console.log("getTransactionsHistory", error.message);
+			console.log("getTransactionsory", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -187,10 +185,10 @@ const ProductController = {
 				});
 			}
 
-			await submitTransaction("UpdateProduct", userObj, productObj);
+			const data = await submitTransaction("UpdateProduct", userObj, productObj);
 
 			return res.json({
-				data: null,
+				data: data,
 				message: "successfully",
 				error: null
 			});
