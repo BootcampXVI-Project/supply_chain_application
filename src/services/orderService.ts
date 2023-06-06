@@ -4,14 +4,16 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { getUserByUserId } from "./userService";
 
 export default class OrderService {
-	async getAllOrders(userObj: User) {
+	async getAllOrders(userObj: User, status: string) {
 		try {
 			const contractOrder = await contract(userObj);
 			const orderBuffer = await contractOrder.evaluateTransaction(
-				"GetAllOrders"
+				"GetAllOrders",
+				status
 			);
 			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
+			console.log(error.message);
 			return error.message;
 		}
 	}
@@ -36,12 +38,17 @@ export default class OrderService {
 		}
 	}
 
-	async GetAllOrdersOfManufacturer(userObj: User, userId: string) {
+	async GetAllOrdersOfManufacturer(
+		userObj: User,
+		userId: string,
+		status: string
+	) {
 		try {
 			const contractOrder = await contract(userObj);
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfManufacturer",
-				userId
+				userId,
+				status
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
@@ -49,12 +56,17 @@ export default class OrderService {
 		}
 	}
 
-	async GetAllOrdersOfDistributor(userObj: User, userId: string) {
+	async GetAllOrdersOfDistributor(
+		userObj: User,
+		userId: string,
+		status: string
+	) {
 		try {
 			const contractOrder = await contract(userObj);
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfDistributor",
-				userId
+				userId,
+				status
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
@@ -62,12 +74,13 @@ export default class OrderService {
 		}
 	}
 
-	async GetAllOrdersOfRetailer(userObj: User, userId: string) {
+	async GetAllOrdersOfRetailer(userObj: User, userId: string, status: string) {
 		try {
 			const contractOrder = await contract(userObj);
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfRetailer",
-				userId
+				userId,
+				status
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {

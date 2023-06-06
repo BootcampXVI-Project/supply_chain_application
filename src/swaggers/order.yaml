@@ -1,7 +1,12 @@
 /order/all:
   get:
-    summary: Get All Orders
-    description: Get All Orders
+    summary: Get All Orders (By Status)
+    description: Get All Orders (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:
@@ -40,8 +45,13 @@
 
 /order/all/of-manufacturer:
   get:
-    summary: Get All Orders Of Manufacturer
-    description: Get All Orders Of Manufacturer
+    summary: Get All Orders Of Manufacturer (By Status)
+    description: Get All Orders Of Manufacturer (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:
@@ -52,8 +62,13 @@
 
 /order/all/of-distributor:
   get:
-    summary: Get All Orders Of Distributor
-    description: Get All Orders Of Distributor
+    summary: Get All Orders Of Distributor (By Status)
+    description: Get All Orders Of Distributor (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:
@@ -64,8 +79,13 @@
 
 /order/all/of-retailer:
   get:
-    summary: Get All Orders Of Retailer
-    description: Get All Orders Of Retailer
+    summary: Get All Orders Of Retailer (By Status)
+    description: Get All Orders Of Retailer (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:

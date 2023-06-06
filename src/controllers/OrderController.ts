@@ -13,6 +13,9 @@ const imageService: ImageService = new ImageService();
 const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
+			const status = req.query.status;
+			const statusValue = Boolean(status) ? String(status) : "";
+
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
 
@@ -23,7 +26,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.getAllOrders(userObj);
+			const orders = await orderService.getAllOrders(userObj, statusValue);
 			return res.json({
 				data: orders,
 				message: "successfully",
@@ -75,6 +78,9 @@ const OrderController = {
 
 	getAllOrdersOfManufacturer: async (req: Request, res: Response) => {
 		try {
+			const status = req.query.status;
+			const statusValue = Boolean(status) ? String(status) : "";
+
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
 
@@ -87,7 +93,8 @@ const OrderController = {
 
 			const orders = await orderService.GetAllOrdersOfManufacturer(
 				userObj,
-				user.userId
+				user.userId,
+				statusValue
 			);
 
 			return res.json({
@@ -106,6 +113,9 @@ const OrderController = {
 
 	getAllOrdersOfDistributor: async (req: Request, res: Response) => {
 		try {
+			const status = req.query.status;
+			const statusValue = Boolean(status) ? String(status) : "";
+
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
 
@@ -118,7 +128,8 @@ const OrderController = {
 
 			const orders = await orderService.GetAllOrdersOfDistributor(
 				userObj,
-				user.userId
+				user.userId,
+				statusValue
 			);
 
 			return res.json({
@@ -137,6 +148,9 @@ const OrderController = {
 
 	GetAllOrdersOfRetailer: async (req: Request, res: Response) => {
 		try {
+			const status = req.query.status;
+			const statusValue = Boolean(status) ? String(status) : "";
+
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
 
@@ -149,7 +163,8 @@ const OrderController = {
 
 			const orders = await orderService.GetAllOrdersOfRetailer(
 				userObj,
-				user.userId
+				user.userId,
+				statusValue
 			);
 
 			return res.json({
