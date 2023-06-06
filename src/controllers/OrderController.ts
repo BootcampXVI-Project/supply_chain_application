@@ -11,6 +11,33 @@ const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
 
 const OrderController = {
+	getAllOrders: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			const orders = await orderService.getAllOrders(userObj);
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllOrdersByAddress: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -46,33 +73,6 @@ const OrderController = {
 		}
 	},
 
-	getAllOrders: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
-
-			if (!userObj) {
-				return res.json({
-					message: "User not found!",
-					status: "notfound"
-				});
-			}
-
-			const orders = await orderService.getAllOrders(userObj);
-			return res.json({
-				data: orders,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
 	getOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -86,7 +86,7 @@ const OrderController = {
 				});
 			}
 
-			const order = await orderService.getOrder(userObj, orderId);
+			const order = await orderService.getDetailOrder(userObj, orderId);
 			return res.json({
 				data: order,
 				message: "successfully",

@@ -19,7 +19,10 @@ export default class AuthController {
 			const user = await UserModel.findOne({
 				phoneNumber: phoneNumber,
 				password: password
-			});
+			})
+				.select("-__v -_id -createdAt -updatedAt -password -status")
+				.lean();
+
 			if (!user) {
 				return res.json({
 					data: null,

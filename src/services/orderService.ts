@@ -64,9 +64,9 @@ export default class OrderService {
 				getUserByUserId(retailerId)
 			]);
 
-			order.deliveryStatus[0].actor = distributor;
-			order.deliveryStatus[1].actor = distributor;
-			order.deliveryStatus[2].actor = distributor;
+			if (order.deliveryStatus[0]) order.deliveryStatus[0].actor = retailer;
+			if (order.deliveryStatus[1]) order.deliveryStatus[1].actor = distributor;
+			if (order.deliveryStatus[2]) order.deliveryStatus[2].actor = distributor;
 
 			return order;
 		} catch (error) {

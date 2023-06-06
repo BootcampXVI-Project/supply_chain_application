@@ -256,7 +256,7 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await getUserByUserId(user.userId);
-			const { productId, imageUrl } = req.body;
+			const { productId, imageUrl, expireTime } = req.body;
 
 			if (!userObj) {
 				return res.json({
@@ -291,6 +291,8 @@ const ProductController = {
 			// 	imageUrls.push(uploadedImageUrl);
 			// }
 			// productObj.image = imageUrls;
+			productObj.image = imageUrl;
+			productObj.expireTime = expireTime;
 
 			// Generate QR code for product
 			const qrCodeString = await imageService.generateAndPublishQRCode(
