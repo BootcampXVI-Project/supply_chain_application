@@ -3,15 +3,13 @@
 	"description": "Supply Chain Application",
 	"version": "1.0.0",
 	"main": "dist/index.js",
-	"typings": "dist/index.d.ts",
 	"engines": {
 		"node": ">=14.14",
 		"npm": ">=6"
 	},
 	"scripts": {
-		"start": "npm run build && nodemon dist/index.js",
-		"build": "tsc",
-		"prepublishOnly": "npm run build"
+		"start": "npm run build && node dist/index.js",
+		"build": "tsc"
 	},
 	"engineStrict": true,
 	"author": "Eden Nero Parker",
@@ -26,7 +24,6 @@
 		"@types/jsonwebtoken": "^9.0.2",
 		"@types/lodash": "^4.14.194",
 		"@types/morgan": "^1.9.4",
-		"@types/nodemon": "^1.19.2",
 		"@types/passport": "^1.0.12",
 		"@types/passport-jwt": "^3.0.8",
 		"@types/swagger-jsdoc": "^6.0.1",
@@ -46,7 +43,6 @@
 		"lodash": "^4.17.21",
 		"mongoose": "^7.1.1",
 		"morgan": "^1.10.0",
-		"nodemon": "^2.0.22",
 		"passport": "^0.6.0",
 		"passport-jwt": "^4.0.1",
 		"qrcode": "^1.5.3",

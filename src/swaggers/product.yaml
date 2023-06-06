@@ -171,6 +171,9 @@
               imageUrl:
                 type: array
                 required: true
+              expireTime:
+                type: string
+                required: true
             example:
               productId: "Product1"
               imageUrl:
@@ -178,6 +181,7 @@
                   "http://localhost:4000/image1.img",
                   "http://localhost:4000/image2.img"
                 ]
+              expireTime: "2023-06-03 09:37:48.94 +0000 UTC"
     responses:
       200:
         description: Successfully
