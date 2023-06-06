@@ -1,7 +1,12 @@
 /order/all:
   get:
-    summary: Get All Orders
-    description: Get All Orders
+    summary: Get All Orders (By Status)
+    description: Get All Orders (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:
@@ -30,6 +35,57 @@
         schema:
           type: string
           required: true
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/of-manufacturer:
+  get:
+    summary: Get All Orders Of Manufacturer (By Status)
+    description: Get All Orders Of Manufacturer (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/of-distributor:
+  get:
+    summary: Get All Orders Of Distributor (By Status)
+    description: Get All Orders Of Distributor (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/of-retailer:
+  get:
+    summary: Get All Orders Of Retailer (By Status)
+    description: Get All Orders Of Retailer (By Status)
+    parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
     tags:
       - Order
     responses:

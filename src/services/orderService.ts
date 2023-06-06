@@ -4,14 +4,16 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { getUserByUserId } from "./userService";
 
 export default class OrderService {
-	async getAllOrders(userObj: User) {
+	async getAllOrders(userObj: User, status: string) {
 		try {
 			const contractOrder = await contract(userObj);
 			const orderBuffer = await contractOrder.evaluateTransaction(
-				"GetAllOrders"
+				"GetAllOrders",
+				status
 			);
 			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
+			console.log(error.message);
 			return error.message;
 		}
 	}
@@ -31,6 +33,56 @@ export default class OrderService {
 				shippingStatus
 			);
 			return await convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async GetAllOrdersOfManufacturer(
+		userObj: User,
+		userId: string,
+		status: string
+	) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfManufacturer",
+				userId,
+				status
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async GetAllOrdersOfDistributor(
+		userObj: User,
+		userId: string,
+		status: string
+	) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfDistributor",
+				userId,
+				status
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async GetAllOrdersOfRetailer(userObj: User, userId: string, status: string) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfRetailer",
+				userId,
+				status
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
 			return error.message;
 		}

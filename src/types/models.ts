@@ -100,6 +100,7 @@ export type Order = {
 	deliveryStatus: DeliveryStatus[];
 	status: OrderStatus;
 	location: string;
+	manufacturerId: string;
 	distributorId: string;
 	retailerId: string;
 	qrCode: string;

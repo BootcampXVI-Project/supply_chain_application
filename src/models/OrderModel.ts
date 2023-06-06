@@ -26,6 +26,7 @@ interface Order {
 	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
 	status: OrderStatus;
+	manufacturerId: string;
 	distributorId: string;
 	retailerId: string;
 	qrCode: string;
@@ -49,6 +50,7 @@ const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 		required: true,
 		default: "PENDING"
 	},
+	manufacturerId: { type: String, required: true },
 	distributorId: { type: String, required: true },
 	retailerId: { type: String, required: true },
 	qrCode: { type: String, required: true },

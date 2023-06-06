@@ -11,6 +11,12 @@ export const getUserByUserId = async (userId: string) => {
 		.lean();
 };
 
+export const getUserObjByUserId = async (userId: string) => {
+	return await UserModel.findOne({ userId: userId })
+		.select("-__v -_id -createdAt -updatedAt")
+		.lean();
+};
+
 export const checkExistedUserEmail = async (email: string) => {
 	const isExisted = await UserModel.exists({ email: email });
 	return Boolean(isExisted);
