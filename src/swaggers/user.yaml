@@ -45,12 +45,12 @@
       400:
         description: Failed
 
-/user/detail:
+/user/{userId}:
   get:
-    summary: Get User
-    description: Get User
+    summary: Get Detail User
+    description: Get Detail User
     parameters:
-      - in: query
+      - in: path
         name: userId
         schema:
           type: string

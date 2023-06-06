@@ -1,6 +1,7 @@
 import { User } from "../types/models";
 import { contract, submitTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
+import { getUserByUserId } from "./userService";
 
 export default class OrderService {
 	async getAllOrders(userObj: User) {
@@ -43,6 +44,31 @@ export default class OrderService {
 				String(orderId)
 			);
 			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async getDetailOrder(userObj: User, orderId: string) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetOrder",
+				orderId
+			);
+			const order = convertBufferToJavasciptObject(orderBuffer);
+
+			const { distributorId, retailerId } = order;
+			const [distributor, retailer] = await Promise.all([
+				getUserByUserId(distributorId),
+				getUserByUserId(retailerId)
+			]);
+
+			if (order.deliveryStatus[0]) order.deliveryStatus[0].actor = retailer;
+			if (order.deliveryStatus[1]) order.deliveryStatus[1].actor = distributor;
+			if (order.deliveryStatus[2]) order.deliveryStatus[2].actor = distributor;
+
+			return order;
 		} catch (error) {
 			return error.message;
 		}

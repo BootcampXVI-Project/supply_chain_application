@@ -44,13 +44,77 @@ export const getAllProducts = async (userId: string) => {
 export const getProductById = async (productId: string, userObj: User) => {
 	console.log(2);
 	const contractProduct = await contract(userObj);
-
 	const productBuffer = await contractProduct.evaluateTransaction(
 		"GetProduct",
 		String(productId)
 	);
-
 	return convertBufferToJavasciptObject(productBuffer);
+};
+
+export const getDetailProductById = async (
+	productId: string,
+	userObj: User
+) => {
+	const contractProduct = await contract(userObj);
+	const productBuffer = await contractProduct.evaluateTransaction(
+		"GetProduct",
+		productId
+	);
+	const product = convertBufferToJavasciptObject(productBuffer);
+
+	const { supplierId, manufacturerId, distributorId, retailerId } =
+		product.actors;
+	const [supplier, manufacturer, distributor, retailer] = await Promise.all([
+		getUserByUserId(supplierId),
+		getUserByUserId(manufacturerId),
+		getUserByUserId(distributorId),
+		getUserByUserId(retailerId)
+	]);
+
+	product.dates = [
+		{
+			status: "cultivated",
+			time: product.dates.cultivated,
+			actor: supplier
+		},
+		{
+			status: "harvested",
+			time: product.dates.harvested,
+			actor: supplier
+		},
+		{
+			status: "imported",
+			time: product.dates.imported,
+			actor: manufacturer
+		},
+		{
+			status: "manufacturered",
+			time: product.dates.manufacturered,
+			actor: manufacturer
+		},
+		{
+			status: "exported",
+			time: product.dates.exported,
+			actor: manufacturer
+		},
+		{
+			status: "distributed",
+			time: product.dates.distributed,
+			actor: distributor
+		},
+		{
+			status: "selling",
+			time: product.dates.selling,
+			actor: retailer
+		},
+		{
+			status: "sold",
+			time: product.dates.sold,
+			actor: retailer
+		}
+	];
+
+	return product;
 };
 
 export const createProduct = async (userId: string, productObj: Product) => {
@@ -78,8 +142,6 @@ export const createProduct = async (userId: string, productObj: Product) => {
 			console.log("error", error);
 			return error;
 		});
-
-	console.log("createdProduct", createdProduct);
 
 	if (createdProduct) {
 		return { data: createdProduct, message: "successfully" };

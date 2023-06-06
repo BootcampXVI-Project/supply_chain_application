@@ -2,11 +2,6 @@
   get:
     summary: Get All Products
     description: Get All Products
-    parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
     tags:
       - Product
     responses:
@@ -15,16 +10,12 @@
       400:
         description: Failed
 
-/product/detail:
+/product/{productId}:
   get:
-    summary: Get Product
-    description: Get Product
+    summary: Get Detail Product
+    description: Get Detail Product
     parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
-      - in: query
+      - in: path
         name: productId
         schema:
           type: string
@@ -41,10 +32,6 @@
     summary: Get Product Transactions History
     description: Get Product Transactions History
     parameters:
-      - in: query
-        name: userId
-        schema:
-          type: string
       - in: query
         name: productId
         schema:
@@ -69,14 +56,10 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productObj:
                 type: object
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
                   productId: "Product1",
@@ -132,14 +115,10 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
     responses:
       200:
@@ -159,9 +138,6 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
@@ -169,7 +145,6 @@
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
               price: "100000"
     responses:
@@ -190,23 +165,23 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
               imageUrl:
                 type: array
                 required: true
+              expireTime:
+                type: string
+                required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
               imageUrl:
                 [
                   "http://localhost:4000/image1.img",
                   "http://localhost:4000/image2.img"
                 ]
+              expireTime: "2023-06-03 09:37:48.94 +0000 UTC"
     responses:
       200:
         description: Successfully
@@ -225,9 +200,6 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
@@ -235,7 +207,6 @@
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
               price: "100000"
     responses:
@@ -256,14 +227,10 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
     responses:
       200:
@@ -283,9 +250,6 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
@@ -293,7 +257,6 @@
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
               price: "100000"
     responses:
@@ -314,9 +277,6 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productId:
                 type: string
                 required: true
@@ -324,7 +284,6 @@
                 type: string
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productId: "Product1"
               price: "100000"
     responses:
@@ -345,14 +304,10 @@
           schema:
             type: object
             properties:
-              userId:
-                type: string
-                required: true
               productObj:
                 type: object
                 required: true
             example:
-              userId: "g53a0000-8669-4a07-a23a-d18055600000"
               productObj:
                 {
                   productId: "Product1",

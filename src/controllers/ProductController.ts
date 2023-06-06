@@ -1,46 +1,29 @@
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
+import { DecodeUser } from "../types/common";
 import { getUserByUserId } from "../services/userService";
-import { getProductById } from "../services/productService";
+import {
+	getDetailProductById,
+	getProductById
+} from "../services/productService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateGetWithNoArgs, evaluateTransaction, submitTransaction } from "../app";
 
 const imageService: ImageService = new ImageService();
 
 const ProductController = {
-	getProduct: async (req: Request, res: Response) => {
-		try {
-			const { userId, productId } = req.query;
-			const userObj = await getUserByUserId(String(userId));
-			const product = await getProductById(String(productId), userObj);
-
-			return res.json({
-				data: product,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			console.log("getProduct", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.query.userId);
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 
-			const productsBuffer = await evaluateGetWithNoArgs(
+			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
 				userObj,
+				null
 			);
-			const products = await convertBufferToJavasciptObject(productsBuffer);
-			console.log(products);
+			const products = convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
 				data: products,
@@ -57,14 +40,33 @@ const ProductController = {
 		}
 	},
 
+	getProduct: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const productId = String(req.params.productId);
+			const userObj = await getUserByUserId(user.userId);
+			const product = await getDetailProductById(productId, userObj);
+
+			return res.json({
+				data: product,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			console.log("getProduct", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getTransactionsHistory: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.query.userId);
+			const user = req.user as DecodeUser;
 			const productId = String(req.query.productId);
-			const userObj = await getUserByUserId(userId);
-			if (!userObj){
-				console.log(null);
-			}
+			const userObj = await getUserByUserId(user.userId);
 			const productObj = await getProductById(productId, userObj);
 
 			const transactionsBuffer = await evaluateTransaction(
@@ -73,7 +75,6 @@ const ProductController = {
 				productObj
 			);
 			const transactions = await convertBufferToJavasciptObject(transactionsBuffer);
-			// console.log("DEBUG3", transactions);
 			return res.json({
 				data: transactions,
 				message: "successfully",
@@ -91,19 +92,14 @@ const ProductController = {
 
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productObj } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const productObj = req.body.productObj;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "supplier") {
-				return res.json({
-					message: "Denied permission! User must be a supplier!",
-					status: "unauthorize"
 				});
 			}
 
@@ -130,19 +126,14 @@ const ProductController = {
 
 	harvestProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const productId = String(req.body.productId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "supplier") {
-				return res.json({
-					message: "Denied permission! User must be a supplier!",
-					status: "unauthorize"
 				});
 			}
 
@@ -183,9 +174,9 @@ const ProductController = {
 
 	updateProduct: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 			const productObj = req.body.productObj;
-			const userObj = await getUserByUserId(userId);
 
 			if (!userObj) {
 				return res.json({
@@ -193,14 +184,8 @@ const ProductController = {
 					status: "notfound"
 				});
 			}
-			if (userObj.role != "supplier") {
-				return res.json({
-					message: "Denied permission! User must be a supplier!",
-					status: "unauthorize"
-				});
-			}
 
-			const data = await submitTransaction("SupplierUpdateProduct", userObj, productObj);
+			const data = await submitTransaction("UpdateProduct", userObj, productObj);
 
 			return res.json({
 				data: data,
@@ -219,19 +204,14 @@ const ProductController = {
 
 	importProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId, price } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { productId, price } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "manufacturer") {
-				return res.json({
-					message: "Denied permission! User must be a manufacturer!",
-					status: "unauthorize"
 				});
 			}
 
@@ -272,19 +252,14 @@ const ProductController = {
 
 	manufactureProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId, imageUrl } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { productId, imageUrl, expireTime } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "user-notfound"
-				});
-			}
-			if (userObj.role != "manufacturer") {
-				return res.json({
-					message: "Denied permission! User must be a manufacturer!",
-					status: "unauthorize"
 				});
 			}
 
@@ -314,11 +289,13 @@ const ProductController = {
 			// 	imageUrls.push(uploadedImageUrl);
 			// }
 			// productObj.image = imageUrls;
+			productObj.image = imageUrl;
+			productObj.expireTime = expireTime;
 
 			// Generate QR code for product
 			const qrCodeString = await imageService.generateAndPublishQRCode(
-				`${PRODUCTION_URL}/product/detail?productId=${productId}&userId=${userId}`,
-				`qrcode/products/${productId}.img`
+				`${PRODUCTION_URL}/product/${productId}`,
+				`qrcode/products/${productId}.jpg`
 			);
 			productObj.qrCode = qrCodeString;
 
@@ -345,19 +322,14 @@ const ProductController = {
 
 	exportProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId, price } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { productId, price } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "manufacturer") {
-				return res.json({
-					message: "Denied permission! User must be a manufacturer!",
-					status: "unauthorize"
 				});
 			}
 
@@ -398,19 +370,14 @@ const ProductController = {
 
 	distributeProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const productId = String(req.body.productId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "distributor") {
-				return res.json({
-					message: "Denied permission! User must be a distributor!",
-					status: "unauthorize"
 				});
 			}
 
@@ -451,19 +418,14 @@ const ProductController = {
 
 	importRetailerProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId, price } = req.body;
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { productId, price } = req.body;
 
-			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "retailer") {
-				return res.json({
-					message: "Denied permission! User must be a retailer!",
-					status: "unauthorize"
 				});
 			}
 
@@ -503,19 +465,14 @@ const ProductController = {
 
 	sellProduct: async (req: Request, res: Response) => {
 		try {
-			const { userId, productId, price } = req.body;
-			const userObj = await getUserByUserId(userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
+			const { productId, price } = req.body;
 
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "retailer") {
-				return res.json({
-					message: "Denied permission! User must be a retailer!",
-					status: "unauthorize"
 				});
 			}
 

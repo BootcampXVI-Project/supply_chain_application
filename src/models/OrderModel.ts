@@ -47,7 +47,7 @@ const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 		type: String,
 		enum: OrderStatusArray,
 		required: true,
-		default: "NOT-SHIPPED-YET"
+		default: "PENDING"
 	},
 	distributorId: { type: String, required: true },
 	retailerId: { type: String, required: true },

@@ -1,30 +1,50 @@
 import twilio from "twilio";
-import { AuthModel } from "../models/AuthModel";
+import jwt from "jsonwebtoken";
+import pkg from "bcryptjs";
+import {
+	ACCOUNT_SID,
+	AUTH_TOKEN,
+	TWILIO_PHONE_NUMBER,
+	JWT_SECRET_KEY,
+	EXPIRES_IN
+} from "../constants";
+import { TokenPayload } from "../types/common";
 
-// Set up authentication Twilio
-const accountSid = "AC21dec952ef63dfbfeb9d8b9ebcc39629";
-const authToken = "a9c9623cafb069c2aa99e9d910fab087";
-const twilioPhoneNumber = "+15855493070";
-
-const client = twilio(accountSid, authToken);
+const { hashSync, compareSync, genSaltSync } = pkg;
+const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
 
 export default class AuthService {
 	async sendOtp(phoneNumber: string) {
 		const digits = "0123456789";
 		let otp = "";
+
 		for (let i = 0; i < 6; i++) {
 			otp += digits[Math.floor(Math.random() * 10)];
 		}
-
-		// Send OTP message using Twilio API
-		// const client = twilio(/* Your Twilio credentials here */);
-		// const twilioPhoneNumber = "YOUR_TWILIO_PHONE_NUMBER"; // Replace with your Twilio phone number
 		const message = await client.messages.create({
 			body: `Your OTP is: ${otp}`,
-			from: twilioPhoneNumber,
+			from: TWILIO_PHONE_NUMBER,
 			to: phoneNumber
 		});
 
 		return otp;
+	}
+
+	async generateAccessToken(payload: TokenPayload) {
+		const expiresIn = EXPIRES_IN + `m`;
+		const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn });
+		return token;
+	}
+
+	async hashPassword(password: string, salt = 10) {
+		return hashSync(password, genSaltSync(salt));
+	}
+
+	async comparePassword(password: string, passwordHash: string) {
+		return compareSync(password, passwordHash);
+	}
+
+	async decodeToken(token: string) {
+		return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 	}
 }

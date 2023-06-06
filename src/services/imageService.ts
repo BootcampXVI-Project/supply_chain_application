@@ -17,6 +17,7 @@ const storageBucket = admin.storage().bucket();
 
 export default class ImageService {
 	storage: any;
+
 	async upload(imagePath: string, imageName: string) {
 		try {
 			const currentDate = new Date();
@@ -42,7 +43,7 @@ export default class ImageService {
 
 	async generateAndPublishQRCode(encodeData: string, imageNamePath: string) {
 		try {
-			QRCode.toFile("./image.png", encodeData, {
+			QRCode.toFile("./image.jpg", encodeData, {
 				errorCorrectionLevel: "H"
 			})
 				.then(() => {})
@@ -50,8 +51,7 @@ export default class ImageService {
 					throw error;
 				});
 
-			const publicImage = await this.upload("./image.png", imageNamePath);
-			return publicImage;
+			return await this.upload("./image.jpg", imageNamePath);
 		} catch (error) {
 			return null;
 		}
@@ -61,7 +61,7 @@ export default class ImageService {
 	// 	const imageName = this.generateImageName();
 	// 	const filePath = `images/${imageName}`;
 	// 	const fileRef = this.storage.ref(filePath);
-	
+
 	// 	const task = this.storage.upload(filePath, file);
 	// 	await task.snapshotChanges().pipe(
 	// 	  finalize(async () => {
@@ -74,7 +74,7 @@ export default class ImageService {
 	// 	throw new Error("Method not implemented.");
 	// }
 }
+
 function finalize(arg0: () => Promise<any>): any {
 	throw new Error("Function not implemented.");
 }
-

@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { getUserByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransactionUserObjAnyParam, submitTransaction } from "../app";
+import { DecodeUser } from "../types/common";
 
 const DistributorController = {
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
+			const user = req.user as DecodeUser;
 			const shippingStatus = String(req.query.shippingStatus);
-			const userId = String(req.body.userId);
 
-			const userObj = await getUserByUserId(userId);
+			const userObj = await getUserByUserId(user.userId);
 			const queryObj = {
 				address: userObj.address,
 				shippingStatus: shippingStatus
@@ -38,20 +39,14 @@ const DistributorController = {
 
 	updateProduct: async (req: Request, res: Response) => {
 		try {
-			const userId = String(req.body.userId);
+			const user = req.user as DecodeUser;
+			const userObj = await getUserByUserId(user.userId);
 			const productObj = req.body.productObj;
 
-			const userObj = await getUserByUserId(userId);
 			if (!userObj) {
 				return res.json({
 					message: "User not found!",
 					status: "notfound"
-				});
-			}
-			if (userObj.role != "distributor") {
-				return res.json({
-					message: "Denied permission! User must be a distributor!",
-					status: "unauthorize"
 				});
 			}
 

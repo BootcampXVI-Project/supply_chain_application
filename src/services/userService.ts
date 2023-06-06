@@ -8,7 +8,7 @@ export const getAllUsers = async () => {
 export const getUserByUserId = async (userId: string) => {
 	console.log(1);
 	return await UserModel.findOne({ userId: userId })
-		.select("-__v -_id -createdAt -updatedAt")
+		.select("-__v -_id -createdAt -updatedAt -password -status")
 		.lean();
 };
 

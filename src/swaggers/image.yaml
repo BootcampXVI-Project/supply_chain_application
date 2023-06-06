@@ -30,7 +30,7 @@
                 required: true
             example:
               qrCodeEncodeData: "http://localhost:4000/product/Product1"
-              storageImageNamePath: "qrcode/products/Product1.png"
+              storageImageNamePath: "qrcode/products/Product1.jpg"
     responses:
       200:
         description: Successfully
