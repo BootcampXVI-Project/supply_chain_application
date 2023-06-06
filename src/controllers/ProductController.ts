@@ -1,14 +1,14 @@
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
-import { PRODUCTION_URL } from "../constants";
 import { DecodeUser } from "../types/common";
-import { getUserByUserId } from "../services/userService";
-import {
-	getDetailProductById,
-	getProductById
-} from "../services/productService";
+import { PRODUCTION_URL } from "../constants";
+import { getUserObjByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { evaluateGetWithNoArgs, evaluateTransaction, submitTransaction } from "../app";
+import { evaluateTransaction, submitTransaction } from "../app";
+import {
+	getProductById,
+	getDetailProductById
+} from "../services/productService";
 
 const imageService: ImageService = new ImageService();
 
@@ -16,7 +16,7 @@ const ProductController = {
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			const productsBuffer = await evaluateTransaction(
 				"GetAllProducts",
@@ -44,7 +44,7 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const product = await getDetailProductById(productId, userObj);
 
 			return res.json({
@@ -66,7 +66,7 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const productId = String(req.query.productId);
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = await getProductById(productId, userObj);
 
 			const transactionsBuffer = await evaluateTransaction(
@@ -74,7 +74,9 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-			const transactions = await convertBufferToJavasciptObject(transactionsBuffer);
+			const transactions = await convertBufferToJavasciptObject(
+				transactionsBuffer
+			);
 			return res.json({
 				data: transactions,
 				message: "successfully",
@@ -93,7 +95,7 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj;
 
 			if (!userObj) {
@@ -128,7 +130,7 @@ const ProductController = {
 		try {
 			const productId = String(req.body.productId);
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -175,7 +177,7 @@ const ProductController = {
 	updateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj;
 
 			if (!userObj) {
@@ -185,7 +187,11 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction("UpdateProduct", userObj, productObj);
+			const data = await submitTransaction(
+				"UpdateProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
@@ -205,7 +211,7 @@ const ProductController = {
 	importProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { productId, price } = req.body;
 
 			if (!userObj) {
@@ -253,7 +259,7 @@ const ProductController = {
 	manufactureProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { productId, imageUrl, expireTime } = req.body;
 
 			if (!userObj) {
@@ -323,7 +329,7 @@ const ProductController = {
 	exportProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { productId, price } = req.body;
 
 			if (!userObj) {
@@ -372,7 +378,7 @@ const ProductController = {
 		try {
 			const productId = String(req.body.productId);
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -419,7 +425,7 @@ const ProductController = {
 	importRetailerProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { productId, price } = req.body;
 
 			if (!userObj) {
@@ -466,7 +472,7 @@ const ProductController = {
 	sellProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { productId, price } = req.body;
 
 			if (!userObj) {

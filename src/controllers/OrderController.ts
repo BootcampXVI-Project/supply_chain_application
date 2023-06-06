@@ -1,11 +1,11 @@
 import OrderService from "../services/orderService";
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
+import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
-import { getUserByUserId, getUserObjByUserId } from "../services/userService";
+import { getUserObjByUserId } from "../services/userService";
 import { getNextCounterID } from "../services/productService";
 import { submitTransaction, submitTransactionOrderAddress } from "../app";
-import { DecodeUser } from "../types/common";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
@@ -185,7 +185,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderId = String(req.params.orderId);
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
