@@ -84,7 +84,12 @@ export default class AuthController {
 				});
 			}
 
-			const payload = { userId: user.userId, role: user.role };
+			const payload = {
+				role: user.role,
+				userId: user.userId,
+				userName: user.userName,
+				phoneNumber: user.phoneNumber
+			};
 			const token = await authService.generateAccessToken(payload);
 
 			return res.json({

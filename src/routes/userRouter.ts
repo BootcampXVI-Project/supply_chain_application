@@ -18,7 +18,13 @@ router.get(
 router.get(
 	"/:userId",
 	jwtGuard,
-	Roles(UserRole.MANUFACTURER),
+	Roles(
+		UserRole.SUPPLIER,
+		UserRole.MANUFACTURER,
+		UserRole.DISTRIBUTOR,
+		UserRole.RETAILER,
+		UserRole.CONSUMER
+	),
 	UserController.getUser
 );
 
