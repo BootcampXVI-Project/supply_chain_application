@@ -14,6 +14,27 @@ router.get(
 );
 
 router.get(
+	"/all/of-manufacturer",
+	jwtGuard,
+	Roles(UserRole.MANUFACTURER),
+	OrderController.getAllOrdersOfManufacturer
+);
+
+router.get(
+	"/all/of-distributor",
+	jwtGuard,
+	Roles(UserRole.DISTRIBUTOR),
+	OrderController.getAllOrdersOfDistributor
+);
+
+router.get(
+	"/all/of-retailer",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	OrderController.GetAllOrdersOfRetailer
+);
+
+router.get(
 	"/all",
 	jwtGuard,
 	Roles(UserRole.MANUFACTURER, UserRole.DISTRIBUTOR, UserRole.RETAILER),

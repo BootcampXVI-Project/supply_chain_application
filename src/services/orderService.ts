@@ -36,6 +36,45 @@ export default class OrderService {
 		}
 	}
 
+	async GetAllOrdersOfManufacturer(userObj: User, userId: string) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfManufacturer",
+				userId
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async GetAllOrdersOfDistributor(userObj: User, userId: string) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfDistributor",
+				userId
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
+	async GetAllOrdersOfRetailer(userObj: User, userId: string) {
+		try {
+			const contractOrder = await contract(userObj);
+			const orderBuffer = await contractOrder.evaluateTransaction(
+				"GetAllOrdersOfRetailer",
+				userId
+			);
+			return convertBufferToJavasciptObject(orderBuffer);
+		} catch (error) {
+			return error.message;
+		}
+	}
+
 	async getOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);

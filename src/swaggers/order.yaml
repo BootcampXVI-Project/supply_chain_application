@@ -38,6 +38,42 @@
       400:
         description: Failed
 
+/order/all/of-manufacturer:
+  get:
+    summary: Get All Orders Of Manufacturer
+    description: Get All Orders Of Manufacturer
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/of-distributor:
+  get:
+    summary: Get All Orders Of Distributor
+    description: Get All Orders Of Distributor
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/order/all/of-retailer:
+  get:
+    summary: Get All Orders Of Retailer
+    description: Get All Orders Of Retailer
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
 /order/{orderId}:
   get:
     summary: Get Detail Order

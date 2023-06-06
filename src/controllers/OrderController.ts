@@ -2,7 +2,7 @@ import OrderService from "../services/orderService";
 import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
-import { getUserByUserId } from "../services/userService";
+import { getUserByUserId, getUserObjByUserId } from "../services/userService";
 import { getNextCounterID } from "../services/productService";
 import { submitTransaction, submitTransactionOrderAddress } from "../app";
 import { DecodeUser } from "../types/common";
@@ -14,7 +14,7 @@ const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -41,7 +41,7 @@ const OrderController = {
 	getAllOrdersByAddress: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const longitude = String(req.query.longitude);
 			const latitude = String(req.query.latitude);
 			const shippingStatus = String(req.query.shippingStatus);
@@ -59,6 +59,99 @@ const OrderController = {
 				latitude,
 				shippingStatus
 			);
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getAllOrdersOfManufacturer: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			const orders = await orderService.GetAllOrdersOfManufacturer(
+				userObj,
+				user.userId
+			);
+
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getAllOrdersOfDistributor: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			const orders = await orderService.GetAllOrdersOfDistributor(
+				userObj,
+				user.userId
+			);
+
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	GetAllOrdersOfRetailer: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			if (!userObj) {
+				return res.json({
+					message: "User not found!",
+					status: "notfound"
+				});
+			}
+
+			const orders = await orderService.GetAllOrdersOfRetailer(
+				userObj,
+				user.userId
+			);
+
 			return res.json({
 				data: orders,
 				message: "successfully",
@@ -104,7 +197,7 @@ const OrderController = {
 	createOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const orderObj = req.body.orderObj;
 
 			if (!userObj) {
@@ -141,7 +234,7 @@ const OrderController = {
 	updateOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { orderObj, longitude, latitude } = req.body;
 
 			if (!userObj) {
@@ -176,7 +269,7 @@ const OrderController = {
 	finishOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const { orderId, longitude, latitude } = req.body;
 
 			if (!userObj) {
