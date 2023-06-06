@@ -16,7 +16,7 @@ export const getCounter = async (userId: string, counterName: string) => {
 		userObj,
 		counterName
 	);
-	return convertBufferToJavasciptObject(counterBuffer);
+	return await convertBufferToJavasciptObject(counterBuffer);
 };
 
 export const getNextCounterID = async (userId: string, counterName: string) => {
@@ -38,7 +38,7 @@ export const getAllProducts = async (userId: string) => {
 		userObj,
 		null
 	);
-	return convertBufferToJavasciptObject(productsBuffer);
+	return await convertBufferToJavasciptObject(productsBuffer);
 };
 
 export const getProductById = async (productId: string, userObj: User) => {
@@ -47,7 +47,7 @@ export const getProductById = async (productId: string, userObj: User) => {
 		"GetProduct",
 		String(productId)
 	);
-	return convertBufferToJavasciptObject(productBuffer);
+	return await convertBufferToJavasciptObject(productBuffer);
 };
 
 export const getDetailProductById = async (
@@ -59,7 +59,7 @@ export const getDetailProductById = async (
 		"GetProduct",
 		productId
 	);
-	const product = convertBufferToJavasciptObject(productBuffer);
+	const product = await convertBufferToJavasciptObject(productBuffer);
 
 	const { supplierId, manufacturerId, distributorId, retailerId } =
 		product.actors;

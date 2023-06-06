@@ -10,7 +10,7 @@ export default class OrderService {
 			const orderBuffer = await contractOrder.evaluateTransaction(
 				"GetAllOrders"
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
 			return error.message;
 		}
@@ -30,7 +30,7 @@ export default class OrderService {
 				latitude,
 				shippingStatus
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
 			return error.message;
 		}
@@ -43,7 +43,7 @@ export default class OrderService {
 				"GetOrder",
 				String(orderId)
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
 			return error.message;
 		}
@@ -56,7 +56,7 @@ export default class OrderService {
 				"GetOrder",
 				orderId
 			);
-			const order = convertBufferToJavasciptObject(orderBuffer);
+			const order = await convertBufferToJavasciptObject(orderBuffer);
 
 			const { distributorId, retailerId } = order;
 			const [distributor, retailer] = await Promise.all([

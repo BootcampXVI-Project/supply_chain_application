@@ -23,7 +23,7 @@ const ProductController = {
 				userObj,
 				null
 			);
-			const products = convertBufferToJavasciptObject(productsBuffer);
+			const products = await convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
 				data: products,

@@ -21,7 +21,7 @@ const DistributorController = {
 				userObj,
 				queryObj
 			);
-			const products = convertBufferToJavasciptObject(productsBuffer);
+			const products = await convertBufferToJavasciptObject(productsBuffer);
 
 			return res.json({
 				data: products,
