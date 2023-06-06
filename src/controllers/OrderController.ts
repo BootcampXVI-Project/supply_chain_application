@@ -224,7 +224,7 @@ const OrderController = {
 
 			// Generate QR code for order
 			const orderId = "Order1";
-			//(await getNextCounterID(userId, "OrderCounterNO")) || ;
+			// await getNextCounterID(userId, "OrderCounterNO"))
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/${orderId}`,
 				`qrcode/orders/${orderId}.jpg`

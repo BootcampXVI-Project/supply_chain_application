@@ -448,6 +448,7 @@ const ProductController = {
 				});
 			}
 
+			productObj.price = price;
 			const data = await submitTransaction(
 				"ImportRetailerProduct",
 				userObj,
@@ -495,7 +496,9 @@ const ProductController = {
 				});
 			}
 
+			productObj.price = price;
 			const data = await submitTransaction("SellProduct", userObj, productObj);
+
 			return res.json({
 				data: data,
 				message: "successfully",

@@ -44,7 +44,7 @@ router.get(
 router.post(
 	"/create",
 	jwtGuard,
-	Roles(UserRole.MANUFACTURER),
+	Roles(UserRole.RETAILER),
 	OrderController.createOrder
 );
 
