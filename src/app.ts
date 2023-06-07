@@ -16,7 +16,8 @@ export async function registerUser(userObj: UserForRegister) {
 		const createdUser = await createNewUser(userObj);
 
 		if (createdUser.data !== null) {
-			const orgDetail = orgConst[createdUser.data.role];
+			const { role, userId } = createdUser.data;
+			const orgDetail = orgConst[role];
 			const ccp = buildCCPOrg(orgDetail.path);
 			const caClient = buildCAClient(ccp, orgDetail.ca);
 			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -26,7 +27,7 @@ export async function registerUser(userObj: UserForRegister) {
 				caClient,
 				wallet,
 				orgDetail.msp,
-				createdUser.data.userId,
+				userId,
 				orgDetail.department
 			);
 		}
