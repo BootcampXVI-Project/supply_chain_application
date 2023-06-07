@@ -1,6 +1,6 @@
 import { registerUser } from "../app";
 import { Request, Response } from "express";
-import { getUserByUserId, getAllUsers } from "../services/userService";
+import { getUserObjByUserId, getAllUsers } from "../services/userService";
 
 const UserController = {
 	createUser: async (req: Request, res: Response) => {
@@ -49,7 +49,7 @@ const UserController = {
 	getUser: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.params.userId);
-			const users = await getUserByUserId(userId);
+			const users = await getUserObjByUserId(userId);
 
 			return res.json({
 				data: users,

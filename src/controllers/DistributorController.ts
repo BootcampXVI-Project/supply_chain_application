@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getUserByUserId } from "../services/userService";
+import { getUserObjByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransactionUserObjAnyParam, submitTransaction } from "../app";
 import { DecodeUser } from "../types/common";
@@ -10,7 +10,7 @@ const DistributorController = {
 			const user = req.user as DecodeUser;
 			const shippingStatus = String(req.query.shippingStatus);
 
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const queryObj = {
 				address: userObj.address,
 				shippingStatus: shippingStatus
@@ -40,7 +40,7 @@ const DistributorController = {
 	updateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj;
 
 			if (!userObj) {

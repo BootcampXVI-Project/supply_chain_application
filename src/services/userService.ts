@@ -22,6 +22,11 @@ export const checkExistedUserEmail = async (email: string) => {
 	return Boolean(isExisted);
 };
 
+export const checkExistedUserId = async (userId: string) => {
+	const isExisted = await UserModel.exists({ userId: userId });
+	return Boolean(isExisted);
+};
+
 export const checkExistedUserPhoneNumber = async (phoneNumber: string) => {
 	const isExisted = await UserModel.exists({ phoneNumber: phoneNumber });
 	return Boolean(isExisted);

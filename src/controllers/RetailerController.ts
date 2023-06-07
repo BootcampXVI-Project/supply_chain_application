@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
-import { getUserByUserId } from "../services/userService";
+import { getUserObjByUserId } from "../services/userService";
 import { getProductsByRetailerId } from "../services/retailerService";
 
 const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
