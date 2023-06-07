@@ -2,7 +2,7 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
 import { DecodeUser } from "../types/common";
-import { getUserByUserId } from "../services/userService";
+import { getUserByUserId, getUserObjByUserId } from "../services/userService";
 import {
 	getDetailProductById,
 	getProductById
@@ -93,7 +93,7 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserByUserId(user.userId);
+			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj;
 
 			if (!userObj) {

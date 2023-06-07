@@ -137,8 +137,7 @@ export async function evaluateTransaction(
 		const contract = network.getContract(CHAINCODE_NAME);
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		return await contract.evaluateTransaction(
-			funcName,
-			productObj.productId
+			funcName
 		);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
