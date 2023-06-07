@@ -1,15 +1,20 @@
 import path from "path";
 import orgConst from "./utils/organizationConstant.json";
 import { Gateway } from "fabric-network";
+import { createNewUser } from "./services/userService";
 import { CHANNEL_NAME, CHAINCODE_NAME } from "./constants";
 import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
-import { Product, User, UserForRegister } from "./types/models";
-import { createNewUser } from "./services/userService";
 import {
 	buildCAClient,
 	enrollAdmin,
 	registerAndEnrollUser
 } from "./utils/CAUtil";
+import {
+	User,
+	UserForRegister,
+	Product,
+	ProductForCultivate
+} from "./types/models";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
@@ -88,6 +93,26 @@ export async function submitTransaction(
 	funcName: string,
 	userObj: User,
 	productObj: Product
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`submitTransaction()--> ${funcName}`);
+		return await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(productObj)
+		);
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
+	}
+}
+
+export async function submitTransactionCultivateProduct(
+	funcName: string,
+	userObj: User,
+	productObj: ProductForCultivate
 ) {
 	try {
 		const network = await connectNetwork(userObj);

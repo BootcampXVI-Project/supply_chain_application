@@ -1,15 +1,15 @@
 import { getUserByUserId } from "./userService";
-import { Product, ProductForCultivate, User } from "../types/models";
 import { ProductModel } from "../models/ProductModel";
 import { convertBufferToJavasciptObject } from "../helpers";
+import { User, Product, ProductForCultivate } from "../types/models";
+import { CounterName } from "../types/types";
 import {
 	contract,
 	evaluateTransaction,
 	evaluateTransactionUserObjCounterName
 } from "../app";
 
-export const getCounter = async (userId: string, counterName: string) => {
-	// counterName: "ProductCounterNO" || "OrderCounterNO"
+export const getCounter = async (userId: string, counterName: CounterName) => {
 	const userObj = await getUserByUserId(userId);
 	const counterBuffer = await evaluateTransactionUserObjCounterName(
 		"getCounter",
@@ -19,7 +19,10 @@ export const getCounter = async (userId: string, counterName: string) => {
 	return await convertBufferToJavasciptObject(counterBuffer);
 };
 
-export const getNextCounterID = async (userId: string, counterName: string) => {
+export const getNextCounterID = async (
+	userId: string,
+	counterName: CounterName
+) => {
 	const counterID = await getCounter(userId, counterName);
 	return counterName == "ProductCounterNO"
 		? `Product${counterID + 1}`

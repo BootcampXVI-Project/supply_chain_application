@@ -76,11 +76,6 @@ export type Auth = {
 	expired: Date;
 };
 
-export type Signature = {
-	distributorSignature: string;
-	retailerSignature: string;
-};
-
 export type ProductItem = {
 	product: Product;
 	quantity: string;

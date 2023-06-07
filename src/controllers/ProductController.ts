@@ -2,15 +2,20 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
+import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { evaluateTransaction, submitTransaction } from "../app";
 import {
 	getProductById,
 	getAllProducts,
 	cultivateProduct,
-	getDetailProductById,
+	getDetailProductById
 } from "../services/productService";
+import {
+	evaluateTransaction,
+	submitTransaction,
+	submitTransactionCultivateProduct
+} from "../app";
 
 const imageService: ImageService = new ImageService();
 
@@ -90,8 +95,8 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
+			const productObj = req.body.productObj as ProductForCultivate;
 			const userObj = await getUserObjByUserId(user.userId);
-			const productObj = req.body.productObj;
 
 			if (!userObj) {
 				return res.json({
@@ -100,7 +105,11 @@ const ProductController = {
 				});
 			}
 
-			const data = await cultivateProduct(userObj, productObj);
+			const data = await submitTransactionCultivateProduct(
+				"CultivateProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,
