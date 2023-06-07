@@ -7,7 +7,9 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransaction, submitTransaction } from "../app";
 import {
 	getProductById,
-	getDetailProductById
+	getAllProducts,
+	cultivateProduct,
+	getDetailProductById,
 } from "../services/productService";
 
 const imageService: ImageService = new ImageService();
@@ -16,14 +18,7 @@ const ProductController = {
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
-
-			const productsBuffer = await evaluateTransaction(
-				"GetAllProducts",
-				userObj,
-				null
-			);
-			const products = await convertBufferToJavasciptObject(productsBuffer);
+			const products = await getAllProducts(user.userId);
 
 			return res.json({
 				data: products,
@@ -105,11 +100,7 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction(
-				"CultivateProduct",
-				userObj,
-				productObj
-			);
+			const data = await cultivateProduct(userObj, productObj);
 
 			return res.json({
 				data: data,
@@ -303,7 +294,8 @@ const ProductController = {
 				`${PRODUCTION_URL}/product/${productId}`,
 				`qrcode/products/${productId}.jpg`
 			);
-			productObj.qrCode = qrCodeString;
+			// productObj.qrCode = qrCodeString;
+			productObj.qrCode = "qrCodeString";
 
 			const data = await submitTransaction(
 				"ManufactureProduct",

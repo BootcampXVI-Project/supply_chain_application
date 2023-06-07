@@ -22,11 +22,11 @@ export const getProductsByRetailerId = async (userId: string) => {
 		const products = await getAllRetailerProducts(userId);
 		let retailerProducts: Product[] = [];
 
-		for (let p of products) {
-			if (p.actors.manufacturerId.toString() === userId.toString()) {
-				retailerProducts.push(p);
-			}
-		}
+		// for (let product of products) {
+		// 	if (product.actors.manufacturerId.toString() === userId.toString()) {
+		// 		retailerProducts.push(product);
+		// 	}
+		// }
 		return retailerProducts;
 	} catch (error) {
 		console.log("getProductByRetailerId", error.message);

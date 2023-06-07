@@ -1,15 +1,19 @@
-import { UserRole, UserStatus, ProductStatus, OrderStatus } from "./types";
+import {
+	UserRole,
+	UserStatus,
+	ProductStatus,
+	OrderStatus,
+	ProductDateStatus
+} from "./types";
 
 export interface UserForRegister {
 	email: string;
 	password: string;
-	userName: string;
 	fullName: string;
 	avatar: string;
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
-	status?: UserStatus;
 	signature: string;
 }
 
@@ -27,30 +31,17 @@ export interface User {
 	signature: string;
 }
 
-export type ProductDates = {
-	cultivated: string;
-	harvested: string;
-	imported: string;
-	manufacturered: string;
-	exported: string;
-	distributed: string;
-	selling: string;
-	sold: string;
-};
-
-export type ProductActors = {
-	supplierId: string;
-	manufacturerId: string;
-	distributorId: string;
-	retailerId: string;
+export type ProductDate = {
+	status: ProductDateStatus;
+	time: string;
+	actor: Actor;
 };
 
 export type Product = {
 	productId: string;
 	productName: string;
 	image: string[];
-	dates: ProductDates;
-	actors: ProductActors;
+	dates: ProductDate[];
 	expireTime: string;
 	price: string;
 	amount: string;
@@ -58,8 +49,18 @@ export type Product = {
 	status: ProductStatus;
 	description: string;
 	certificateUrl: string;
-	supplierId: string;
+	supplier: Actor;
 	qrCode: string;
+};
+
+export type ProductForCultivate = {
+	productName: string;
+	image: string[];
+	price: string;
+	amount: string;
+	unit: string;
+	description: string;
+	certificateUrl: string;
 };
 
 export type ProductHistory = {
@@ -85,24 +86,33 @@ export type ProductItem = {
 	quantity: string;
 };
 
+export type Actor = {
+	email: string;
+	userName: string;
+	fullName: string;
+	avatar: string;
+	phoneNumber: string;
+	address: string;
+	role: UserRole;
+	userId: string;
+};
+
 export type DeliveryStatus = {
-	distributedId: string;
 	deliveryDate: string;
 	status: OrderStatus;
-	longitude: string;
-	latitude: string;
+	address: string;
+	actor: Actor;
 };
 
 export type Order = {
 	orderId: string;
 	productItemList: ProductItem[];
-	signature: Signature;
 	deliveryStatus: DeliveryStatus[];
+	signature: string[];
 	status: OrderStatus;
-	location: string;
-	manufacturerId: string;
-	distributorId: string;
-	retailerId: string;
+	manufacturer: Actor;
+	distributor: Actor;
+	retailer: Actor;
 	qrCode: string;
 	createDate: string;
 	updateDate: string;

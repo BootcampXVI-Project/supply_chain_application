@@ -47,7 +47,13 @@ export const createNewUser = async (user: UserForRegister) => {
 			throw new Error("phone-number-existed");
 		}
 
-		return await UserModel.create(user)
+		const userPayload = {
+			...user,
+			userName: user.fullName,
+			status: "inactive"
+		};
+
+		return await UserModel.create(userPayload)
 			.then((data) => {
 				return {
 					data: data,

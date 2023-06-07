@@ -1,5 +1,5 @@
 import { getUserByUserId } from "./userService";
-import { Product, User } from "../types/models";
+import { Product, ProductForCultivate, User } from "../types/models";
 import { ProductModel } from "../models/ProductModel";
 import { convertBufferToJavasciptObject } from "../helpers";
 import {
@@ -33,10 +33,9 @@ export const checkExistedProduct = async (productId: string) => {
 
 export const getAllProducts = async (userId: string) => {
 	const userObj = await getUserByUserId(userId);
-	const productsBuffer = await evaluateTransaction(
-		"GetAllProducts",
-		userObj,
-		null
+	const contractOrder = await contract(userObj);
+	const productsBuffer = await contractOrder.evaluateTransaction(
+		"GetAllProducts"
 	);
 	return await convertBufferToJavasciptObject(productsBuffer);
 };
@@ -59,64 +58,23 @@ export const getDetailProductById = async (
 		"GetProduct",
 		productId
 	);
-	const product = await convertBufferToJavasciptObject(productBuffer);
-
-	const { supplierId, manufacturerId, distributorId, retailerId } =
-		product.actors;
-	const [supplier, manufacturer, distributor, retailer] = await Promise.all([
-		getUserByUserId(supplierId),
-		getUserByUserId(manufacturerId),
-		getUserByUserId(distributorId),
-		getUserByUserId(retailerId)
-	]);
-
-	product.dates = [
-		{
-			status: "cultivated",
-			time: product.dates.cultivated,
-			actor: supplier
-		},
-		{
-			status: "harvested",
-			time: product.dates.harvested,
-			actor: supplier
-		},
-		{
-			status: "imported",
-			time: product.dates.imported,
-			actor: manufacturer
-		},
-		{
-			status: "manufacturered",
-			time: product.dates.manufacturered,
-			actor: manufacturer
-		},
-		{
-			status: "exported",
-			time: product.dates.exported,
-			actor: manufacturer
-		},
-		{
-			status: "distributed",
-			time: product.dates.distributed,
-			actor: distributor
-		},
-		{
-			status: "selling",
-			time: product.dates.selling,
-			actor: retailer
-		},
-		{
-			status: "sold",
-			time: product.dates.sold,
-			actor: retailer
-		}
-	];
-
-	return product;
+	return await convertBufferToJavasciptObject(productBuffer);
 };
 
-export const createProduct = async (userId: string, productObj: Product) => {
+export const cultivateProduct = async (
+	userObj: User,
+	productObj: ProductForCultivate
+) => {
+	const contractOrder = await contract(userObj);
+	const productBuffer = await contractOrder.submitTransaction(
+		"CultivateProduct",
+		JSON.stringify(userObj),
+		JSON.stringify(productObj)
+	);
+	return await convertBufferToJavasciptObject(productBuffer);
+};
+
+export const createProduct = async (productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(
 		productObj.productId
 	);
@@ -126,11 +84,6 @@ export const createProduct = async (userId: string, productObj: Product) => {
 			message: "productid-existed"
 		};
 	}
-
-	// Update Cultivated status & date and SupplierId
-	productObj.status = "CULTIVATING";
-	productObj.dates.cultivated = new Date().toString();
-	productObj.actors.supplierId = userId;
 
 	const createdProduct = await ProductModel.create(productObj)
 		.then((data: any) => {

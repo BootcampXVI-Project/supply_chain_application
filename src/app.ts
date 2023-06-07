@@ -16,7 +16,7 @@ export async function registerUser(userObj: UserForRegister) {
 		const createdUser = await createNewUser(userObj);
 
 		if (createdUser.data !== null) {
-			const orgDetail = orgConst[userObj.role];
+			const orgDetail = orgConst[createdUser.data.role];
 			const ccp = buildCCPOrg(orgDetail.path);
 			const caClient = buildCAClient(ccp, orgDetail.ca);
 			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -136,10 +136,7 @@ export async function evaluateTransaction(
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(
-			funcName,
-			productObj.productId
-		);
+		return await contract.evaluateTransaction(funcName, productObj.productId);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -208,8 +205,7 @@ export async function evaluateTransactionUserObjAnyParam(
 	}
 }
 
-export async function evaluateGetWithNoArgs(funcName: string,
-																						userObj: User,) {
+export async function evaluateGetWithNoArgs(funcName: string, userObj: User) {
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
@@ -217,7 +213,7 @@ export async function evaluateGetWithNoArgs(funcName: string,
 		console.log(`\n evaluateTransaction() --> "GetWithNoArgs"`);
 		const datas = await contract.evaluateTransaction(funcName);
 		console.log("Data", datas);
-		return datas
+		return datas;
 	} catch (error) {
 		throw new Error(`Failed to evaluate GETWITHNOARGS, ${error}`);
 	}

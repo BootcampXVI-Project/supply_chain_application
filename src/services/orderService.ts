@@ -108,76 +108,7 @@ export default class OrderService {
 				"GetOrder",
 				orderId
 			);
-			const order = await convertBufferToJavasciptObject(orderBuffer);
-
-			// override deliveryStatus
-			const { distributorId, retailerId } = order;
-			const [distributor, retailer] = await Promise.all([
-				getUserByUserId(distributorId),
-				getUserByUserId(retailerId)
-			]);
-
-			if (order.deliveryStatus[0]) order.deliveryStatus[0].actor = retailer;
-			if (order.deliveryStatus[1]) order.deliveryStatus[1].actor = distributor;
-			if (order.deliveryStatus[2]) order.deliveryStatus[2].actor = distributor;
-
-			// override products
-			order.productItemList.map(async (product: any) => {
-				const { supplierId, manufacturerId, distributorId, retailerId } =
-					product.actors;
-				const [supplier, manufacturer, distributor, retailer] =
-					await Promise.all([
-						getUserByUserId(supplierId),
-						getUserByUserId(manufacturerId),
-						getUserByUserId(distributorId),
-						getUserByUserId(retailerId)
-					]);
-
-				product.dates = [
-					{
-						status: "cultivated",
-						time: product.dates.cultivated,
-						actor: supplier
-					},
-					{
-						status: "harvested",
-						time: product.dates.harvested,
-						actor: supplier
-					},
-					{
-						status: "imported",
-						time: product.dates.imported,
-						actor: manufacturer
-					},
-					{
-						status: "manufacturered",
-						time: product.dates.manufacturered,
-						actor: manufacturer
-					},
-					{
-						status: "exported",
-						time: product.dates.exported,
-						actor: manufacturer
-					},
-					{
-						status: "distributed",
-						time: product.dates.distributed,
-						actor: distributor
-					},
-					{
-						status: "selling",
-						time: product.dates.selling,
-						actor: retailer
-					},
-					{
-						status: "sold",
-						time: product.dates.sold,
-						actor: retailer
-					}
-				];
-			});
-
-			return order;
+			return await convertBufferToJavasciptObject(orderBuffer);
 		} catch (error) {
 			return error.message;
 		}
