@@ -31,7 +31,7 @@ router.get(
 	"/all/of-retailer",
 	jwtGuard,
 	Roles(UserRole.RETAILER),
-	OrderController.GetAllOrdersOfRetailer
+	OrderController.getAllOrdersOfRetailer
 );
 
 router.get(
@@ -44,7 +44,7 @@ router.get(
 router.post(
 	"/create",
 	jwtGuard,
-	Roles(UserRole.MANUFACTURER),
+	Roles(UserRole.RETAILER),
 	OrderController.createOrder
 );
 
