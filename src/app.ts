@@ -201,7 +201,7 @@ export async function evaluateTransactionLongitudeLatitude(
 	}
 }
 
-export async function evaluateTransactionUserObjCounterName(
+export async function evaluateTransactionGetNextCounter(
 	funcName: string,
 	userObj: User,
 	counterName: string

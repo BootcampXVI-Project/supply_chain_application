@@ -1,9 +1,27 @@
 import { User } from "../types/models";
-import { contract, submitTransaction } from "../app";
-import { convertBufferToJavasciptObject } from "../helpers";
+import { CounterName } from "../types/types";
 import { getUserByUserId } from "./userService";
+import { convertBufferToJavasciptObject } from "../helpers";
+import {
+	contract,
+	submitTransaction,
+	evaluateTransactionGetNextCounter
+} from "../app";
 
 export default class OrderService {
+	async getNextCounterID(userObj: User, counterName: CounterName) {
+		const counterBuffer = await evaluateTransactionGetNextCounter(
+			"getCounter",
+			userObj,
+			counterName
+		);
+		const currentCounter = await convertBufferToJavasciptObject(counterBuffer);
+
+		return counterName == "ProductCounterNO"
+			? `Product${currentCounter + 1}`
+			: `Order${currentCounter + 1}`;
+	}
+
 	async getAllOrders(userObj: User, status: string) {
 		try {
 			const contractOrder = await contract(userObj);

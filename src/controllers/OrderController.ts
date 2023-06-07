@@ -222,14 +222,13 @@ const OrderController = {
 				});
 			}
 
-			// Generate QR code for order
 			const orderId = "Order1";
-			// await getNextCounterID(userId, "OrderCounterNO"))
+			// await getNextCounterID(userObj, "OrderCounterNO"))
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/${orderId}`,
 				`qrcode/orders/${orderId}.jpg`
 			);
-			orderObj.qrCode = qrCodeString;
+			orderObj.qrCode = qrCodeString || "";
 
 			const order = await orderService.createOrder(userObj, orderObj);
 			return res.json({

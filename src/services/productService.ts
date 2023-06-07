@@ -2,32 +2,11 @@ import { getUserByUserId } from "./userService";
 import { ProductModel } from "../models/ProductModel";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { User, Product, ProductForCultivate } from "../types/models";
-import { CounterName } from "../types/types";
 import {
 	contract,
 	evaluateTransaction,
 	evaluateTransactionUserObjCounterName
 } from "../app";
-
-export const getCounter = async (userId: string, counterName: CounterName) => {
-	const userObj = await getUserByUserId(userId);
-	const counterBuffer = await evaluateTransactionUserObjCounterName(
-		"getCounter",
-		userObj,
-		counterName
-	);
-	return await convertBufferToJavasciptObject(counterBuffer);
-};
-
-export const getNextCounterID = async (
-	userId: string,
-	counterName: CounterName
-) => {
-	const counterID = await getCounter(userId, counterName);
-	return counterName == "ProductCounterNO"
-		? `Product${counterID + 1}`
-		: `Order${counterID + 1}`;
-};
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });

@@ -283,28 +283,13 @@ const ProductController = {
 				});
 			}
 
-			// Upload image onto Firebase Storage
-			// const imageArray = imageUrl;
-			// let imageUrls = [];
-			// for (let i of imageArray) {
-			// 	const uploadedImageUrl =
-			// 		(await imageService.upload(
-			// 			i,
-			// 			"product_images/" + productObj.productName + "/" + Date.now()
-			// 		)) + ".jpg";
-			// 	imageUrls.push(uploadedImageUrl);
-			// }
-			// productObj.image = imageUrls;
-			productObj.image = imageUrl;
-			productObj.expireTime = expireTime;
-
-			// Generate QR code for product
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/product/${productId}`,
 				`qrcode/products/${productId}.jpg`
 			);
-			// productObj.qrCode = qrCodeString;
-			productObj.qrCode = "qrCodeString";
+			productObj.qrCode = qrCodeString || "";
+			productObj.expireTime = expireTime;
+			productObj.image = imageUrl;
 
 			const data = await submitTransaction(
 				"ManufactureProduct",
