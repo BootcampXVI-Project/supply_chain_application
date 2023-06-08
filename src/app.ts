@@ -138,7 +138,7 @@ export async function submitTransactionOrderId(
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
-		console.log(`submitTransaction()--> ${funcName}`);
+		console.log(`submitTransaction()--> ${funcName}, ${orderId}`);
 		return await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
