@@ -113,3 +113,17 @@ export type Order = {
 	updateDate: string;
 	finishDate: string;
 };
+
+export type ProductIdItem = {
+	productId: string;
+	quantity: string;
+};
+
+export type OrderForCreate = {
+	productIdItems: ProductIdItem[];
+	signatures: string[];
+	deliveryStatus: {
+		address: string;
+	};
+	qrCode: string;
+};

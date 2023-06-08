@@ -4,8 +4,9 @@ import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
 import { getUserObjByUserId } from "../services/userService";
-import { getNextCounterID } from "../services/productService";
 import { submitTransaction, submitTransactionOrderAddress } from "../app";
+import { OrderForCreate } from "../types/models";
+import { getProductById } from "../services/productService";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
@@ -212,8 +213,8 @@ const OrderController = {
 	createOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
+			const orderObj = req.body.orderObj as OrderForCreate;
 			const userObj = await getUserObjByUserId(user.userId);
-			const orderObj = req.body.orderObj;
 
 			if (!userObj) {
 				return res.json({
@@ -222,8 +223,10 @@ const OrderController = {
 				});
 			}
 
-			const orderId = "Order1";
-			// await getNextCounterID(userObj, "OrderCounterNO"))
+			const orderId = await orderService.getNextCounterID(
+				userObj,
+				"OrderCounterNO"
+			);
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/order/${orderId}`,
 				`qrcode/orders/${orderId}.jpg`

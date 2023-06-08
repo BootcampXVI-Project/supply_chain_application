@@ -20,4 +20,11 @@ router.patch(
 	DistributorController.updateProduct
 );
 
+// router.patch(
+// 	"/order/approve",
+// 	jwtGuard,
+// 	Roles(UserRole.DISTRIBUTOR),
+// 	DistributorController.approveOrderRequest
+// );
+
 export default router;

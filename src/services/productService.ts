@@ -1,12 +1,8 @@
 import { getUserByUserId } from "./userService";
 import { ProductModel } from "../models/ProductModel";
+import { contract, evaluateTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { User, Product, ProductForCultivate } from "../types/models";
-import {
-	contract,
-	evaluateTransaction,
-	evaluateTransactionUserObjCounterName
-} from "../app";
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });

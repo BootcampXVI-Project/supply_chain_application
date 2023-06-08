@@ -128,7 +128,16 @@
                 type: object
                 required: true
             example:
-              orderObj: {}
+              orderObj:
+                {
+                  productItemList:
+                    [
+                      { productId: "Product1", quantity: "10" },
+                      { productId: "Product2", quantity: "20" }
+                    ],
+                  deliveryStatus: { address: "Da Nang" },
+                  signatures: ["http://localhost:4000/image1.img"]
+                }
     responses:
       200:
         description: Successfully

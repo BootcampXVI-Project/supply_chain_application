@@ -11,7 +11,7 @@ import {
 export default class OrderService {
 	async getNextCounterID(userObj: User, counterName: CounterName) {
 		const counterBuffer = await evaluateTransactionGetNextCounter(
-			"getCounter",
+			"GetCounterOfType",
 			userObj,
 			counterName
 		);
