@@ -142,7 +142,7 @@ export async function submitTransactionOrderId(
 		return await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
-			JSON.stringify(orderId)
+			orderId
 		);
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
@@ -181,6 +181,7 @@ export async function evaluateTransaction(
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
+		
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		return await contract.evaluateTransaction(funcName, productObj.productId);
 	} catch (error) {
