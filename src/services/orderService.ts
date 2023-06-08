@@ -1,6 +1,5 @@
 import { User } from "../types/models";
 import { CounterName } from "../types/types";
-import { getUserByUserId } from "./userService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	contract,

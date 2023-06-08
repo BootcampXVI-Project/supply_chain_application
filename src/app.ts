@@ -129,6 +129,26 @@ export async function submitTransactionCultivateProduct(
 	}
 }
 
+export async function submitTransactionOrderId(
+	funcName: string,
+	userObj: User,
+	orderId: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`submitTransaction()--> ${funcName}`);
+		return await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(orderId)
+		);
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
+	}
+}
+
 export async function submitTransactionOrderAddress(
 	funcName: string,
 	userObj: User,

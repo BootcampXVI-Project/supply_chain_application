@@ -39,17 +39,35 @@ export const getDetailProductById = async (
 	return await convertBufferToJavasciptObject(productBuffer);
 };
 
-export const cultivateProduct = async (
+export const exportProduct = async (
 	userObj: User,
-	productObj: ProductForCultivate
+	productId: string,
+	price: string
 ) => {
-	const contractOrder = await contract(userObj);
-	const productBuffer = await contractOrder.submitTransaction(
-		"CultivateProduct",
-		JSON.stringify(userObj),
-		JSON.stringify(productObj)
-	);
-	return await convertBufferToJavasciptObject(productBuffer);
+	try {
+		const productObj = await getProductById(productId, userObj);
+		if (!productObj) {
+			return {
+				message: "Product not found!",
+				status: "notfound"
+			};
+		}
+		if (productObj.status.toLowerCase() != "manufactured") {
+			return {
+				message: "Product is not manufactured or was exported"
+			};
+		}
+
+		productObj.price = price;
+
+		const contractOrder = await contract(userObj);
+		const productBuffer = await contractOrder.submitTransaction(
+			"ExportProduct",
+			JSON.stringify(userObj),
+			JSON.stringify(productObj)
+		);
+		return await convertBufferToJavasciptObject(productBuffer);
+	} catch (error) {}
 };
 
 export const createProduct = async (productObj: Product) => {

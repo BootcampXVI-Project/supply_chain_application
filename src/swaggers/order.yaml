@@ -130,7 +130,7 @@
             example:
               orderObj:
                 {
-                  productItemList:
+                  productIdItems:
                     [
                       { productId: "Product1", quantity: "10" },
                       { productId: "Product2", quantity: "20" }

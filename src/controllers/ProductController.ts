@@ -8,7 +8,6 @@ import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	getProductById,
 	getAllProducts,
-	cultivateProduct,
 	getDetailProductById
 } from "../services/productService";
 import {
