@@ -4,7 +4,6 @@ import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
 import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
-import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	getProductById,
 	getAllProducts,
@@ -68,14 +67,12 @@ const ProductController = {
 			const userObj = await getUserObjByUserId(user.userId);
 			const productObj = await getProductById(productId, userObj);
 
-			const transactionsBuffer = await evaluateTransaction(
+			const transactions = await evaluateTransaction(
 				"GetProductTransactionHistory",
 				userObj,
 				productObj
 			);
-			const transactions = await convertBufferToJavasciptObject(
-				transactionsBuffer
-			);
+			
 			return res.json({
 				data: transactions,
 				message: "successfully",

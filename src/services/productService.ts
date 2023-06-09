@@ -1,8 +1,7 @@
+import { contract } from "../app";
+import { User, Product } from "../types/models";
 import { getUserByUserId } from "./userService";
 import { ProductModel } from "../models/ProductModel";
-import { contract, evaluateTransaction } from "../app";
-import { convertBufferToJavasciptObject } from "../helpers";
-import { User, Product, ProductForCultivate } from "../types/models";
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
@@ -12,19 +11,17 @@ export const checkExistedProduct = async (productId: string) => {
 export const getAllProducts = async (userId: string) => {
 	const userObj = await getUserByUserId(userId);
 	const contractOrder = await contract(userObj);
-	const productsBuffer = await contractOrder.evaluateTransaction(
-		"GetAllProducts"
-	);
-	return await convertBufferToJavasciptObject(productsBuffer);
+	const products = await contractOrder.evaluateTransaction("GetAllProducts");
+	return products;
 };
 
 export const getProductById = async (productId: string, userObj: User) => {
 	const contractProduct = await contract(userObj);
-	const productBuffer = await contractProduct.evaluateTransaction(
+	const product = await contractProduct.evaluateTransaction(
 		"GetProduct",
 		productId
 	);
-	return await convertBufferToJavasciptObject(productBuffer);
+	return product;
 };
 
 export const getDetailProductById = async (
@@ -32,11 +29,11 @@ export const getDetailProductById = async (
 	userObj: User
 ) => {
 	const contractProduct = await contract(userObj);
-	const productBuffer = await contractProduct.evaluateTransaction(
+	const product = await contractProduct.evaluateTransaction(
 		"GetProduct",
 		productId
 	);
-	return await convertBufferToJavasciptObject(productBuffer);
+	return product;
 };
 
 export const exportProduct = async (
@@ -61,12 +58,12 @@ export const exportProduct = async (
 		productObj.price = price;
 
 		const contractOrder = await contract(userObj);
-		const productBuffer = await contractOrder.submitTransaction(
+		const product = await contractOrder.submitTransaction(
 			"ExportProduct",
 			JSON.stringify(userObj),
 			JSON.stringify(productObj)
 		);
-		return await convertBufferToJavasciptObject(productBuffer);
+		return product;
 	} catch (error) {}
 };
 
