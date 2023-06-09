@@ -3,10 +3,9 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
-import { getUserObjByUserId } from "../services/userService";
-import { submitTransaction, submitTransactionOrderAddress } from "../app";
 import { OrderForCreate } from "../types/models";
-import { getProductById } from "../services/productService";
+import { submitTransactionOrderAddress } from "../app";
+import { getUserObjByUserId } from "../services/userService";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
@@ -22,8 +21,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -52,8 +52,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -87,8 +88,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -97,7 +99,6 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-
 			return res.json({
 				data: orders,
 				message: "successfully",
@@ -122,8 +123,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -132,7 +134,6 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-
 			return res.json({
 				data: orders,
 				message: "successfully",
@@ -157,8 +158,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -167,7 +169,6 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-
 			return res.json({
 				data: orders,
 				message: "successfully",
@@ -190,8 +191,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -218,8 +220,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -256,8 +259,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -268,7 +272,6 @@ const OrderController = {
 				longitude,
 				latitude
 			);
-
 			return res.json({
 				data: order,
 				message: "successfully",
@@ -291,8 +294,9 @@ const OrderController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 

@@ -17,11 +17,11 @@ export const getAllRetailerProducts = async (userId: string) => {
 	try {
 		const products = await getAllProducts(userId);
 		let retailerProducts: Product[] = [];
-		for (let p of products) {
-			if (p.status.lowercase() == "retailer") {
-				retailerProducts.push(p);
-			}
-		}
+		// for (let p of products) {
+		// 	if (p.status.lowercase() == "retailer") {
+		// 		retailerProducts.push(p);
+		// 	}
+		// }
 		return retailerProducts;
 	} catch (error) {
 		console.log("getAllRetailerProducts", error.message);
@@ -170,7 +170,10 @@ export const addCartByRetailerId = async (
 			{ new: true }
 		);
 		return user.cart;
-	} catch (error) {}
+	} catch (error) {
+		console.log("addCartByRetailerId", error.message);
+		return null;
+	}
 };
 
 export const updateCartByRetailerId = async (
@@ -184,7 +187,10 @@ export const updateCartByRetailerId = async (
 			{ new: true }
 		);
 		return user.cart;
-	} catch (error) {}
+	} catch (error) {
+		console.log("updateCartByRetailerId", error.message);
+		return null;
+	}
 };
 
 export const deleteCart = async (userId: string) => {
@@ -195,5 +201,8 @@ export const deleteCart = async (userId: string) => {
 			{ new: true }
 		);
 		return deleted.cart;
-	} catch (error) {}
+	} catch (error) {
+		console.log("deleteCart", error.message);
+		return null;
+	}
 };

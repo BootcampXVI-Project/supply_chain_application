@@ -1,5 +1,5 @@
-import { UserForRegister } from "../types/models";
 import { UserModel } from "../models/UserModel";
+import { UserForRegister } from "../types/models";
 
 export const getAllUsers = async () => {
 	return await UserModel.find({}).lean();

@@ -5,6 +5,7 @@ import {
 	submitTransaction,
 	evaluateTransactionGetNextCounter
 } from "../app";
+import { convertBufferToJavasciptObject } from "../helpers";
 
 export default class OrderService {
 	async getNextCounterID(userObj: User, counterName: CounterName) {
@@ -25,7 +26,7 @@ export default class OrderService {
 				"GetAllOrders",
 				status
 			);
-			return orders;
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			console.log(error.message);
 			return error.message;
@@ -46,7 +47,7 @@ export default class OrderService {
 				latitude,
 				shippingStatus
 			);
-			return order;
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -64,7 +65,7 @@ export default class OrderService {
 				userId,
 				status
 			);
-			return orders;
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -82,7 +83,7 @@ export default class OrderService {
 				userId,
 				status
 			);
-			return orders;
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -96,7 +97,7 @@ export default class OrderService {
 				userId,
 				status
 			);
-			return orders;
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -109,7 +110,7 @@ export default class OrderService {
 				"GetOrder",
 				String(orderId)
 			);
-			return order;
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -122,7 +123,7 @@ export default class OrderService {
 				"GetOrder",
 				orderId
 			);
-			return order;
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -155,10 +156,11 @@ export default class OrderService {
 	async getHistoryOrder(userObj: any, orderId: any) {
 		try {
 			const contractOrder = await contract(userObj);
-			return await contractOrder.evaluateTransaction(
+			const data = await contractOrder.evaluateTransaction(
 				"GetHistoryOrder",
 				orderId
 			);
+			return convertBufferToJavasciptObject(data);
 		} catch (error) {
 			return error.message;
 		}

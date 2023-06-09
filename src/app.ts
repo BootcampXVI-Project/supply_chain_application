@@ -213,6 +213,7 @@ export async function evaluateTransactionUserObjProductId(
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const data = await contract.evaluateTransaction(funcName, productId);
+
 		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
@@ -252,6 +253,7 @@ export async function evaluateTransactionGetNextCounter(
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
 		const data = await contract.evaluateTransaction(funcName, counterName);
+
 		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
@@ -269,6 +271,7 @@ export async function evaluateTransactionUserObjAnyParam(
 
 		console.log(`\n evaluateTransaction() --> ${funcName}`);
 		const data = await contract.evaluateTransaction(funcName, param);
+
 		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
@@ -280,10 +283,11 @@ export async function evaluateGetWithNoArgs(funcName: string, userObj: User) {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
-		console.log(`\n evaluateTransaction() --> "GetWithNoArgs"`);
+		console.log(`\n evaluateTransaction() --> ${funcName}`);
 		const data = await contract.evaluateTransaction(funcName);
+
 		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
-		throw new Error(`Failed to evaluate GETWITHNOARGS, ${error}`);
+		throw new Error(`Failed to evaluateTransaction ${funcName}, ${error}`);
 	}
 }

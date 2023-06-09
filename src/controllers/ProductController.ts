@@ -4,11 +4,7 @@ import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
 import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
-import {
-	getProductById,
-	getAllProducts,
-	getDetailProductById
-} from "../services/productService";
+import { getProductById, getAllProducts } from "../services/productService";
 import {
 	evaluateTransaction,
 	submitTransaction,
@@ -43,7 +39,7 @@ const ProductController = {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
 			const userObj = await getUserObjByUserId(user.userId);
-			const product = await getDetailProductById(productId, userObj);
+			const product = await getProductById(userObj, productId);
 
 			return res.json({
 				data: product,
@@ -65,14 +61,14 @@ const ProductController = {
 			const user = req.user as DecodeUser;
 			const productId = String(req.query.productId);
 			const userObj = await getUserObjByUserId(user.userId);
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 
 			const transactions = await evaluateTransaction(
 				"GetProductTransactionHistory",
 				userObj,
 				productObj
 			);
-			
+
 			return res.json({
 				data: transactions,
 				message: "successfully",
@@ -91,13 +87,14 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const productObj = req.body.productObj as ProductForCultivate;
 			const userObj = await getUserObjByUserId(user.userId);
+			const productObj = req.body.productObj as ProductForCultivate;
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -106,7 +103,6 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
@@ -130,22 +126,26 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 
 			if (productObj.status.toLowerCase() != "cultivating") {
 				return res.json({
-					message: "Product is not cultivated or was harvested"
+					data: null,
+					message: "Product is not cultivated or was harvested",
+					error: "product-not-cultivated-or-was-harvested"
 				});
 			}
 
@@ -154,7 +154,6 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
@@ -178,8 +177,9 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
@@ -188,7 +188,6 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
@@ -212,21 +211,25 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "harvested") {
 				return res.json({
-					message: "Product is not harvested or was imported"
+					data: null,
+					message: "Product is not harvested or was imported",
+					error: "product-is-not-harvested-or-was-imported"
 				});
 			}
 
@@ -236,11 +239,10 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			console.log("importProduct", error.message);
@@ -260,22 +262,25 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "user-notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "product-notfound"
+					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "imported") {
 				return res.json({
+					data: null,
 					message: "Product is not imported or was manufactured",
-					status: "failed"
+					error: "product-is-not-imported-or-was-manufactured"
 				});
 			}
 
@@ -292,7 +297,6 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
@@ -316,21 +320,25 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "manufactured") {
 				return res.json({
-					message: "Product is not manufactured or was exported"
+					data: null,
+					message: "Product is not manufactured or was exported",
+					error: "product-is-not-manufactured-or-was-exported"
 				});
 			}
 
@@ -340,11 +348,10 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			console.log("exportProduct", error.message);
@@ -364,22 +371,26 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 
 			if (productObj.status.toLowerCase() != "exported") {
 				return res.json({
-					message: "Product is not exported or was distributed"
+					data: null,
+					message: "Product is not exported or was distributed",
+					error: "product-is-not-exported-or-was-distributed"
 				});
 			}
 
@@ -388,11 +399,10 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			console.log("distributeProduct", error.message);
@@ -412,21 +422,25 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "distributed") {
 				return res.json({
-					message: "Product is not distributed or was selling"
+					data: null,
+					message: "Product is not distributed or was selling",
+					error: "product-is-not-distributed-or-was-selling"
 				});
 			}
 
@@ -436,11 +450,10 @@ const ProductController = {
 				userObj,
 				productObj
 			);
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			console.log("importRetailProduct", error.message);
@@ -460,31 +473,34 @@ const ProductController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const productObj = await getProductById(productId, userObj);
+			const productObj = await getProductById(userObj, productId);
 			if (!productObj) {
 				return res.json({
+					data: null,
 					message: "Product not found!",
-					status: "notfound"
+					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "selling") {
 				return res.json({
-					message: "Product is not selling or was sold"
+					data: null,
+					message: "Product is not selling or was sold",
+					error: "product-is-not-selling-or-was-sold"
 				});
 			}
 
 			productObj.price = price;
 			const data = await submitTransaction("SellProduct", userObj, productObj);
-
 			return res.json({
 				data: data,
 				message: "successfully",
-				status: "success"
+				error: null
 			});
 		} catch (error) {
 			console.log("sellProduct", error.message);

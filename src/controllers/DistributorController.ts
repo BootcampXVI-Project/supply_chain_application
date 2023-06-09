@@ -48,10 +48,10 @@ const DistributorController = {
 				});
 			}
 
-			await submitTransaction("UpdateProduct", userObj, productObj);
+			const data = await submitTransaction("UpdateProduct", userObj, productObj);
 
 			return res.json({
-				data: null,
+				data: data,
 				message: "successfully",
 				error: null
 			});
