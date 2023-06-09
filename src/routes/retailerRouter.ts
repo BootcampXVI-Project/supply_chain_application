@@ -21,7 +21,7 @@ router.get(
 );
 
 router.get(
-	"/product/ordered-popular",
+	"/product/popular-ordered",
 	jwtGuard,
 	Roles(UserRole.RETAILER),
 	RetailerController.getPopularOrderedProducts
