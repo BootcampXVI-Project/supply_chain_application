@@ -13,4 +13,11 @@ router.get(
 	RetailerController.getAllRetailerProducts
 );
 
+router.get(
+	"/product/popular",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.getPopularOrderedProducts
+);
+
 export default router;

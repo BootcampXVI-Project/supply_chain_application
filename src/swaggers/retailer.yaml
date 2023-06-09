@@ -9,3 +9,15 @@
         description: Successfully
       400:
         description: Failed
+
+/retailer/product/popular:
+  get:
+    summary: Get Most 5 Ordered Products
+    description: Get Most 5 Ordered Products
+    tags:
+      - Retailer
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
