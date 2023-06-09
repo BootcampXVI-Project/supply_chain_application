@@ -6,6 +6,7 @@ import {
 } from "../types/types";
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { ProductIdItem } from "../types/models";
 
 interface User {
 	email: string;
@@ -19,6 +20,7 @@ interface User {
 	userId?: string;
 	status?: UserStatus;
 	signature: string;
+	cart: ProductIdItem[];
 }
 
 interface UserDB extends User, Document {
@@ -40,7 +42,8 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 	},
 	userId: { type: String, default: uuidv4 },
 	status: { type: String, enum: UserStatusArray, default: "inactive" },
-	signature: { type: String }
+	signature: { type: String },
+	cart: { type: [Object] }
 });
 
 const UserModel = mongoose.model<UserDB>("User", UserSchema);

@@ -13,4 +13,31 @@ router.get(
 	RetailerController.getAllRetailerProducts
 );
 
+router.get(
+	"/cart/view",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.getCart
+);
+
+router.patch(
+	"/cart/add",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.addCart
+);
+
+router.patch(
+	"/cart/delete",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.deteleCart
+);
+
+router.patch(
+	"/cart/delete-product",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.deteleProductInCart
+);
 export default router;
