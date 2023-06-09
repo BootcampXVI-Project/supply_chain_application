@@ -1,34 +1,17 @@
 import { Product } from "./ProductModel";
 import { OrderStatus, OrderStatusArray } from "../types/types";
 import mongoose, { Schema, Document, Types } from "mongoose";
-
-interface Signature {
-	distributorSignature: string;
-	retailerSignature: string;
-}
-
-interface ProductItem {
-	product: Product;
-	quantity: string;
-}
-
-interface DeliveryStatus {
-	distributedId: string;
-	deliveryDate: string;
-	status: string;
-	longitude: string;
-	latitude: string;
-}
+import { Actor, DeliveryStatus, ProductItem } from "../types/models";
 
 interface Order {
 	orderId?: string;
 	productItemList: ProductItem[];
-	signature: Signature;
-	deliveryStatus: DeliveryStatus[];
+	signatures: string[];
+	deliveryStatuses: DeliveryStatus[];
 	status: OrderStatus;
-	manufacturerId: string;
-	distributorId: string;
-	retailerId: string;
+	manufacturer: Actor;
+	distributor: Actor;
+	retailer: Actor;
 	qrCode: string;
 	createDate: string;
 	updateDate: string;
@@ -42,20 +25,20 @@ interface OrderDB extends Order, Document {
 const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 	orderId: { type: String, required: true },
 	productItemList: { type: [Object], required: true },
-	signature: { type: Object, required: true },
-	deliveryStatus: { type: [Object], required: true },
+	signatures: { type: [String], required: true },
+	deliveryStatuses: { type: [Object], required: true },
 	status: {
 		type: String,
 		enum: OrderStatusArray,
 		required: true,
 		default: "PENDING"
 	},
-	manufacturerId: { type: String, required: true },
-	distributorId: { type: String, required: true },
-	retailerId: { type: String, required: true },
+	manufacturer: { type: Object, required: true },
+	distributor: { type: Object, required: true },
+	retailer: { type: Object, required: true },
 	qrCode: { type: String, required: true },
 	createDate: { type: String, required: false, default: new Date().toString() },
-	updateDate: { type: String, required: false, default: new Date().toString() },
+	updateDate: { type: String, required: false, default: "" },
 	finishDate: { type: String, required: false, default: "" }
 });
 

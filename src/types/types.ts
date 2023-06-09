@@ -21,6 +21,17 @@ export type ProductStatus =
 	| "DISTRIBUTED"
 	| "SELLING"
 	| "SOLD";
+export const ProductStatusArray = [
+	"CULTIVATING",
+	"HARVESTED",
+	"IMPORTED",
+	"MANUFACTURED",
+	"EXPORTED",
+	"DISTRIBUTED",
+	"SELLING",
+	"SOLD"
+];
+
 export type ProductDateStatus =
 	| "CULTIVATED"
 	| "HARVESTED"
@@ -30,8 +41,8 @@ export type ProductDateStatus =
 	| "DISTRIBUTED"
 	| "SELLING"
 	| "SOLD";
-export const ProductStatusArray = [
-	"CULTIVATING",
+export const ProductDateStatusArray = [
+	"CULTIVATED",
 	"HARVESTED",
 	"IMPORTED",
 	"MANUFACTURED",
