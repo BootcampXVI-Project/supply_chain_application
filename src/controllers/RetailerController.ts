@@ -230,6 +230,7 @@ const RetailerController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
+
 			if (!userObj) {
 				return res.json({
 					data: null,
@@ -273,7 +274,7 @@ const RetailerController = {
 				return res.json({
 					data: null,
 					message: "Cart is empty!",
-					error: "empty-card"
+					error: "empty-cart"
 				});
 			} else {
 				const result = cart.filter(
