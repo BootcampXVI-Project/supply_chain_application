@@ -10,6 +10,18 @@
       400:
         description: Failed
 
+/retailer/product/manufactured:
+  get:
+    summary: Get All Manufactured Products
+    description: Get All Manufactured Products
+    tags:
+      - Retailer
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
 /retailer/product/ordered:
   get:
     summary: Get All Ordered Products
@@ -24,8 +36,8 @@
 
 /retailer/product/popular-ordered:
   get:
-    summary: Get Most 5 Ordered Products
-    description: Get Most 5 Ordered Products
+    summary: Get Popular Ordered Products
+    description: Get Popular Ordered Products
     tags:
       - Retailer
     responses:

@@ -131,3 +131,15 @@ export type OrderForCreate = {
 export type CartForCreate = {
 	productIdItems: ProductIdItem[];
 };
+
+export type ManufacturedProduct = {
+	product: Product;
+	manufacturedDate: string;
+};
+
+export type ProductNumber = {
+	product: Product;
+	count: number;
+};
+
+export type OrderedProductId = Record<string, ProductNumber>;
