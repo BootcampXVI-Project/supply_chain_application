@@ -1,9 +1,10 @@
 import OrderService from "./orderService";
 import { User } from "../models/UserModel";
-import { Product } from "../types/models";
 import { getAllProducts } from "./productService";
 import { Order } from "../models/OrderModel";
-
+import { log } from "console";
+import { UserModel } from "../models/UserModel";
+import { Product, ProductIdItem } from "../types/models";
 const orderService: OrderService = new OrderService();
 
 export const getAllRetailerProducts = async (userId: string) => {
@@ -128,4 +129,52 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 		console.log("getProductByRetailerId", error.message);
 		return null;
 	}
+};
+
+export const getCartByRetailerId = async (userId: string) => {
+	try {
+		const user = await UserModel.findOne({ userId: userId });
+		return user.cart;
+	} catch (error) {
+		console.log("getProductByRetailerId", error.message);
+		return null;
+	}
+};
+export const addCartByRetailerId = async (
+	userId: string,
+	cartObj: ProductIdItem
+) => {
+	try {
+		const user = await UserModel.findOneAndUpdate(
+			{ userId: userId },
+			{ cart: [cartObj] },
+			{ new: true }
+		);
+		return user.cart;
+	} catch (error) {}
+};
+
+export const updateCartByRetailerId = async (
+	userId: string,
+	cartObj: ProductIdItem[]
+) => {
+	try {
+		const user = await UserModel.findOneAndUpdate(
+			{ userId: userId },
+			{ cart: cartObj },
+			{ new: true }
+		);
+		return user.cart;
+	} catch (error) {}
+};
+
+export const deleteCart = async (userId: string) => {
+	try {
+		const deleted = await UserModel.findOneAndUpdate(
+			{ userId: userId },
+			{ cart: [] },
+			{ new: true }
+		);
+		return deleted.cart;
+	} catch (error) {}
 };

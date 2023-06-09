@@ -127,3 +127,7 @@ export type OrderForCreate = {
 	};
 	qrCode: string;
 };
+
+export type CartForCreate = {
+	productIdItems: ProductIdItem[];
+};
