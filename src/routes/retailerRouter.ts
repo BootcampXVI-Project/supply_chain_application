@@ -14,6 +14,20 @@ router.get(
 );
 
 router.get(
+	"/product/ordered",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.getAllOrderedProducts
+);
+
+router.get(
+	"/product/ordered-popular",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.getPopularOrderedProducts
+);
+
+router.get(
 	"/cart/view",
 	jwtGuard,
 	Roles(UserRole.RETAILER),
@@ -40,4 +54,5 @@ router.patch(
 	Roles(UserRole.RETAILER),
 	RetailerController.deteleProductInCart
 );
+
 export default router;

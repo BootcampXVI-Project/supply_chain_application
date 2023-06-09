@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { getUserObjByUserId } from "../services/userService";
 import {
-	addCartByRetailerId,
-	deleteCart,
-	getCartByRetailerId,
 	getProductsByRetailerId,
-	updateCartByRetailerId
+	getAllOrderedProducts,
+	getPopularOrderedProducts,
+	getCartByRetailerId,
+	addCartByRetailerId,
+	updateCartByRetailerId,
+	deleteCart
 } from "../services/retailerService";
-import { CartForCreate, ProductIdItem } from "../types/models";
-import { log } from "console";
+import { ProductIdItem } from "../types/models";
 
 const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
@@ -39,6 +40,63 @@ const RetailerController = {
 			});
 		} catch (error) {
 			console.log("getAllRetailerProducts", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getAllOrderedProducts: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			const products = await getAllOrderedProducts(userObj);
+			if (products == null) {
+				return res.json({
+					data: null,
+					message: "This retailer don't have any product!",
+					error: "This retailer don't have any product!"
+				});
+			} else {
+				return res.json({
+					data: products,
+					message: "successfully",
+					error: null
+				});
+			}
+		} catch (error) {
+			console.log("getAllOrderedProducts", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getPopularOrderedProducts: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			const products = await getPopularOrderedProducts(userObj);
+			if (products == null) {
+				return res.json({
+					message: "This retailer don't have any product!",
+					status: "notfound"
+				});
+			}
+
+			return res.json({
+				data: products,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			console.log("getPopularOrderedProducts", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -95,7 +153,7 @@ const RetailerController = {
 			}
 
 			const cart = await getCartByRetailerId(user.userId);
-			if (cart?.length === 0 || !cart) {
+			if (cart?.length === 0) {
 				const order = await addCartByRetailerId(user.userId, productObj);
 				return res.json({
 					data: order,
