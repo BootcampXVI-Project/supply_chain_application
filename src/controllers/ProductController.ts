@@ -2,13 +2,19 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
+import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { evaluateTransaction, submitTransaction } from "../app";
 import {
 	getProductById,
+	getAllProducts,
 	getDetailProductById
 } from "../services/productService";
+import {
+	evaluateTransaction,
+	submitTransaction,
+	submitTransactionCultivateProduct
+} from "../app";
 
 const imageService: ImageService = new ImageService();
 
@@ -16,14 +22,7 @@ const ProductController = {
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
-
-			const productsBuffer = await evaluateTransaction(
-				"GetAllProducts",
-				userObj,
-				null
-			);
-			const products = await convertBufferToJavasciptObject(productsBuffer);
+			const products = await getAllProducts(user.userId);
 
 			return res.json({
 				data: products,
@@ -95,8 +94,8 @@ const ProductController = {
 	cultivateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
+			const productObj = req.body.productObj as ProductForCultivate;
 			const userObj = await getUserObjByUserId(user.userId);
-			const productObj = req.body.productObj;
 
 			if (!userObj) {
 				return res.json({
@@ -105,7 +104,7 @@ const ProductController = {
 				});
 			}
 
-			const data = await submitTransaction(
+			const data = await submitTransactionCultivateProduct(
 				"CultivateProduct",
 				userObj,
 				productObj
@@ -283,27 +282,13 @@ const ProductController = {
 				});
 			}
 
-			// Upload image onto Firebase Storage
-			// const imageArray = imageUrl;
-			// let imageUrls = [];
-			// for (let i of imageArray) {
-			// 	const uploadedImageUrl =
-			// 		(await imageService.upload(
-			// 			i,
-			// 			"product_images/" + productObj.productName + "/" + Date.now()
-			// 		)) + ".jpg";
-			// 	imageUrls.push(uploadedImageUrl);
-			// }
-			// productObj.image = imageUrls;
-			productObj.image = imageUrl;
-			productObj.expireTime = expireTime;
-
-			// Generate QR code for product
 			const qrCodeString = await imageService.generateAndPublishQRCode(
 				`${PRODUCTION_URL}/product/${productId}`,
 				`qrcode/products/${productId}.jpg`
 			);
-			productObj.qrCode = qrCodeString;
+			productObj.qrCode = qrCodeString || "";
+			productObj.expireTime = expireTime;
+			productObj.image = imageUrl;
 
 			const data = await submitTransaction(
 				"ManufactureProduct",

@@ -1,30 +1,8 @@
 import { getUserByUserId } from "./userService";
-import { Product, User } from "../types/models";
 import { ProductModel } from "../models/ProductModel";
+import { contract, evaluateTransaction } from "../app";
 import { convertBufferToJavasciptObject } from "../helpers";
-import {
-	contract,
-	evaluateTransaction,
-	evaluateTransactionUserObjCounterName
-} from "../app";
-
-export const getCounter = async (userId: string, counterName: string) => {
-	// counterName: "ProductCounterNO" || "OrderCounterNO"
-	const userObj = await getUserByUserId(userId);
-	const counterBuffer = await evaluateTransactionUserObjCounterName(
-		"getCounter",
-		userObj,
-		counterName
-	);
-	return await convertBufferToJavasciptObject(counterBuffer);
-};
-
-export const getNextCounterID = async (userId: string, counterName: string) => {
-	const counterID = await getCounter(userId, counterName);
-	return counterName == "ProductCounterNO"
-		? `Product${counterID + 1}`
-		: `Order${counterID + 1}`;
-};
+import { User, Product, ProductForCultivate } from "../types/models";
 
 export const checkExistedProduct = async (productId: string) => {
 	const isExisted = await ProductModel.exists({ productId: productId });
@@ -33,10 +11,9 @@ export const checkExistedProduct = async (productId: string) => {
 
 export const getAllProducts = async (userId: string) => {
 	const userObj = await getUserByUserId(userId);
-	const productsBuffer = await evaluateTransaction(
-		"GetAllProducts",
-		userObj,
-		null
+	const contractOrder = await contract(userObj);
+	const productsBuffer = await contractOrder.evaluateTransaction(
+		"GetAllProducts"
 	);
 	return await convertBufferToJavasciptObject(productsBuffer);
 };
@@ -59,64 +36,41 @@ export const getDetailProductById = async (
 		"GetProduct",
 		productId
 	);
-	const product = await convertBufferToJavasciptObject(productBuffer);
-
-	const { supplierId, manufacturerId, distributorId, retailerId } =
-		product.actors;
-	const [supplier, manufacturer, distributor, retailer] = await Promise.all([
-		getUserByUserId(supplierId),
-		getUserByUserId(manufacturerId),
-		getUserByUserId(distributorId),
-		getUserByUserId(retailerId)
-	]);
-
-	product.dates = [
-		{
-			status: "cultivated",
-			time: product.dates.cultivated,
-			actor: supplier
-		},
-		{
-			status: "harvested",
-			time: product.dates.harvested,
-			actor: supplier
-		},
-		{
-			status: "imported",
-			time: product.dates.imported,
-			actor: manufacturer
-		},
-		{
-			status: "manufacturered",
-			time: product.dates.manufacturered,
-			actor: manufacturer
-		},
-		{
-			status: "exported",
-			time: product.dates.exported,
-			actor: manufacturer
-		},
-		{
-			status: "distributed",
-			time: product.dates.distributed,
-			actor: distributor
-		},
-		{
-			status: "selling",
-			time: product.dates.selling,
-			actor: retailer
-		},
-		{
-			status: "sold",
-			time: product.dates.sold,
-			actor: retailer
-		}
-	];
-
-	return product;
+	return await convertBufferToJavasciptObject(productBuffer);
 };
 
-export const createProduct = async (userId: string, productObj: Product) => {
+export const exportProduct = async (
+	userObj: User,
+	productId: string,
+	price: string
+) => {
+	try {
+		const productObj = await getProductById(productId, userObj);
+		if (!productObj) {
+			return {
+				message: "Product not found!",
+				status: "notfound"
+			};
+		}
+		if (productObj.status.toLowerCase() != "manufactured") {
+			return {
+				message: "Product is not manufactured or was exported"
+			};
+		}
+
+		productObj.price = price;
+
+		const contractOrder = await contract(userObj);
+		const productBuffer = await contractOrder.submitTransaction(
+			"ExportProduct",
+			JSON.stringify(userObj),
+			JSON.stringify(productObj)
+		);
+		return await convertBufferToJavasciptObject(productBuffer);
+	} catch (error) {}
+};
+
+export const createProduct = async (productObj: Product) => {
 	const isExistedProduct: boolean = await checkExistedProduct(
 		productObj.productId
 	);
@@ -126,11 +80,6 @@ export const createProduct = async (userId: string, productObj: Product) => {
 			message: "productid-existed"
 		};
 	}
-
-	// Update Cultivated status & date and SupplierId
-	productObj.status = "CULTIVATING";
-	productObj.dates.cultivated = new Date().toString();
-	productObj.actors.supplierId = userId;
 
 	const createdProduct = await ProductModel.create(productObj)
 		.then((data: any) => {
