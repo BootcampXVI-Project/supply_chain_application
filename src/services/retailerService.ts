@@ -1,10 +1,16 @@
 import OrderService from "./orderService";
 import { User } from "../models/UserModel";
-import { getAllProducts } from "./productService";
 import { Order } from "../models/OrderModel";
-import { log } from "console";
 import { UserModel } from "../models/UserModel";
-import { Product, ProductIdItem } from "../types/models";
+import { getAllProducts } from "./productService";
+import {
+	ManufacturedProduct,
+	OrderedProductId,
+	Product,
+	ProductIdItem,
+	ProductNumber
+} from "../types/models";
+
 const orderService: OrderService = new OrderService();
 
 export const getAllRetailerProducts = async (userId: string) => {
@@ -19,6 +25,31 @@ export const getAllRetailerProducts = async (userId: string) => {
 		return retailerProducts;
 	} catch (error) {
 		console.log("getAllRetailerProducts", error.message);
+		return null;
+	}
+};
+
+export const getManufacturedProducts = async (userId: string) => {
+	try {
+		const products = await getAllProducts(userId);
+		let manufacturedProducts: ManufacturedProduct[] = [];
+
+		products.forEach((product: any) => {
+			if (product.status == "MANUFACTURED") {
+				manufacturedProducts.push({
+					product: product,
+					manufacturedDate: product.dates[3].time
+				});
+			}
+		});
+
+		const sortedProducts = manufacturedProducts.sort((a, b) =>
+			b.manufacturedDate.localeCompare(a.manufacturedDate)
+		);
+
+		return sortedProducts;
+	} catch (error) {
+		console.log("getNewManufacturedProducts", error.message);
 		return null;
 	}
 };
@@ -47,12 +78,6 @@ export const getAllOrderedProducts = async (userObj: User) => {
 			userObj.userId,
 			"SHIPPED"
 		);
-
-		type ProductNumber = {
-			product: Product;
-			count: number;
-		};
-		type OrderedProductId = Record<string, ProductNumber>;
 		let orderedProductIds: OrderedProductId = {};
 
 		orders.map((order) =>
@@ -92,12 +117,6 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 			userObj.userId,
 			"SHIPPED"
 		);
-
-		type ProductNumber = {
-			product: Product;
-			count: number;
-		};
-		type OrderedProductId = Record<string, ProductNumber>;
 		let orderedProductIds: OrderedProductId = {};
 
 		orders.map((order) =>
@@ -118,8 +137,7 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 		const entries: [string, ProductNumber][] =
 			Object.entries(orderedProductIds);
 		entries.sort((a, b) => b[1].count - a[1].count);
-		const top3Elements: [string, ProductNumber][] = entries.slice(0, 5);
-		const result: ProductNumber[] = top3Elements.map(([key, value]) => ({
+		const result: ProductNumber[] = entries.map(([key, value]) => ({
 			product: value.product,
 			count: value.count
 		}));
@@ -140,6 +158,7 @@ export const getCartByRetailerId = async (userId: string) => {
 		return null;
 	}
 };
+
 export const addCartByRetailerId = async (
 	userId: string,
 	cartObj: ProductIdItem
