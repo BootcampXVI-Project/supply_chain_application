@@ -14,6 +14,13 @@ router.get(
 );
 
 router.get(
+	"/product/manufactured",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	RetailerController.getManufacturedProducts
+);
+
+router.get(
 	"/product/ordered",
 	jwtGuard,
 	Roles(UserRole.RETAILER),

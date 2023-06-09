@@ -1,16 +1,17 @@
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
+import { ProductIdItem } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import {
 	getProductsByRetailerId,
 	getAllOrderedProducts,
+	getManufacturedProducts,
 	getPopularOrderedProducts,
 	getCartByRetailerId,
 	addCartByRetailerId,
 	updateCartByRetailerId,
 	deleteCart
 } from "../services/retailerService";
-import { ProductIdItem } from "../types/models";
 
 const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
@@ -40,6 +41,34 @@ const RetailerController = {
 			});
 		} catch (error) {
 			console.log("getAllRetailerProducts", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getManufacturedProducts: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const products = await getManufacturedProducts(user.userId);
+
+			if (products == null) {
+				return res.json({
+					data: null,
+					message: "This retailer don't have any product!",
+					error: "empty-product"
+				});
+			} else {
+				return res.json({
+					data: products,
+					message: "successfully",
+					error: null
+				});
+			}
+		} catch (error) {
+			console.log("getAllOrderedProducts", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
