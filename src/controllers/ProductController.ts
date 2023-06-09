@@ -13,6 +13,33 @@ import {
 const imageService: ImageService = new ImageService();
 
 const ProductController = {
+	// getQuantityProduct: async (req: Request, res: Response) => {
+	// 	try {
+	// 		const user = req.user as DecodeUser;
+	// 		const userObj = await getUserObjByUserId(user.userId);
+	//
+	// 		const productsBuffer = await evaluateTransaction(
+	// 			"GetAllProducts",
+	// 			userObj,
+	// 			null
+	// 		);
+	// 		const products = await convertBufferToJavasciptObject(productsBuffer);
+	//
+	// 		return res.json({
+	// 			data: products,
+	// 			message: "successfully",
+	// 			error: null
+	// 		});
+	// 	} catch (error) {
+	// 		console.log("getAllProducts", error.message);
+	// 		return res.json({
+	// 			data: null,
+	// 			message: "failed",
+	// 			error: error.message
+	// 		});
+	// 	}
+	// },
+
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -27,6 +54,45 @@ const ProductController = {
 
 			return res.json({
 				data: products,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			console.log("getAllProducts", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	getPaginationProduct: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const userObj = await getUserObjByUserId(user.userId);
+
+			const productsBuffer = await evaluateTransaction(
+				"GetAllProducts",
+				userObj,
+				null
+			);
+			const products = await convertBufferToJavasciptObject(productsBuffer);
+
+			console.log(products.length);
+
+			// Phân trang với mỗi trang hiển thị 5 sản phẩm
+			const page = parseInt(req.query.page as string) || 1; // Trang hiện tại (mặc định là trang 1)
+			const pageSize = 3; // Số lượng sản phẩm trên mỗi trang
+			const startIndex = (page - 1) * pageSize; // Vị trí bắt đầu của trang hiện tại
+			const endIndex = startIndex + pageSize; // Vị trí kết thúc của trang hiện tại
+			const paginatedProducts = products.slice(startIndex, endIndex);
+
+			return res.json({
+				data: {
+					data: paginatedProducts,
+					length: products.length
+				},
 				message: "successfully",
 				error: null
 			});

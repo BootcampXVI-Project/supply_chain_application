@@ -19,6 +19,18 @@ router.get(
 );
 
 router.get(
+	"/pagination",
+	jwtGuard,
+	Roles(
+		UserRole.SUPPLIER,
+		UserRole.MANUFACTURER,
+		UserRole.DISTRIBUTOR,
+		UserRole.RETAILER
+	),
+	ProductController.getPaginationProduct
+);
+
+router.get(
 	"/transactions-history",
 	jwtGuard,
 	Roles(
