@@ -9,6 +9,7 @@ import {
 	updateCartByRetailerId
 } from "../services/retailerService";
 import { CartForCreate, ProductIdItem } from "../types/models";
+import { log } from "console";
 
 const RetailerController = {
 	getAllRetailerProducts: async (req: Request, res: Response) => {
@@ -94,8 +95,7 @@ const RetailerController = {
 			}
 
 			const cart = await getCartByRetailerId(user.userId);
-
-			if (cart?.length === 0) {
+			if (cart?.length === 0 || !cart) {
 				const order = await addCartByRetailerId(user.userId, productObj);
 				return res.json({
 					data: order,
@@ -122,7 +122,7 @@ const RetailerController = {
 				});
 			}
 		} catch (error) {
-			console.log("getCartByRetailerId", error.message);
+			console.log("addCartByRetailerId", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -150,7 +150,7 @@ const RetailerController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getCartByRetailerId", error.message);
+			console.log("deleteCart", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -191,7 +191,7 @@ const RetailerController = {
 				});
 			}
 		} catch (error) {
-			console.log("getCartByRetailerId", error.message);
+			console.log("deteleProductInCart", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

@@ -1,3 +1,4 @@
+import { log } from "console";
 import { UserModel } from "../models/UserModel";
 import { Product, ProductIdItem } from "../types/models";
 import { getAllProducts } from "./productService";
