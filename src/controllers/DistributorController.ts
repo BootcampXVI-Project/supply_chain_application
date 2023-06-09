@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import { DecodeUser } from "../types/common";
 import { getUserObjByUserId } from "../services/userService";
 import { convertBufferToJavasciptObject } from "../helpers";
 import { evaluateTransactionUserObjAnyParam, submitTransaction } from "../app";
-import { DecodeUser } from "../types/common";
 
 const DistributorController = {
 	getAllProducts: async (req: Request, res: Response) => {

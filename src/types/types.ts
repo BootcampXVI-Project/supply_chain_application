@@ -32,8 +32,30 @@ export const ProductStatusArray = [
 	"SOLD"
 ];
 
+export type ProductDateStatus =
+	| "CULTIVATED"
+	| "HARVESTED"
+	| "IMPORTED"
+	| "MANUFACTURED"
+	| "EXPORTED"
+	| "DISTRIBUTED"
+	| "SELLING"
+	| "SOLD";
+export const ProductDateStatusArray = [
+	"CULTIVATED",
+	"HARVESTED",
+	"IMPORTED",
+	"MANUFACTURED",
+	"EXPORTED",
+	"DISTRIBUTED",
+	"SELLING",
+	"SOLD"
+];
+
 export type UserStatus = "active" | "inactive";
 export const UserStatusArray = ["active", "inactive"];
 
 export type OrderStatus = "PENDING" | "SHIPPING" | "SHIPPED";
 export const OrderStatusArray = ["PENDING", "SHIPPING", "SHIPPED"];
+
+export type CounterName = "ProductCounterNO" | "OrderCounterNO";

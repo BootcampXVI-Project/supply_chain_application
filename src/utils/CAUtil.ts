@@ -46,6 +46,7 @@ export const enrollAdmin = async (
 			type: "X.509"
 		};
 		await wallet.put(ADMIN_USER_ID, x509Identity);
+
 		console.log(
 			"Successfully enrolled admin user and imported it into the wallet"
 		);
@@ -81,7 +82,7 @@ export const registerAndEnrollUser = async (
 			return;
 		}
 
-		// build a user object for authenticating with the CA
+		// Build a user object for authenticating with the CA
 		const provider = wallet
 			.getProviderRegistry()
 			.getProvider(adminIdentity.type);
@@ -89,10 +90,6 @@ export const registerAndEnrollUser = async (
 			adminIdentity,
 			ADMIN_USER_ID
 		);
-
-		// Register the user, enroll the user, and import the new identity into the wallet.
-		// if affiliation is specified by client, the affiliation value must be configured in CA
-		console.log("Debug", userId);
 
 		const secret = await caClient.register(
 			{
@@ -115,6 +112,7 @@ export const registerAndEnrollUser = async (
 			type: "X.509"
 		};
 		await wallet.put(userId, x509Identity);
+
 		console.log(
 			`Successfully registered and enrolled user ${userId} and imported it into the wallet`
 		);

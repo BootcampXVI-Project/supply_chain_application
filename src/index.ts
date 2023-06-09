@@ -10,22 +10,21 @@ import { PORT, HOST_URL, SWAGGER_URL } from "./constants";
 
 const app: Express = express();
 
-// Config Swagger
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
-
-// Middlewares
 app.use(cors());
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	);
 	next();
-  });
+});
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParse());
 
-// Connect database and routing
 connectDatabase();
 routing(app);
 

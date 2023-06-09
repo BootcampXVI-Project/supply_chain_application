@@ -1,22 +1,28 @@
 import path from "path";
 import orgConst from "./utils/organizationConstant.json";
 import { Gateway } from "fabric-network";
+import { createNewUser } from "./services/userService";
 import { CHANNEL_NAME, CHAINCODE_NAME } from "./constants";
 import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
-import { Product, User, UserForRegister } from "./types/models";
-import { createNewUser } from "./services/userService";
 import {
 	buildCAClient,
 	enrollAdmin,
 	registerAndEnrollUser
 } from "./utils/CAUtil";
+import {
+	User,
+	UserForRegister,
+	Product,
+	ProductForCultivate
+} from "./types/models";
 
 export async function registerUser(userObj: UserForRegister) {
 	try {
 		const createdUser = await createNewUser(userObj);
 
 		if (createdUser.data !== null) {
-			const orgDetail = orgConst[userObj.role];
+			const { role, userId } = createdUser.data;
+			const orgDetail = orgConst[role];
 			const ccp = buildCCPOrg(orgDetail.path);
 			const caClient = buildCAClient(ccp, orgDetail.ca);
 			const wallet = await buildWallet(path.join(__dirname, orgDetail.wallet));
@@ -26,7 +32,7 @@ export async function registerUser(userObj: UserForRegister) {
 				caClient,
 				wallet,
 				orgDetail.msp,
-				createdUser.data.userId,
+				userId,
 				orgDetail.department
 			);
 		}
@@ -103,6 +109,46 @@ export async function submitTransaction(
 	}
 }
 
+export async function submitTransactionCultivateProduct(
+	funcName: string,
+	userObj: User,
+	productObj: ProductForCultivate
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`submitTransaction()--> ${funcName}`);
+		return await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(productObj)
+		);
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
+	}
+}
+
+export async function submitTransactionOrderId(
+	funcName: string,
+	userObj: User,
+	orderId: string
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`submitTransaction()--> ${funcName}, ${orderId}`);
+		return await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			orderId
+		);
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
+	}
+}
+
 export async function submitTransactionOrderAddress(
 	funcName: string,
 	userObj: User,
@@ -135,10 +181,9 @@ export async function evaluateTransaction(
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
+
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(
-			funcName
-		);
+		return await contract.evaluateTransaction(funcName, productObj.productId);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -177,7 +222,7 @@ export async function evaluateTransactionLongitudeLatitude(
 	}
 }
 
-export async function evaluateTransactionUserObjCounterName(
+export async function evaluateTransactionGetNextCounter(
 	funcName: string,
 	userObj: User,
 	counterName: string
@@ -207,8 +252,7 @@ export async function evaluateTransactionUserObjAnyParam(
 	}
 }
 
-export async function evaluateGetWithNoArgs(funcName: string,
-																						userObj: User,) {
+export async function evaluateGetWithNoArgs(funcName: string, userObj: User) {
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
@@ -216,7 +260,7 @@ export async function evaluateGetWithNoArgs(funcName: string,
 		console.log(`\n evaluateTransaction() --> "GetWithNoArgs"`);
 		const datas = await contract.evaluateTransaction(funcName);
 		console.log("Data", datas);
-		return datas
+		return datas;
 	} catch (error) {
 		throw new Error(`Failed to evaluate GETWITHNOARGS, ${error}`);
 	}

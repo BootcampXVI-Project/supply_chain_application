@@ -1,0 +1,22 @@
+/manufacturer/order/approve:
+  patch:
+    summary: Manufacturer Approve Order
+    description: Manufacturer Approve Order
+    tags:
+      - Manufacturer
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orderId:
+                type: string
+                required: true
+            example:
+              orderId: "Order1"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
