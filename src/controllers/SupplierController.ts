@@ -12,15 +12,19 @@ const SupplierController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			await submitTransaction("SupplierUpdateProduct", userObj, productObj);
-
+			const data = await submitTransaction(
+				"SupplierUpdateProduct",
+				userObj,
+				productObj
+			);
 			return res.json({
-				data: null,
+				data: data,
 				message: "successfully",
 				error: null
 			});

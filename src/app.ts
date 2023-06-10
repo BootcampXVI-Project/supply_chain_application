@@ -4,6 +4,7 @@ import { Gateway } from "fabric-network";
 import { createNewUser } from "./services/userService";
 import { CHANNEL_NAME, CHAINCODE_NAME } from "./constants";
 import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
+import { convertBufferToJavasciptObject } from "./helpers";
 import {
 	buildCAClient,
 	enrollAdmin,
@@ -13,7 +14,8 @@ import {
 	User,
 	UserForRegister,
 	Product,
-	ProductForCultivate
+	ProductForCultivate,
+	OrderForUpdateFinish
 } from "./types/models";
 
 export async function registerUser(userObj: UserForRegister) {
@@ -99,11 +101,13 @@ export async function submitTransaction(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`submitTransaction()--> ${funcName}`);
-		return await contract.submitTransaction(
+		const data = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
 			JSON.stringify(productObj)
 		);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
 	}
@@ -119,11 +123,13 @@ export async function submitTransactionCultivateProduct(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`submitTransaction()--> ${funcName}`);
-		return await contract.submitTransaction(
+		const data = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
 			JSON.stringify(productObj)
 		);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
 	}
@@ -139,35 +145,35 @@ export async function submitTransactionOrderId(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`submitTransaction()--> ${funcName}, ${orderId}`);
-		return await contract.submitTransaction(
+		const data = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
 			orderId
 		);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
 	}
 }
 
-export async function submitTransactionOrderAddress(
+export async function submitTransactionOrderObj(
 	funcName: string,
 	userObj: User,
-	orderObj: Product,
-	longitude: string,
-	latitude: string
+	orderObj: OrderForUpdateFinish
 ) {
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`submitTransaction()--> ${funcName}`);
-		return await contract.submitTransaction(
+		const data = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
-			JSON.stringify(orderObj),
-			longitude,
-			latitude
+			JSON.stringify(orderObj)
 		);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
 	}
@@ -183,7 +189,11 @@ export async function evaluateTransaction(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(funcName, productObj.productId);
+		const data = await contract.evaluateTransaction(
+			funcName,
+			productObj.productId
+		);
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -199,7 +209,9 @@ export async function evaluateTransactionUserObjProductId(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(funcName, productId);
+		const data = await contract.evaluateTransaction(funcName, productId);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -216,7 +228,12 @@ export async function evaluateTransactionLongitudeLatitude(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(funcName, longitude, latitude);
+		const data = await contract.evaluateTransaction(
+			funcName,
+			longitude,
+			latitude
+		);
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -232,7 +249,9 @@ export async function evaluateTransactionGetNextCounter(
 		const contract = network.getContract(CHAINCODE_NAME);
 
 		console.log(`\n evaluateTransaction()--> ${funcName}`);
-		return await contract.evaluateTransaction(funcName, counterName);
+		const data = await contract.evaluateTransaction(funcName, counterName);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -246,7 +265,11 @@ export async function evaluateTransactionUserObjAnyParam(
 	try {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
-		return await contract.evaluateTransaction(funcName, param);
+
+		console.log(`\n evaluateTransaction() --> ${funcName}`);
+		const data = await contract.evaluateTransaction(funcName, param);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
 		throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
 	}
@@ -257,11 +280,11 @@ export async function evaluateGetWithNoArgs(funcName: string, userObj: User) {
 		const network = await connectNetwork(userObj);
 		const contract = network.getContract(CHAINCODE_NAME);
 
-		console.log(`\n evaluateTransaction() --> "GetWithNoArgs"`);
-		const datas = await contract.evaluateTransaction(funcName);
-		console.log("Data", datas);
-		return datas;
+		console.log(`\n evaluateTransaction() --> ${funcName}`);
+		const data = await contract.evaluateTransaction(funcName);
+
+		return await convertBufferToJavasciptObject(data);
 	} catch (error) {
-		throw new Error(`Failed to evaluate GETWITHNOARGS, ${error}`);
+		throw new Error(`Failed to evaluateTransaction ${funcName}, ${error}`);
 	}
 }

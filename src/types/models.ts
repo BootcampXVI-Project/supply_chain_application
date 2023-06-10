@@ -128,6 +128,14 @@ export type OrderForCreate = {
 	qrCode: string;
 };
 
+export type OrderForUpdateFinish = {
+	orderId: string;
+	signature: string;
+	deliveryStatus: {
+		address: string;
+	};
+};
+
 export type CartForCreate = {
 	productIdItems: ProductIdItem[];
 };
@@ -142,4 +150,10 @@ export type ProductNumber = {
 	count: number;
 };
 
+export type ProductTime = {
+	product: Product;
+	orderedTime: string;
+};
+
 export type OrderedProductId = Record<string, ProductNumber>;
+export type OrderedProductTime = Record<string, ProductTime>;
