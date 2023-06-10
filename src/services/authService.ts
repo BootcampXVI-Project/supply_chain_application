@@ -2,6 +2,7 @@ import twilio from "twilio";
 import jwt from "jsonwebtoken";
 import pkg from "bcryptjs";
 import { TokenPayload } from "../types/common";
+import { checkExistedUserId } from "./userService";
 import { Request, Response, NextFunction } from "express";
 import {
 	ACCOUNT_SID,
@@ -10,7 +11,6 @@ import {
 	JWT_SECRET_KEY,
 	EXPIRES_IN
 } from "../constants";
-import { checkExistedUserId, getUserByUserId } from "./userService";
 
 const { hashSync, compareSync, genSaltSync } = pkg;
 const client = twilio(ACCOUNT_SID, AUTH_TOKEN);

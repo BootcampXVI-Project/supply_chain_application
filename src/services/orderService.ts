@@ -1,21 +1,19 @@
 import { User } from "../types/models";
 import { CounterName } from "../types/types";
-import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	contract,
 	submitTransaction,
 	evaluateTransactionGetNextCounter
 } from "../app";
+import { convertBufferToJavasciptObject } from "../helpers";
 
 export default class OrderService {
 	async getNextCounterID(userObj: User, counterName: CounterName) {
-		const counterBuffer = await evaluateTransactionGetNextCounter(
+		const currentCounter = await evaluateTransactionGetNextCounter(
 			"GetCounterOfType",
 			userObj,
 			counterName
 		);
-		const currentCounter = await convertBufferToJavasciptObject(counterBuffer);
-
 		return counterName == "ProductCounterNO"
 			? `Product${currentCounter + 1}`
 			: `Order${currentCounter + 1}`;
@@ -24,11 +22,11 @@ export default class OrderService {
 	async getAllOrders(userObj: User, status: string) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrders",
 				status
 			);
-			return await convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			console.log(error.message);
 			return error.message;
@@ -43,13 +41,13 @@ export default class OrderService {
 	) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const order = await contractOrder.evaluateTransaction(
 				"GetAllOrdersByAddress",
 				longitude,
 				latitude,
 				shippingStatus
 			);
-			return await convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -62,12 +60,12 @@ export default class OrderService {
 	) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfManufacturer",
 				userId,
 				status
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -80,12 +78,12 @@ export default class OrderService {
 	) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfDistributor",
 				userId,
 				status
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -94,12 +92,12 @@ export default class OrderService {
 	async GetAllOrdersOfRetailer(userObj: User, userId: string, status: string) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfRetailer",
 				userId,
 				status
 			);
-			return convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(orders);
 		} catch (error) {
 			return error.message;
 		}
@@ -108,11 +106,11 @@ export default class OrderService {
 	async getOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const order = await contractOrder.evaluateTransaction(
 				"GetOrder",
 				String(orderId)
 			);
-			return await convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -121,11 +119,11 @@ export default class OrderService {
 	async getDetailOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);
-			const orderBuffer = await contractOrder.evaluateTransaction(
+			const order = await contractOrder.evaluateTransaction(
 				"GetOrder",
 				orderId
 			);
-			return await convertBufferToJavasciptObject(orderBuffer);
+			return convertBufferToJavasciptObject(order);
 		} catch (error) {
 			return error.message;
 		}
@@ -158,10 +156,11 @@ export default class OrderService {
 	async getHistoryOrder(userObj: any, orderId: any) {
 		try {
 			const contractOrder = await contract(userObj);
-			return await contractOrder.evaluateTransaction(
+			const data = await contractOrder.evaluateTransaction(
 				"GetHistoryOrder",
 				orderId
 			);
+			return convertBufferToJavasciptObject(data);
 		} catch (error) {
 			return error.message;
 		}

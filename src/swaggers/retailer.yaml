@@ -45,3 +45,81 @@
         description: Successfully
       400:
         description: Failed
+
+/retailer/cart/view:
+  get:
+    summary: View Cart
+    description: View Cart
+    tags:
+      - Retailer
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
+/retailer/cart/add:
+  patch:
+    summary: Add Product Into Cart
+    description: Add Product Into Cart
+    tags:
+      - Retailer
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              product:
+                type: object
+                required: true
+            example:
+              product: { productId: "Product1", quantity: "10" }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
+/retailer/cart/delete:
+  patch:
+    summary: Delete Cart
+    description: Delete Cart
+    tags:
+      - Retailer
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
+/retailer/cart/delete-product:
+  patch:
+    summary: Delete Product In Cart
+    description: Delete Product In Cart
+    tags:
+      - Retailer
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              product:
+                type: object
+                required: true
+            example:
+              product: { productId: "Product1", quantity: "10" }
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
