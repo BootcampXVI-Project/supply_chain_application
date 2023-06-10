@@ -142,4 +142,10 @@ export type ProductNumber = {
 	count: number;
 };
 
+export type ProductTime = {
+	product: Product;
+	orderedTime: string;
+};
+
 export type OrderedProductId = Record<string, ProductNumber>;
+export type OrderedProductTime = Record<string, ProductTime>;

@@ -45,7 +45,7 @@
                 required: true
             example:
               phoneNumber: "+84909090909"
-              smsotp: "123456"
+              smsotp: "Eden"
     responses:
       200:
         description: Successfully

@@ -5,10 +5,12 @@ import { UserModel } from "../models/UserModel";
 import { getAllProducts } from "./productService";
 import {
 	ManufacturedProduct,
+	OrderedProductTime,
 	OrderedProductId,
 	Product,
 	ProductIdItem,
-	ProductNumber
+	ProductNumber,
+	ProductTime
 } from "../types/models";
 
 const orderService: OrderService = new OrderService();
@@ -77,35 +79,34 @@ export const getAllOrderedProducts = async (userObj: User) => {
 			userObj,
 			userObj.userId,
 			"SHIPPED"
+			// "PENDING"
 		);
-		let orderedProductIds: OrderedProductId = {};
+		let orderedProductTimes: OrderedProductTime = {};
 
 		orders.map((order) =>
 			order.productItemList.map((productItem) => {
-				const pId = productItem.product.productId;
-				if (orderedProductIds[pId]) {
-					orderedProductIds[pId].count = orderedProductIds[pId].count + 1;
-				} else {
-					orderedProductIds[pId] = {
+				const productId = productItem.product.productId;
+				if (orderedProductTimes[productId] == undefined) {
+					orderedProductTimes[productId] = {
 						product: productItem.product,
-						count: 1
+						orderedTime: order.finishDate
 					};
 				}
 			})
 		);
 
 		// Calculation ...
-		const entries: [string, ProductNumber][] =
-			Object.entries(orderedProductIds);
-		entries.sort((a, b) => b[1].count - a[1].count);
-		const result: ProductNumber[] = entries.map(([key, value]) => ({
+		const entries: [string, ProductTime][] =
+			Object.entries(orderedProductTimes);
+		entries.sort((a, b) => b[1].orderedTime.localeCompare(a[1].orderedTime));
+		const result: ProductTime[] = entries.map(([key, value]) => ({
 			product: value.product,
-			count: value.count
+			orderedTime: value.orderedTime
 		}));
 
 		return result;
 	} catch (error) {
-		console.log("getProductByRetailerId", error.message);
+		console.log("getAllOrderedProducts", error.message);
 		return null;
 	}
 };
@@ -116,6 +117,7 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 			userObj,
 			userObj.userId,
 			"SHIPPED"
+			// "PENDING"
 		);
 		let orderedProductIds: OrderedProductId = {};
 
