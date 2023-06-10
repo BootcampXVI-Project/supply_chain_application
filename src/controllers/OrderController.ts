@@ -3,8 +3,8 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
-import { OrderForCreate } from "../types/models";
-import { submitTransactionOrderAddress } from "../app";
+import { OrderForCreate, OrderForUpdateFinish } from "../types/models";
+import { submitTransactionOrderObj } from "../app";
 import { getUserObjByUserId } from "../services/userService";
 
 const orderService: OrderService = new OrderService();
@@ -255,7 +255,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
-			const { orderObj, longitude, latitude } = req.body;
+			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
 				return res.json({
@@ -265,12 +265,10 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransactionOrderAddress(
+			const order = await submitTransactionOrderObj(
 				"UpdateOrder",
 				userObj,
-				orderObj,
-				longitude,
-				latitude
+				orderObj
 			);
 			return res.json({
 				data: order,
@@ -290,7 +288,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await getUserObjByUserId(user.userId);
-			const { orderId, longitude, latitude } = req.body;
+			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
 				return res.json({
@@ -300,15 +298,11 @@ const OrderController = {
 				});
 			}
 
-			const orderObj = await orderService.getOrder(userObj, orderId);
-			const order = await submitTransactionOrderAddress(
+			const order = await submitTransactionOrderObj(
 				"FinishOrder",
 				userObj,
-				orderObj,
-				longitude,
-				latitude
+				orderObj
 			);
-
 			return res.json({
 				data: order,
 				message: "successfully",

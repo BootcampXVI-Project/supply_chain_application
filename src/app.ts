@@ -14,7 +14,8 @@ import {
 	User,
 	UserForRegister,
 	Product,
-	ProductForCultivate
+	ProductForCultivate,
+	OrderForUpdateFinish
 } from "./types/models";
 
 export async function registerUser(userObj: UserForRegister) {
@@ -156,12 +157,10 @@ export async function submitTransactionOrderId(
 	}
 }
 
-export async function submitTransactionOrderAddress(
+export async function submitTransactionOrderObj(
 	funcName: string,
 	userObj: User,
-	orderObj: Product,
-	longitude: string,
-	latitude: string
+	orderObj: OrderForUpdateFinish
 ) {
 	try {
 		const network = await connectNetwork(userObj);
@@ -171,9 +170,7 @@ export async function submitTransactionOrderAddress(
 		const data = await contract.submitTransaction(
 			funcName,
 			JSON.stringify(userObj),
-			JSON.stringify(orderObj),
-			longitude,
-			latitude
+			JSON.stringify(orderObj)
 		);
 
 		return await convertBufferToJavasciptObject(data);
