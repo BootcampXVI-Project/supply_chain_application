@@ -18,7 +18,7 @@
                 required: true
             example:
               phoneNumber: "+84909090909"
-              password: "123456"
+              password: "Eden"
     responses:
       200:
         description: Successfully
@@ -45,7 +45,7 @@
                 required: true
             example:
               phoneNumber: "+84909090909"
-              smsotp: "Eden"
+              smsotp: "123456"
     responses:
       200:
         description: Successfully
@@ -76,7 +76,7 @@
             example:
               phoneNumber: "+84909090909"
               isVerified: true
-              password: "123456"
+              password: "Eden"
     responses:
       200:
         description: Successfully

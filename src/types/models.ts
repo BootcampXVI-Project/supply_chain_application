@@ -128,6 +128,14 @@ export type OrderForCreate = {
 	qrCode: string;
 };
 
+export type OrderForUpdateFinish = {
+	orderId: string;
+	signature: string;
+	deliveryStatus: {
+		address: string;
+	};
+};
+
 export type CartForCreate = {
 	productIdItems: ProductIdItem[];
 };
