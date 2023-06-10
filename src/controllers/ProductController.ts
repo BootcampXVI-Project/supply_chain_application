@@ -10,6 +10,7 @@ import {
 	submitTransaction,
 	submitTransactionCultivateProduct
 } from "../app";
+import { convertBufferToJavasciptObject } from "../helpers";
 
 const imageService: ImageService = new ImageService();
 
