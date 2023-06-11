@@ -10,6 +10,7 @@ import {
 	submitTransaction,
 	submitTransactionCultivateProduct
 } from "../app";
+import { Product } from "../models/ProductModel";
 
 const imageService: ImageService = new ImageService();
 
@@ -18,9 +19,13 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const products = await getAllProducts(user.userId);
+			const sortedProducts = products.sort(
+				(a: Product, b: Product) =>
+					parseInt(a.productId.slice(7)) - parseInt(b.productId.slice(7))
+			);
 
 			return res.json({
-				data: products,
+				data: sortedProducts,
 				message: "successfully",
 				error: null
 			});
