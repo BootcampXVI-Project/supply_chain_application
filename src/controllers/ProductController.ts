@@ -2,6 +2,7 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
+import { Product } from "../models/ProductModel";
 import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import { getProductById, getAllProducts } from "../services/productService";
@@ -10,7 +11,6 @@ import {
 	submitTransaction,
 	submitTransactionCultivateProduct
 } from "../app";
-import { Product } from "../models/ProductModel";
 
 const imageService: ImageService = new ImageService();
 
