@@ -2,6 +2,7 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
+import { Product } from "../models/ProductModel";
 import { ProductForCultivate } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import { getProductById, getAllProducts } from "../services/productService";
@@ -18,9 +19,13 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const products = await getAllProducts(user.userId);
+			const sortedProducts = products.sort(
+				(a: Product, b: Product) =>
+					parseInt(a.productId.slice(7)) - parseInt(b.productId.slice(7))
+			);
 
 			return res.json({
-				data: products,
+				data: sortedProducts,
 				message: "successfully",
 				error: null
 			});
