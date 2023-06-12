@@ -1,0 +1,28 @@
+/product-commercial/all:
+  get:
+    summary: Get All Products Commercial
+    description: Get All Products Commercial
+    tags:
+      - Product Commercial
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+
+/product-commercial/{productId}:
+  get:
+    summary: Get Detail Product Commercial
+    description: Get Detail Product Commercial
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+    tags:
+      - Product Commercial
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
