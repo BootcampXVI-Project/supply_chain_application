@@ -1,10 +1,4 @@
-import {
-	UserRole,
-	UserStatus,
-	ProductStatus,
-	OrderStatus,
-	ProductDateStatus
-} from "./types";
+import { UserRole, UserStatus, ProductStatus, OrderStatus } from "./types";
 
 export interface UserForRegister {
 	email: string;
@@ -32,7 +26,7 @@ export interface User {
 }
 
 export type ProductDate = {
-	status: ProductDateStatus;
+	status: ProductStatus;
 	time: string;
 	actor: Actor;
 };
@@ -119,8 +113,23 @@ export type ProductIdItem = {
 	quantity: string;
 };
 
-export type OrderForCreate = {
+export type ProductIdQRCodeItem = {
+	productId: string;
+	quantity: string;
+	qrCode: string;
+};
+
+export type OrderPayloadForCreate = {
 	productIdItems: ProductIdItem[];
+	signatures: string[];
+	deliveryStatus: {
+		address: string;
+	};
+	qrCode: string;
+};
+
+export type OrderForCreate = {
+	productIdQRCodeItems: ProductIdQRCodeItem[];
 	signatures: string[];
 	deliveryStatus: {
 		address: string;

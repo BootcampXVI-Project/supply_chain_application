@@ -41,7 +41,7 @@ Content-Type: application/json
           "price": "1200000",
           "amount": "1",
           "unit": "l",
-          "status": "CULTIVATING",
+          "status": "CULTIVATED",
           "description": "OVN - Vườn quốc gia Xuân Thủy được UNESCO công nhận là Khu dự trữ sinh quyển thế giới khu vực ven biển liên tỉnh đồng bằng châu thổ Sông Hồng. Vườn có diện tích 7.100 ha, hệ sinh thái thực vật tại vườn khá đa dạng và phong phú, đặc biệt là hệ sinh thái thực vật tại vùng ngập mặn. Nói đến hệ sinh thái thực vật ngập mặn không thể không nói đến cây sú, vẹt.",
           "certificateUrl": "http://localhost:4000/image1.img",
           "supplierId": "5d131a98-4649-4e86-8bce-de325544b5ab",

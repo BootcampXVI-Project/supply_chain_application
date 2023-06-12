@@ -1,11 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document } from "mongoose";
 import { Actor, ProductDate } from "../types/models";
-import {
-	ProductStatus,
-	ProductStatusArray,
-	ProductDateStatusArray
-} from "../types/types";
+import { ProductStatus, ProductStatusArray } from "../types/types";
 
 interface Product extends Document {
 	productId: string;
@@ -39,7 +35,7 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 		type: String,
 		enum: ProductStatusArray,
 		required: true,
-		default: "CULTIVATING"
+		default: "CULTIVATED"
 	},
 	description: { type: String, required: true },
 	certificateUrl: { type: String, required: true },

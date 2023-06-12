@@ -3,6 +3,7 @@ import imageRouter from "./imageRouter";
 import authRouter from "./authRouter";
 import userRouter from "./userRouter";
 import productRouter from "./productRouter";
+import productCommercialRouter from "./productCommercialRouter";
 import orderRouter from "./orderRouter";
 import supplierRouter from "./supplierRouter";
 import manufacturerRouter from "./manufacturerRouter";
@@ -14,6 +15,7 @@ function routing(app: Express) {
 	app.use("/auth", authRouter);
 	app.use("/user", userRouter);
 	app.use("/product", productRouter);
+	app.use("/product-commercial", productCommercialRouter);
 	app.use("/order", orderRouter);
 	app.use("/supplier", supplierRouter);
 	app.use("/manufacturer", manufacturerRouter);
@@ -21,7 +23,7 @@ function routing(app: Express) {
 	app.use("/retailer", retailerRouter);
 
 	app.use("*", (req, res, next) => {
-		res.status(404).json({
+		return res.status(404).json({
 			message: "not-found",
 			error: "not-found"
 		});

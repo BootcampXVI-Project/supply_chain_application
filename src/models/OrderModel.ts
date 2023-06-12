@@ -1,6 +1,5 @@
-import { Product } from "./ProductModel";
-import { OrderStatus, OrderStatusArray } from "../types/types";
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { OrderStatus, OrderStatusArray } from "../types/types";
 import { Actor, DeliveryStatus, ProductItem } from "../types/models";
 
 interface Order {

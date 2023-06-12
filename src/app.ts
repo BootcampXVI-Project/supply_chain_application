@@ -15,7 +15,8 @@ import {
 	UserForRegister,
 	Product,
 	ProductForCultivate,
-	OrderForUpdateFinish
+	OrderForUpdateFinish,
+	OrderForCreate
 } from "./types/models";
 
 export async function registerUser(userObj: UserForRegister) {
@@ -161,6 +162,28 @@ export async function submitTransactionOrderObj(
 	funcName: string,
 	userObj: User,
 	orderObj: OrderForUpdateFinish
+) {
+	try {
+		const network = await connectNetwork(userObj);
+		const contract = network.getContract(CHAINCODE_NAME);
+
+		console.log(`submitTransaction()--> ${funcName}`);
+		const data = await contract.submitTransaction(
+			funcName,
+			JSON.stringify(userObj),
+			JSON.stringify(orderObj)
+		);
+
+		return await convertBufferToJavasciptObject(data);
+	} catch (error) {
+		throw new Error(`Failed to submit transaction ${funcName}, ${error}`);
+	}
+}
+
+export async function submitTransactionCreateOrder(
+	funcName: string,
+	userObj: User,
+	orderObj: OrderForCreate
 ) {
 	try {
 		const network = await connectNetwork(userObj);
