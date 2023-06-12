@@ -146,7 +146,7 @@ const ProductController = {
 				});
 			}
 
-			if (productObj.status.toLowerCase() != "cultivating") {
+			if (productObj.status.toLowerCase() != "cultivated") {
 				return res.json({
 					data: null,
 					message: "Product is not cultivated or was harvested",
@@ -441,7 +441,7 @@ const ProductController = {
 					error: "product-notfound"
 				});
 			}
-			if (productObj.status.toLowerCase() != "distributed") {
+			if (productObj.status.toLowerCase() != "distributing") {
 				return res.json({
 					data: null,
 					message: "Product is not distributed or was selling",
@@ -492,7 +492,7 @@ const ProductController = {
 					error: "product-notfound"
 				});
 			}
-			if (productObj.status.toLowerCase() != "selling") {
+			if (productObj.status.toLowerCase() != "retailing") {
 				return res.json({
 					data: null,
 					message: "Product is not selling or was sold",

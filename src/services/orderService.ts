@@ -1,13 +1,28 @@
-import { User } from "../types/models";
+import ImageService from "./imageService";
 import { CounterName } from "../types/types";
+import { PRODUCTION_URL } from "../constants";
+import { convertBufferToJavasciptObject } from "../helpers";
+import { OrderForCreate, OrderPayloadForCreate, User } from "../types/models";
 import {
 	contract,
 	submitTransaction,
-	evaluateTransactionGetNextCounter
+	evaluateTransactionGetNextCounter,
+	submitTransactionCreateOrder
 } from "../app";
-import { convertBufferToJavasciptObject } from "../helpers";
+
+const imageService: ImageService = new ImageService();
 
 export default class OrderService {
+	async getNextCounter(userObj: User, counterName: CounterName) {
+		const currentCounter = await evaluateTransactionGetNextCounter(
+			"GetCounterOfType",
+			userObj,
+			counterName
+		);
+		const nextCounter = currentCounter + 1;
+		return nextCounter;
+	}
+
 	async getNextCounterID(userObj: User, counterName: CounterName) {
 		const currentCounter = await evaluateTransactionGetNextCounter(
 			"GetCounterOfType",
@@ -129,15 +144,19 @@ export default class OrderService {
 		}
 	}
 
-	async createOrder(userObj: any, orderObj: any) {
+	async createOrder(userObj: User, orderObj: OrderForCreate) {
 		try {
-			return await submitTransaction("CreateOrder", userObj, orderObj);
+			return await submitTransactionCreateOrder(
+				"CreateOrder",
+				userObj,
+				orderObj
+			);
 		} catch (error) {
 			return error.message;
 		}
 	}
 
-	async updateOrder(userObj: any, orderObj: any) {
+	async updateOrder(userObj: User, orderObj: any) {
 		try {
 			return await submitTransaction("UpdateOrder", userObj, orderObj);
 		} catch (error) {
@@ -145,7 +164,7 @@ export default class OrderService {
 		}
 	}
 
-	async finishOrder(userObj: any, orderObj: any) {
+	async finishOrder(userObj: User, orderObj: any) {
 		try {
 			return await submitTransaction("FinishOrder", userObj, orderObj);
 		} catch (error) {
@@ -153,7 +172,7 @@ export default class OrderService {
 		}
 	}
 
-	async getHistoryOrder(userObj: any, orderId: any) {
+	async getHistoryOrder(userObj: User, orderId: string) {
 		try {
 			const contractOrder = await contract(userObj);
 			const data = await contractOrder.evaluateTransaction(
@@ -164,5 +183,36 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
+	}
+
+	async handleOrderPayloadForCreateToOrderForCreate(
+		userObj: User,
+		orderObj: OrderPayloadForCreate
+	) {
+		const productCommercialCounter = await this.getNextCounter(
+			userObj,
+			"ProductCommercialCounterNO"
+		);
+
+		const order: OrderForCreate = {
+			productIdQRCodeItems: await Promise.all(
+				orderObj.productIdItems.map(async (productIdItem, index) => {
+					// QR Code for each product commercial
+					const productCommercialId = `ProductCommercial${
+						productCommercialCounter + index
+					}`;
+					const qrCodeString = await imageService.generateAndPublishQRCode(
+						`${PRODUCTION_URL}/product-commercial/${productCommercialId}`,
+						`qrcode/product-commercials/${productCommercialId}.jpg`
+					);
+					return { ...productIdItem, qrCode: qrCodeString || "" };
+				})
+			),
+			deliveryStatus: orderObj.deliveryStatus,
+			signatures: orderObj.signatures,
+			qrCode: orderObj.qrCode
+		};
+
+		return order;
 	}
 }

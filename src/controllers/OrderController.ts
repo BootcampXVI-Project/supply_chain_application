@@ -3,9 +3,13 @@ import ImageService from "../services/imageService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
-import { OrderForCreate, OrderForUpdateFinish } from "../types/models";
 import { submitTransactionOrderObj } from "../app";
 import { getUserObjByUserId } from "../services/userService";
+import {
+	OrderForCreate,
+	OrderForUpdateFinish,
+	OrderPayloadForCreate
+} from "../types/models";
 
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
@@ -215,9 +219,8 @@ const OrderController = {
 	createOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const orderObj = req.body.orderObj as OrderForCreate;
+			const orderObj = req.body.orderObj as OrderPayloadForCreate;
 			const userObj = await getUserObjByUserId(user.userId);
-
 			if (!userObj) {
 				return res.json({
 					data: null,
@@ -226,6 +229,13 @@ const OrderController = {
 				});
 			}
 
+			const order: OrderForCreate =
+				await orderService.handleOrderPayloadForCreateToOrderForCreate(
+					userObj,
+					orderObj
+				);
+
+			// QR Code for order
 			const orderId = await orderService.getNextCounterID(
 				userObj,
 				"OrderCounterNO"
@@ -234,11 +244,11 @@ const OrderController = {
 				`${PRODUCTION_URL}/order/${orderId}`,
 				`qrcode/orders/${orderId}.jpg`
 			);
-			orderObj.qrCode = qrCodeString || "";
+			order.qrCode = qrCodeString || "";
 
-			const order = await orderService.createOrder(userObj, orderObj);
+			const createdOrder = await orderService.createOrder(userObj, order);
 			return res.json({
-				data: order,
+				data: createdOrder,
 				message: "successfully",
 				error: null
 			});

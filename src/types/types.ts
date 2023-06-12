@@ -13,42 +13,22 @@ export const UserRoleArray = [
 ];
 
 export type ProductStatus =
-	| "CULTIVATING"
-	| "HARVESTED"
-	| "IMPORTED"
-	| "MANUFACTURED"
-	| "EXPORTED"
-	| "DISTRIBUTED"
-	| "SELLING"
-	| "SOLD";
-export const ProductStatusArray = [
-	"CULTIVATING",
-	"HARVESTED",
-	"IMPORTED",
-	"MANUFACTURED",
-	"EXPORTED",
-	"DISTRIBUTED",
-	"SELLING",
-	"SOLD"
-];
-
-export type ProductDateStatus =
 	| "CULTIVATED"
 	| "HARVESTED"
 	| "IMPORTED"
 	| "MANUFACTURED"
 	| "EXPORTED"
-	| "DISTRIBUTED"
-	| "SELLING"
+	| "DISTRIBUTING"
+	| "RETAILING"
 	| "SOLD";
-export const ProductDateStatusArray = [
+export const ProductStatusArray = [
 	"CULTIVATED",
 	"HARVESTED",
 	"IMPORTED",
 	"MANUFACTURED",
 	"EXPORTED",
-	"DISTRIBUTED",
-	"SELLING",
+	"DISTRIBUTING",
+	"RETAILING",
 	"SOLD"
 ];
 
@@ -58,4 +38,7 @@ export const UserStatusArray = ["active", "inactive"];
 export type OrderStatus = "PENDING" | "SHIPPING" | "SHIPPED";
 export const OrderStatusArray = ["PENDING", "SHIPPING", "SHIPPED"];
 
-export type CounterName = "ProductCounterNO" | "OrderCounterNO";
+export type CounterName =
+	| "ProductCounterNO"
+	| "ProductCommercialCounterNO"
+	| "OrderCounterNO";

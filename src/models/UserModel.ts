@@ -1,12 +1,12 @@
+import { v4 as uuidv4 } from "uuid";
+import { ProductIdItem } from "../types/models";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import {
 	UserRole,
 	UserRoleArray,
 	UserStatus,
 	UserStatusArray
 } from "../types/types";
-import { v4 as uuidv4 } from "uuid";
-import mongoose, { Schema, Document, Types } from "mongoose";
-import { ProductIdItem } from "../types/models";
 
 interface User {
 	email: string;
