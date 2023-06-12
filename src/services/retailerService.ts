@@ -40,41 +40,25 @@ export const getManufacturedProducts = async (userId: string) => {
 			if (product.status == "MANUFACTURED") {
 				manufacturedProducts.push({
 					product: product,
-					manufacturedDate: product.dates[3].time
+					date: product.dates[3].time
 				});
 			}
 		});
 
 		const sortedProducts = manufacturedProducts.sort((a, b) =>
-			b.manufacturedDate.localeCompare(a.manufacturedDate)
+			b.date.localeCompare(a.date)
 		);
 
 		return sortedProducts;
 	} catch (error) {
-		console.log("getNewManufacturedProducts", error.message);
-		return null;
-	}
-};
-
-export const getProductsByRetailerId = async (userId: string) => {
-	try {
-		const products = await getAllRetailerProducts(userId);
-		let retailerProducts: Product[] = [];
-
-		// for (let product of products) {
-		// 	if (product.actors.manufacturerId.toString() === userId.toString()) {
-		// 		retailerProducts.push(product);
-		// 	}
-		// }
-		return retailerProducts;
-	} catch (error) {
-		console.log("getProductByRetailerId", error.message);
+		console.log("getManufacturedProducts", error.message);
 		return null;
 	}
 };
 
 export const getAllOrderedProducts = async (userObj: User) => {
 	try {
+		const products: Product[] = await getAllProducts(userObj.userId);
 		const orders: Order[] = await orderService.GetAllOrdersOfRetailer(
 			userObj,
 			userObj.userId,
@@ -88,8 +72,8 @@ export const getAllOrderedProducts = async (userObj: User) => {
 				const productId = productItem.product.productId;
 				if (orderedProductTimes[productId] == undefined) {
 					orderedProductTimes[productId] = {
-						product: productItem.product,
-						orderedTime: order.finishDate
+						product: products.find((p) => p.productId == productId),
+						date: order.finishDate
 					};
 				}
 			})
@@ -98,10 +82,10 @@ export const getAllOrderedProducts = async (userObj: User) => {
 		// Calculation ...
 		const entries: [string, ProductTime][] =
 			Object.entries(orderedProductTimes);
-		entries.sort((a, b) => b[1].orderedTime.localeCompare(a[1].orderedTime));
+		entries.sort((a, b) => b[1].date.localeCompare(a[1].date));
 		const result: ProductTime[] = entries.map(([key, value]) => ({
 			product: value.product,
-			orderedTime: value.orderedTime
+			date: value.date
 		}));
 
 		return result;
@@ -113,6 +97,7 @@ export const getAllOrderedProducts = async (userObj: User) => {
 
 export const getPopularOrderedProducts = async (userObj: User) => {
 	try {
+		const products: Product[] = await getAllProducts(userObj.userId);
 		const orders: Order[] = await orderService.GetAllOrdersOfRetailer(
 			userObj,
 			userObj.userId,
@@ -128,7 +113,7 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 					orderedProductIds[pId].count = orderedProductIds[pId].count + 1;
 				} else {
 					orderedProductIds[pId] = {
-						product: productItem.product,
+						product: products.find((p) => p.productId == pId),
 						count: 1
 					};
 				}
@@ -146,7 +131,7 @@ export const getPopularOrderedProducts = async (userObj: User) => {
 
 		return result;
 	} catch (error) {
-		console.log("getProductByRetailerId", error.message);
+		console.log("getPopularOrderedProducts", error.message);
 		return null;
 	}
 };

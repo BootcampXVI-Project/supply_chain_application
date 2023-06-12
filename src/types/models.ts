@@ -151,7 +151,7 @@ export type CartForCreate = {
 
 export type ManufacturedProduct = {
 	product: Product;
-	manufacturedDate: string;
+	date: string;
 };
 
 export type ProductNumber = {
@@ -161,7 +161,7 @@ export type ProductNumber = {
 
 export type ProductTime = {
 	product: Product;
-	orderedTime: string;
+	date: string;
 };
 
 export type OrderedProductId = Record<string, ProductNumber>;
