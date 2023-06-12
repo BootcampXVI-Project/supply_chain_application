@@ -205,7 +205,7 @@ export default class OrderService {
 						`${PRODUCTION_URL}/product-commercial/${productCommercialId}`,
 						`qrcode/product-commercials/${productCommercialId}.jpg`
 					);
-					return { ...productIdItem, qrCode: `qrCodeString || ""` };
+					return { ...productIdItem, qrCode: qrCodeString || "" };
 				})
 			),
 			deliveryStatus: orderObj.deliveryStatus,
