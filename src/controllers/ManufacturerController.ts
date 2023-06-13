@@ -14,12 +14,16 @@ const ManufacturerController = {
 
 			if (!userObj) {
 				return res.json({
+					data: null,
 					message: "User not found!",
-					status: "notfound"
+					error: "user-notfound"
 				});
 			}
 
-			const data = await manufacturerService.approveOrderRequest(userObj, orderId);
+			const data = await manufacturerService.approveOrderRequest(
+				userObj,
+				orderId
+			);
 
 			return res.json({
 				data: data,
@@ -28,6 +32,38 @@ const ManufacturerController = {
 			});
 		} catch (error) {
 			console.log("approveOrderRequest", error.message);
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
+	rejectOrderRequest: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const orderId = String(req.body.orderId);
+			const userObj = await getUserObjByUserId(user.userId);
+			if (!userObj) {
+				return res.json({
+					data: null,
+					message: "User not found!",
+					error: "user-notfound"
+				});
+			}
+
+			const data = await manufacturerService.rejectOrderRequest(
+				userObj,
+				orderId
+			);
+			return res.json({
+				data: data,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			console.log("rejectOrderRequest", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

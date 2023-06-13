@@ -9,6 +9,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/{productId}:
   get:
@@ -26,6 +28,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/transactions-history:
   get:
@@ -43,6 +47,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/cultivate:
   post:
@@ -79,6 +85,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/harvest:
   post:
@@ -102,6 +110,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/import:
   post:
@@ -129,6 +139,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/manufacture:
   post:
@@ -164,6 +176,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/export:
   post:
@@ -191,6 +205,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/distribute:
   post:
@@ -214,6 +230,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/retailer-import:
   post:
@@ -241,6 +259,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/sell:
   post:
@@ -268,6 +288,8 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
 
 /product/update:
   patch:
@@ -304,3 +326,5 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found

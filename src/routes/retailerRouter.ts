@@ -7,13 +7,6 @@ import { Roles } from "../middlewares/authentication/roleGuard";
 const router = express.Router();
 
 router.get(
-	"/product/all",
-	jwtGuard,
-	Roles(UserRole.RETAILER),
-	RetailerController.getAllRetailerProducts
-);
-
-router.get(
 	"/product/manufactured",
 	jwtGuard,
 	Roles(UserRole.RETAILER),

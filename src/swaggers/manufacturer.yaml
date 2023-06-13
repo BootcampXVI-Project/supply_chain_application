@@ -20,3 +20,30 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found
+
+/manufacturer/order/reject:
+  patch:
+    summary: Manufacturer Reject Order
+    description: Manufacturer Reject Order
+    tags:
+      - Manufacturer
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orderId:
+                type: string
+                required: true
+            example:
+              orderId: "Order1"
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
