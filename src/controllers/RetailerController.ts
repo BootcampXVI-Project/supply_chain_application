@@ -3,7 +3,7 @@ import { DecodeUser } from "../types/common";
 import { ProductIdItem } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import {
-	getProductsByRetailerId,
+	getAllRetailerProducts,
 	getAllOrderedProducts,
 	getManufacturedProducts,
 	getPopularOrderedProducts,
@@ -27,7 +27,7 @@ const RetailerController = {
 				});
 			}
 
-			const products = await getProductsByRetailerId(user.userId);
+			const products = await getAllRetailerProducts(user.userId);
 			if (products == null) {
 				return res.json({
 					data: null,
@@ -89,7 +89,7 @@ const RetailerController = {
 				return res.json({
 					data: null,
 					message: "This retailer don't have any product!",
-					error: "this-retailer-don't-have-any-product"
+					error: "empty-product"
 				});
 			} else {
 				return res.json({
