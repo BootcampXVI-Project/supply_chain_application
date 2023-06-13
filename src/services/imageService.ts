@@ -12,13 +12,12 @@ admin.initializeApp({
 	}),
 	storageBucket: FIREBASE_STORAGE_BUCKET
 });
-
 const storageBucket = admin.storage().bucket();
 
-export default class ImageService {
+class ImageService {
 	storage: any;
 
-	async upload(imagePath: string, imageName: string) {
+	upload = async (imagePath: string, imageName: string) => {
 		try {
 			const currentDate = new Date();
 			// Expired after 1 year
@@ -39,9 +38,12 @@ export default class ImageService {
 			console.error("Error uploading image:", error);
 			return null;
 		}
-	}
+	};
 
-	async generateAndPublishQRCode(encodeData: string, imageNamePath: string) {
+	generateAndPublishQRCode = async (
+		encodeData: string,
+		imageNamePath: string
+	) => {
 		try {
 			QRCode.toFile("./image.jpg", encodeData, {
 				errorCorrectionLevel: "H"
@@ -55,26 +57,7 @@ export default class ImageService {
 		} catch (error) {
 			return null;
 		}
-	}
-
-	// async convertFileToUrl(file: File): Promise<string> {
-	// 	const imageName = this.generateImageName();
-	// 	const filePath = `images/${imageName}`;
-	// 	const fileRef = this.storage.ref(filePath);
-
-	// 	const task = this.storage.upload(filePath, file);
-	// 	await task.snapshotChanges().pipe(
-	// 	  finalize(async () => {
-	// 		const downloadUrl = await fileRef.getDownloadURL().toPromise();
-	// 		return downloadUrl;
-	// 	  })
-	// 	).toPromise();
-	//   }
-	// generateImageName() {
-	// 	throw new Error("Method not implemented.");
-	// }
+	};
 }
 
-function finalize(arg0: () => Promise<any>): any {
-	throw new Error("Function not implemented.");
-}
+export default ImageService;

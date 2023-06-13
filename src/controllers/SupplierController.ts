@@ -1,14 +1,17 @@
+import AppService from "../services/appService";
+import UserService from "../services/userService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
-import { submitTransaction } from "../app";
-import { getUserObjByUserId } from "../services/userService";
+
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
 const SupplierController = {
 	updateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
 			const productObj = req.body.productObj;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -18,7 +21,7 @@ const SupplierController = {
 				});
 			}
 
-			const data = await submitTransaction(
+			const data = await appService.submitTransaction(
 				"SupplierUpdateProduct",
 				userObj,
 				productObj

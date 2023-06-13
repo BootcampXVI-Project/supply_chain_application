@@ -1,56 +1,58 @@
+import AppService from "../services/appService";
+import UserService from "./userService";
 import { User, Product } from "../types/models";
-import { getUserByUserId } from "./userService";
 import { ProductModel } from "../models/ProductModel";
-import {
-	evaluateGetWithNoArgs,
-	evaluateTransactionUserObjProductId
-} from "../app";
 
-export const checkExistedProduct = async (productId: string) => {
-	const isExisted = await ProductModel.exists({ productId: productId });
-	return Boolean(isExisted);
-};
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
-export const getAllProducts = async (userId: string) => {
-	const userObj = await getUserByUserId(userId);
-	const products = await evaluateGetWithNoArgs("GetAllProducts", userObj);
-	return products;
-};
+class ProductService {
+	checkExistedProduct = async (productId: string) => {
+		const isExisted = await ProductModel.exists({ productId: productId });
+		return Boolean(isExisted);
+	};
 
-export const getProductById = async (userObj: User, productId: string) => {
-	const product = await evaluateTransactionUserObjProductId(
-		"GetProduct",
-		userObj,
-		productId
-	);
-	return product;
-};
+	getAllProducts = async (userId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const products = await appService.evaluateGetWithNoArgs(
+			"GetAllProducts",
+			userObj
+		);
+		return products;
+	};
 
-export const createProduct = async (productObj: Product) => {
-	const isExistedProduct: boolean = await checkExistedProduct(
-		productObj.productId
-	);
+	getProductById = async (userObj: User, productId: string) => {
+		const product = await appService.evaluateTransactionUserObjProductId(
+			"GetProduct",
+			userObj,
+			productId
+		);
+		return product;
+	};
 
-	if (isExistedProduct) {
-		return {
-			data: null,
-			message: "productid-existed"
-		};
-	}
+	createProductDB = async (product: Product) => {
+		ProductModel.create(product)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
 
-	const createdProduct = await ProductModel.create(productObj)
-		.then((data: any) => {
-			console.log("success", data);
-			return data;
-		})
-		.catch((error: any) => {
-			console.log("error", error);
-			return error;
-		});
+	updateProductDB = async (productId: string, product: Product) => {
+		ProductModel.findOneAndUpdate({ productId }, product)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+}
 
-	if (createdProduct) {
-		return { data: createdProduct, message: "successfully" };
-	} else {
-		return { data: createdProduct, message: "failed" };
-	}
-};
+export default ProductService;

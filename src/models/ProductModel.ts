@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import mongoose, { Schema, Document } from "mongoose";
 import { Actor, ProductDate } from "../types/models";
 import { ProductStatus, ProductStatusArray } from "../types/types";
@@ -20,7 +19,7 @@ interface Product extends Document {
 }
 
 const ProductSchema: Schema<Product> = new Schema<Product>({
-	productId: { type: String, default: uuidv4 },
+	productId: { type: String, required: true },
 	productName: { type: String, required: true },
 	image: { type: [String], required: true },
 	dates: {
@@ -40,9 +39,9 @@ const ProductSchema: Schema<Product> = new Schema<Product>({
 	description: { type: String, required: true },
 	certificateUrl: { type: String, required: true },
 	supplier: { type: Object, required: true },
-	qrCode: { type: String, required: true }
+	qrCode: { type: String }
 });
 
 const ProductModel = mongoose.model<Product>("Product", ProductSchema);
 
-export { Product, ProductModel };
+export { ProductModel };

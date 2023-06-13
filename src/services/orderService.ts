@@ -1,30 +1,32 @@
+import AppService from "../services/appService";
 import ImageService from "./imageService";
 import { CounterName } from "../types/types";
 import { PRODUCTION_URL } from "../constants";
+import { OrderModel } from "../models/OrderModel";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { OrderForCreate, OrderPayloadForCreate, User } from "../types/models";
 import {
-	contract,
-	submitTransaction,
-	evaluateTransactionGetNextCounter,
-	submitTransactionCreateOrder
-} from "../app";
+	User,
+	Order,
+	OrderForCreate,
+	OrderPayloadForCreate
+} from "../types/models";
 
+const appService: AppService = new AppService();
 const imageService: ImageService = new ImageService();
 
-export default class OrderService {
-	async getNextCounter(userObj: User, counterName: CounterName) {
-		const currentCounter = await evaluateTransactionGetNextCounter(
+class OrderService {
+	getNextCounter = async (userObj: User, counterName: CounterName) => {
+		const currentCounter = await appService.evaluateTransactionGetNextCounter(
 			"GetCounterOfType",
 			userObj,
 			counterName
 		);
 		const nextCounter = currentCounter + 1;
 		return nextCounter;
-	}
+	};
 
-	async getNextCounterID(userObj: User, counterName: CounterName) {
-		const currentCounter = await evaluateTransactionGetNextCounter(
+	getNextCounterID = async (userObj: User, counterName: CounterName) => {
+		const currentCounter = await appService.evaluateTransactionGetNextCounter(
 			"GetCounterOfType",
 			userObj,
 			counterName
@@ -32,11 +34,11 @@ export default class OrderService {
 		return counterName == "ProductCounterNO"
 			? `Product${currentCounter + 1}`
 			: `Order${currentCounter + 1}`;
-	}
+	};
 
-	async getAllOrders(userObj: User, status: string) {
+	getAllOrders = async (userObj: User, status: string) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrders",
 				status
@@ -46,16 +48,16 @@ export default class OrderService {
 			console.log(error.message);
 			return error.message;
 		}
-	}
+	};
 
-	async getAllOrdersByAddress(
+	getAllOrdersByAddress = async (
 		userObj: User,
 		longitude: string,
 		latitude: string,
 		shippingStatus: string
-	) {
+	) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const order = await contractOrder.evaluateTransaction(
 				"GetAllOrdersByAddress",
 				longitude,
@@ -66,15 +68,15 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async GetAllOrdersOfManufacturer(
+	getAllOrdersOfManufacturer = async (
 		userObj: User,
 		userId: string,
 		status: string
-	) {
+	) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfManufacturer",
 				userId,
@@ -84,15 +86,15 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async GetAllOrdersOfDistributor(
+	getAllOrdersOfDistributor = async (
 		userObj: User,
 		userId: string,
 		status: string
-	) {
+	) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfDistributor",
 				userId,
@@ -102,11 +104,15 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async GetAllOrdersOfRetailer(userObj: User, userId: string, status: string) {
+	getAllOrdersOfRetailer = async (
+		userObj: User,
+		userId: string,
+		status: string
+	) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const orders = await contractOrder.evaluateTransaction(
 				"GetAllOrdersOfRetailer",
 				userId,
@@ -116,11 +122,11 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async getOrder(userObj: User, orderId: string) {
+	getOrder = async (userObj: User, orderId: string) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const order = await contractOrder.evaluateTransaction(
 				"GetOrder",
 				String(orderId)
@@ -129,11 +135,11 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async getDetailOrder(userObj: User, orderId: string) {
+	getDetailOrder = async (userObj: User, orderId: string) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const order = await contractOrder.evaluateTransaction(
 				"GetOrder",
 				orderId
@@ -142,11 +148,11 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async createOrder(userObj: User, orderObj: OrderForCreate) {
+	createOrder = async (userObj: User, orderObj: OrderForCreate) => {
 		try {
-			return await submitTransactionCreateOrder(
+			return await appService.submitTransactionCreateOrder(
 				"CreateOrder",
 				userObj,
 				orderObj
@@ -154,27 +160,35 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async updateOrder(userObj: User, orderObj: any) {
+	updateOrder = async (userObj: User, orderObj: any) => {
 		try {
-			return await submitTransaction("UpdateOrder", userObj, orderObj);
+			return await appService.submitTransaction(
+				"UpdateOrder",
+				userObj,
+				orderObj
+			);
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async finishOrder(userObj: User, orderObj: any) {
+	finishOrder = async (userObj: User, orderObj: any) => {
 		try {
-			return await submitTransaction("FinishOrder", userObj, orderObj);
+			return await appService.submitTransaction(
+				"FinishOrder",
+				userObj,
+				orderObj
+			);
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async getHistoryOrder(userObj: User, orderId: string) {
+	getHistoryOrder = async (userObj: User, orderId: string) => {
 		try {
-			const contractOrder = await contract(userObj);
+			const contractOrder = await appService.contract(userObj);
 			const data = await contractOrder.evaluateTransaction(
 				"GetHistoryOrder",
 				orderId
@@ -183,12 +197,12 @@ export default class OrderService {
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async handleOrderPayloadForCreateToOrderForCreate(
+	handleOrderPayloadForCreateToOrderForCreate = async (
 		userObj: User,
 		orderObj: OrderPayloadForCreate
-	) {
+	) => {
 		const productCommercialCounter = await this.getNextCounter(
 			userObj,
 			"ProductCommercialCounterNO"
@@ -214,5 +228,40 @@ export default class OrderService {
 		};
 
 		return order;
-	}
+	};
+
+	generateOrderQRCode = async (userObj: User) => {
+		const orderId = await this.getNextCounterID(userObj, "OrderCounterNO");
+		const qrCodeString = await imageService.generateAndPublishQRCode(
+			`${PRODUCTION_URL}/order/${orderId}`,
+			`qrcode/orders/${orderId}.jpg`
+		);
+		return qrCodeString || "";
+	};
+
+	createOrderDB = async (order: Order) => {
+		OrderModel.create(order)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+
+	updateOrderDB = async (orderId: string, order: Order) => {
+		OrderModel.findOneAndUpdate({ orderId }, order)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
 }
+
+export default OrderService;

@@ -1,24 +1,59 @@
-import { User } from "../types/models";
-import { getUserByUserId } from "./userService";
-import {
-	evaluateGetWithNoArgs,
-	evaluateTransactionUserObjProductId
-} from "../app";
+import AppService from "./appService";
+import UserService from "./userService";
+import { User, ProductCommercial } from "../types/models";
+import { ProductCommercialModel } from "../models/ProductCommercialModel";
 
-export const getAllProducts = async (userId: string) => {
-	const userObj = await getUserByUserId(userId);
-	const products = await evaluateGetWithNoArgs(
-		"GetAllProductsCommercial",
-		userObj
-	);
-	return products;
-};
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
-export const getProductById = async (userObj: User, productId: string) => {
-	const product = await evaluateTransactionUserObjProductId(
-		"GetProductCommercial",
-		userObj,
-		productId
-	);
-	return product;
-};
+class ProductCommercialService {
+	getAllProducts = async (userId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const products = await appService.evaluateGetWithNoArgs(
+			"GetAllProductsCommercial",
+			userObj
+		);
+		return products;
+	};
+
+	getProductById = async (userObj: User, productId: string) => {
+		const product = await appService.evaluateTransactionUserObjProductId(
+			"GetProductCommercial",
+			userObj,
+			productId
+		);
+		return product;
+	};
+
+	createProductDB = async (productCommercial: ProductCommercial) => {
+		ProductCommercialModel.create(productCommercial)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+
+	updateProductDB = async (
+		productCommercialId: string,
+		productCommercial: ProductCommercial
+	) => {
+		ProductCommercialModel.findOneAndUpdate(
+			{ productCommercialId },
+			productCommercial
+		)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+}
+
+export default ProductCommercialService;

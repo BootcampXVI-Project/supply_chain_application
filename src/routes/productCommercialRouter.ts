@@ -13,6 +13,34 @@ router.get(
 	ProductCommercialController.getAllProducts
 );
 
+router.post(
+	"/export",
+	jwtGuard,
+	Roles(UserRole.MANUFACTURER),
+	ProductCommercialController.exportProduct
+);
+
+router.post(
+	"/distribute",
+	jwtGuard,
+	Roles(UserRole.DISTRIBUTOR),
+	ProductCommercialController.distributeProduct
+);
+
+router.post(
+	"/retailer-import",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	ProductCommercialController.importRetailerProduct
+);
+
+router.post(
+	"/sell",
+	jwtGuard,
+	Roles(UserRole.RETAILER),
+	ProductCommercialController.sellProduct
+);
+
 router.get(
 	"/:productId",
 	jwtGuard,

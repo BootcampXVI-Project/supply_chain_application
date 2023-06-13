@@ -1,18 +1,21 @@
+import AppService from "../services/appService";
 import OrderService from "../services/orderService";
-import ImageService from "../services/imageService";
+import UserService from "../services/userService";
+import ProductCommercialService from "../services/productCommercialService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
-import { PRODUCTION_URL } from "../constants";
-import { submitTransactionOrderObj } from "../app";
-import { getUserObjByUserId } from "../services/userService";
 import {
 	OrderForCreate,
 	OrderForUpdateFinish,
-	OrderPayloadForCreate
+	OrderPayloadForCreate,
+	ProductCommercialItem
 } from "../types/models";
 
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 const orderService: OrderService = new OrderService();
-const imageService: ImageService = new ImageService();
+const productCommercialService: ProductCommercialService =
+	new ProductCommercialService();
 
 const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
@@ -21,7 +24,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -49,7 +52,7 @@ const OrderController = {
 	getAllOrdersByAddress: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const longitude = String(req.query.longitude);
 			const latitude = String(req.query.latitude);
 			const shippingStatus = String(req.query.shippingStatus);
@@ -88,7 +91,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -98,7 +101,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfManufacturer(
+			const orders = await orderService.getAllOrdersOfManufacturer(
 				userObj,
 				user.userId,
 				statusValue
@@ -123,7 +126,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -133,7 +136,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfDistributor(
+			const orders = await orderService.getAllOrdersOfDistributor(
 				userObj,
 				user.userId,
 				statusValue
@@ -158,7 +161,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -168,7 +171,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfRetailer(
+			const orders = await orderService.getAllOrdersOfRetailer(
 				userObj,
 				user.userId,
 				statusValue
@@ -191,7 +194,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderId = String(req.params.orderId);
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -220,7 +223,8 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderObj = req.body.orderObj as OrderPayloadForCreate;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
+
 			if (!userObj) {
 				return res.json({
 					data: null,
@@ -234,19 +238,16 @@ const OrderController = {
 					userObj,
 					orderObj
 				);
-
-			// QR Code for order
-			const orderId = await orderService.getNextCounterID(
-				userObj,
-				"OrderCounterNO"
-			);
-			const qrCodeString = await imageService.generateAndPublishQRCode(
-				`${PRODUCTION_URL}/order/${orderId}`,
-				`qrcode/orders/${orderId}.jpg`
-			);
-			order.qrCode = qrCodeString || "";
+			order.qrCode = await orderService.generateOrderQRCode(userObj);
 
 			const createdOrder = await orderService.createOrder(userObj, order);
+
+			// Backup
+			orderService.createOrderDB(createdOrder);
+			createdOrder.productItemList.map((productItem: ProductCommercialItem) =>
+				productCommercialService.createProductDB(productItem.product)
+			);
+
 			return res.json({
 				data: createdOrder,
 				message: "successfully",
@@ -264,7 +265,7 @@ const OrderController = {
 	updateOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
@@ -275,13 +276,23 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransactionOrderObj(
+			const updatedOrder = await appService.submitTransactionOrderObj(
 				"UpdateOrder",
 				userObj,
 				orderObj
 			);
+
+			// Backup
+			orderService.updateOrderDB(orderObj.orderId, updatedOrder);
+			updatedOrder.productItemList.map((productItem: ProductCommercialItem) =>
+				productCommercialService.updateProductDB(
+					productItem.product.productCommercialId,
+					productItem.product
+				)
+			);
+
 			return res.json({
-				data: order,
+				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});
@@ -297,7 +308,7 @@ const OrderController = {
 	finishOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
@@ -308,13 +319,23 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransactionOrderObj(
+			const updatedOrder = await appService.submitTransactionOrderObj(
 				"FinishOrder",
 				userObj,
 				orderObj
 			);
+
+			// Backup
+			orderService.updateOrderDB(orderObj.orderId, updatedOrder);
+			updatedOrder.productItemList.map((productItem: ProductCommercialItem) =>
+				productCommercialService.updateProductDB(
+					productItem.product.productCommercialId,
+					productItem.product
+				)
+			);
+
 			return res.json({
-				data: order,
+				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});

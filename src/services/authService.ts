@@ -1,8 +1,8 @@
 import twilio from "twilio";
 import jwt from "jsonwebtoken";
 import pkg from "bcryptjs";
+import UserService from "./userService";
 import { TokenPayload } from "../types/common";
-import { checkExistedUserId } from "./userService";
 import { Request, Response, NextFunction } from "express";
 import {
 	ACCOUNT_SID,
@@ -14,9 +14,10 @@ import {
 
 const { hashSync, compareSync, genSaltSync } = pkg;
 const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
+const userService: UserService = new UserService();
 
-export default class AuthService {
-	async sendOtp(phoneNumber: string) {
+class AuthService {
+	sendOtp = async (phoneNumber: string) => {
 		const digits = "0123456789";
 		let otp = "";
 
@@ -30,36 +31,36 @@ export default class AuthService {
 		});
 
 		return otp;
-	}
+	};
 
-	async generateAccessToken(payload: TokenPayload) {
+	generateAccessToken = async (payload: TokenPayload) => {
 		const expiresIn = EXPIRES_IN + `m`;
 		const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn });
 		return token;
-	}
+	};
 
-	async hashPassword(password: string, salt = 10) {
+	hashPassword = async (password: string, salt = 10) => {
 		return hashSync(password, genSaltSync(salt));
-	}
+	};
 
-	async comparePassword(password: string, passwordHash: string) {
+	comparePassword = async (password: string, passwordHash: string) => {
 		return compareSync(password, passwordHash);
-	}
+	};
 
-	async decodeToken(token: string) {
+	decodeToken = async (token: string) => {
 		return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
-	}
+	};
 
-	async checkTokenExpired(token: string) {
+	checkTokenExpired = async (token: string) => {
 		const decodeTokenValue = await this.decodeToken(token);
 		const tokenExpireTime = decodeTokenValue.exp;
 		const currentTimestamp = Math.floor(Date.now() / 1000);
 
 		if (tokenExpireTime < currentTimestamp) return false;
 		else return true;
-	}
+	};
 
-	async authenticate(req: Request, res: Response, next: NextFunction) {
+	authenticate = async (req: Request, res: Response, next: NextFunction) => {
 		const token = req.headers.authorization;
 
 		if (!token) {
@@ -68,7 +69,9 @@ export default class AuthService {
 
 		// verify token
 		const decodeTokenValue = await this.decodeToken(token);
-		const isExistedUser = checkExistedUserId(decodeTokenValue.userId);
+		const isExistedUser = await userService.checkExistedUserId(
+			decodeTokenValue.userId
+		);
 		if (!isExistedUser) {
 			return res.status(401).json({ message: "Unauthorized" });
 		}
@@ -86,12 +89,12 @@ export default class AuthService {
 		} else {
 			next();
 		}
-	}
+	};
 
-	async refreshToken(
+	refreshToken = async (
 		token: string,
 		callback: (err: Error | null, newToken?: string) => void
-	) {
+	) => {
 		const oldTokenValue = await this.decodeToken(token);
 		const { role, userId, userName, phoneNumber } = oldTokenValue;
 
@@ -104,5 +107,7 @@ export default class AuthService {
 		const newToken = await this.generateAccessToken(newTokenPayload);
 
 		callback(null, newToken);
-	}
+	};
 }
+
+export default AuthService;

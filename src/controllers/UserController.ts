@@ -1,12 +1,15 @@
-import { registerUser } from "../app";
+import AppService from "../services/appService";
+import UserService from "../services/userService";
 import { Request, Response } from "express";
-import { getUserObjByUserId, getAllUsers } from "../services/userService";
+
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
 const UserController = {
 	createUser: async (req: Request, res: Response) => {
 		try {
 			const userObj = req.body.userObj;
-			const createdUser = await registerUser(userObj);
+			const createdUser = await appService.registerUser(userObj);
 
 			return createdUser.data !== null
 				? res.json({
@@ -30,7 +33,7 @@ const UserController = {
 
 	getAllUsers: async (req: Request, res: Response) => {
 		try {
-			const users = await getAllUsers();
+			const users = await userService.getAllUsers();
 
 			return res.json({
 				data: users,
@@ -49,7 +52,7 @@ const UserController = {
 	getUser: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.params.userId);
-			const users = await getUserObjByUserId(userId);
+			const users = await userService.getUserObjByUserId(userId);
 
 			return res.json({
 				data: users,

@@ -18,4 +18,4 @@ const AuthSchema: Schema<AuthDB> = new Schema<AuthDB>({
 
 const AuthModel = mongoose.model<AuthDB>("Auth", AuthSchema);
 
-export { Auth, AuthDB, AuthModel };
+export { AuthDB, AuthModel };

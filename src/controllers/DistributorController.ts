@@ -1,7 +1,10 @@
+import AppService from "../services/appService";
+import UserService from "../services/userService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
-import { getUserObjByUserId } from "../services/userService";
-import { evaluateTransactionUserObjAnyParam, submitTransaction } from "../app";
+
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
 const DistributorController = {
 	getAllProducts: async (req: Request, res: Response) => {
@@ -9,13 +12,13 @@ const DistributorController = {
 			const user = req.user as DecodeUser;
 			const shippingStatus = String(req.query.shippingStatus);
 
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const queryObj = {
 				address: userObj.address,
 				shippingStatus: shippingStatus
 			};
 
-			const products = await evaluateTransactionUserObjAnyParam(
+			const products = await appService.evaluateTransactionUserObjAnyParam(
 				"GetAllProductsByShippingStatus",
 				userObj,
 				queryObj
@@ -38,7 +41,7 @@ const DistributorController = {
 	updateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj;
 
 			if (!userObj) {
@@ -48,7 +51,11 @@ const DistributorController = {
 				});
 			}
 
-			const data = await submitTransaction("UpdateProduct", userObj, productObj);
+			const data = await appService.submitTransaction(
+				"UpdateProduct",
+				userObj,
+				productObj
+			);
 
 			return res.json({
 				data: data,

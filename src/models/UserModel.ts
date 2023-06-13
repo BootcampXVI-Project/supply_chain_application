@@ -48,4 +48,4 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 
 const UserModel = mongoose.model<UserDB>("User", UserSchema);
 
-export { User, UserDB, UserModel };
+export { UserDB, UserModel };

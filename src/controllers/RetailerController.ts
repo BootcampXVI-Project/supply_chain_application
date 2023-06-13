@@ -1,22 +1,19 @@
+import UserService from "../services/userService";
+import RetailerService from "../services/retailerService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { ProductIdItem } from "../types/models";
-import { getUserObjByUserId } from "../services/userService";
-import {
-	getAllOrderedProducts,
-	getManufacturedProducts,
-	getPopularOrderedProducts,
-	getCartByRetailerId,
-	addCartByRetailerId,
-	updateCartByRetailerId,
-	deleteCart
-} from "../services/retailerService";
+
+const userService: UserService = new UserService();
+const retailerService: RetailerService = new RetailerService();
 
 const RetailerController = {
 	getManufacturedProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const products = await getManufacturedProducts(user.userId);
+			const products = await retailerService.getManufacturedProducts(
+				user.userId
+			);
 
 			if (products == null) {
 				return res.json({
@@ -44,9 +41,9 @@ const RetailerController = {
 	getAllOrderedProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
-			const products = await getAllOrderedProducts(userObj);
+			const products = await retailerService.getAllOrderedProducts(userObj);
 			if (products == null) {
 				return res.json({
 					data: null,
@@ -73,9 +70,9 @@ const RetailerController = {
 	getPopularOrderedProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
-			const products = await getPopularOrderedProducts(userObj);
+			const products = await retailerService.getPopularOrderedProducts(userObj);
 			if (products == null) {
 				return res.json({
 					data: null,
@@ -102,7 +99,7 @@ const RetailerController = {
 	getCart: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -112,7 +109,7 @@ const RetailerController = {
 				});
 			}
 
-			const cart = await getCartByRetailerId(user.userId);
+			const cart = await retailerService.getCartByRetailerId(user.userId);
 			if (cart == null) {
 				return res.json({
 					data: null,
@@ -139,7 +136,7 @@ const RetailerController = {
 	addCart: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const productObj = req.body.product as ProductIdItem;
 
 			if (!userObj) {
@@ -150,9 +147,12 @@ const RetailerController = {
 				});
 			}
 
-			const cart = await getCartByRetailerId(user.userId);
+			const cart = await retailerService.getCartByRetailerId(user.userId);
 			if (cart?.length === 0) {
-				const order = await addCartByRetailerId(user.userId, productObj);
+				const order = await retailerService.addCartByRetailerId(
+					user.userId,
+					productObj
+				);
 				return res.json({
 					data: order,
 					message: "successfully",
@@ -171,7 +171,10 @@ const RetailerController = {
 					cart.push(productObj);
 				}
 
-				const order = await updateCartByRetailerId(user.userId, cart);
+				const order = await retailerService.updateCartByRetailerId(
+					user.userId,
+					cart
+				);
 				return res.json({
 					data: order,
 					message: "successfully",
@@ -191,7 +194,7 @@ const RetailerController = {
 	deteleCart: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -201,7 +204,7 @@ const RetailerController = {
 				});
 			}
 
-			const cart = await deleteCart(user.userId);
+			const cart = await retailerService.deleteCart(user.userId);
 			return res.json({
 				data: cart,
 				message: "successfully",
@@ -220,7 +223,7 @@ const RetailerController = {
 	deteleProductInCart: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const productObj = req.body.product as ProductIdItem;
 
 			if (!userObj) {
@@ -231,7 +234,7 @@ const RetailerController = {
 				});
 			}
 
-			const cart = await getCartByRetailerId(user.userId);
+			const cart = await retailerService.getCartByRetailerId(user.userId);
 			if (cart?.length === 0) {
 				return res.json({
 					data: null,
@@ -242,7 +245,10 @@ const RetailerController = {
 				const result = cart.filter(
 					(product) => product.productId !== productObj.productId
 				);
-				const order = await updateCartByRetailerId(user.userId, result);
+				const order = await retailerService.updateCartByRetailerId(
+					user.userId,
+					result
+				);
 				return res.json({
 					data: order,
 					message: "successfully",

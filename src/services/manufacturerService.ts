@@ -1,20 +1,32 @@
-import { User } from "../models/UserModel";
-import { submitTransactionOrderId } from "../app";
+import AppService from "../services/appService";
+import { User } from "../types/models";
 
-export default class ManufacturerService {
-	async approveOrderRequest(userObj: User, orderId: string) {
+const appService: AppService = new AppService();
+
+class ManufacturerService {
+	approveOrderRequest = async (userObj: User, orderId: string) => {
 		try {
-			return await submitTransactionOrderId("ApproveOrder", userObj, orderId);
+			return await appService.submitTransactionOrderId(
+				"ApproveOrder",
+				userObj,
+				orderId
+			);
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 
-	async rejectOrderRequest(userObj: User, orderId: string) {
+	rejectOrderRequest = async (userObj: User, orderId: string) => {
 		try {
-			return await submitTransactionOrderId("RejectOrder", userObj, orderId);
+			return await appService.submitTransactionOrderId(
+				"RejectOrder",
+				userObj,
+				orderId
+			);
 		} catch (error) {
 			return error.message;
 		}
-	}
+	};
 }
+
+export default ManufacturerService;
