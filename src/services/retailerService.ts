@@ -15,22 +15,6 @@ import {
 
 const orderService: OrderService = new OrderService();
 
-export const getAllRetailerProducts = async (userId: string) => {
-	try {
-		const products = await getAllProducts(userId);
-		let retailerProducts: Product[] = [];
-		// for (let p of products) {
-		// 	if (p.status.lowercase() == "retailer") {
-		// 		retailerProducts.push(p);
-		// 	}
-		// }
-		return retailerProducts;
-	} catch (error) {
-		console.log("getAllRetailerProducts", error.message);
-		return null;
-	}
-};
-
 export const getManufacturedProducts = async (userId: string) => {
 	try {
 		const products = await getAllProducts(userId);
