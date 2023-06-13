@@ -35,8 +35,19 @@ export const ProductStatusArray = [
 export type UserStatus = "active" | "inactive";
 export const UserStatusArray = ["active", "inactive"];
 
-export type OrderStatus = "PENDING" | "SHIPPING" | "SHIPPED";
-export const OrderStatusArray = ["PENDING", "SHIPPING", "SHIPPED"];
+export type OrderStatus =
+	| "PENDING"
+	| "APPROVED"
+	| "REJECTED"
+	| "SHIPPING"
+	| "SHIPPED";
+export const OrderStatusArray = [
+	"PENDING",
+	"APPROVED",
+	"REJECTED",
+	"SHIPPING",
+	"SHIPPED"
+];
 
 export type CounterName =
 	| "ProductCounterNO"

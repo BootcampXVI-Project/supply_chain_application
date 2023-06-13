@@ -9,4 +9,12 @@ export default class ManufacturerService {
 			return error.message;
 		}
 	}
+
+	async rejectOrderRequest(userObj: User, orderId: string) {
+		try {
+			return await submitTransactionOrderId("RejectOrder", userObj, orderId);
+		} catch (error) {
+			return error.message;
+		}
+	}
 }

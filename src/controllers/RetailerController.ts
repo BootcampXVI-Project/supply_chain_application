@@ -3,7 +3,6 @@ import { DecodeUser } from "../types/common";
 import { ProductIdItem } from "../types/models";
 import { getUserObjByUserId } from "../services/userService";
 import {
-	getAllRetailerProducts,
 	getAllOrderedProducts,
 	getManufacturedProducts,
 	getPopularOrderedProducts,
@@ -14,43 +13,6 @@ import {
 } from "../services/retailerService";
 
 const RetailerController = {
-	getAllRetailerProducts: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
-
-			if (!userObj) {
-				return res.json({
-					data: null,
-					message: "User not found!",
-					error: "user-notfound"
-				});
-			}
-
-			const products = await getAllRetailerProducts(user.userId);
-			if (products == null) {
-				return res.json({
-					data: null,
-					message: "This retailer don't have any product!",
-					error: "empty-product"
-				});
-			} else {
-				return res.json({
-					data: products,
-					message: "successfully",
-					error: null
-				});
-			}
-		} catch (error) {
-			console.log("getAllRetailerProducts", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
 	getManufacturedProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;

@@ -56,3 +56,5 @@
         description: Successfully
       400:
         description: Failed
+      404:
+        description: Not Found

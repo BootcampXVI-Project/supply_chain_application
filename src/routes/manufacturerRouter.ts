@@ -13,4 +13,11 @@ router.patch(
 	ManufacturerController.approveOrderRequest
 );
 
+router.patch(
+	"/order/reject",
+	jwtGuard,
+	Roles(UserRole.MANUFACTURER),
+	ManufacturerController.rejectOrderRequest
+);
+
 export default router;
