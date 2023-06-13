@@ -52,7 +52,7 @@ const UserController = {
 	getUser: async (req: Request, res: Response) => {
 		try {
 			const userId = String(req.params.userId);
-			const users = await userService.getUserObjByUserId(userId);
+			const users = await userService.getUserById(userId);
 
 			return res.json({
 				data: users,
