@@ -55,7 +55,7 @@ router.patch(
 	OrderController.updateOrder
 );
 
-router.post(
+router.patch(
 	"/finish",
 	jwtGuard,
 	Roles(UserRole.DISTRIBUTOR),

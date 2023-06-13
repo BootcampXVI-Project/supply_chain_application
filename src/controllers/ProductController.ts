@@ -5,7 +5,7 @@ import ProductService from "../services/productService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
 import { DecodeUser } from "../types/common";
-import { Product } from "../models/ProductModel";
+import { Product } from "../types/models";
 import { ProductForCultivate } from "../types/models";
 
 const appService: AppService = new AppService();
@@ -185,43 +185,6 @@ const ProductController = {
 		}
 	},
 
-	updateProduct: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const productObj = req.body.productObj;
-
-			if (!userObj) {
-				return res.json({
-					data: null,
-					message: "User not found!",
-					error: "user-notfound"
-				});
-			}
-
-			const data = await appService.submitTransaction(
-				"UpdateProduct",
-				userObj,
-				productObj
-			);
-
-			productService.updateProductDB(productObj.productId, data);
-
-			return res.json({
-				data: data,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			console.log("updateProduct", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
 	importProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -343,11 +306,11 @@ const ProductController = {
 		}
 	},
 
-	exportProduct: async (req: Request, res: Response) => {
+	updateProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await userService.getUserObjByUserId(user.userId);
-			const { productId, price } = req.body;
+			const productObj = req.body.productObj;
 
 			if (!userObj) {
 				return res.json({
@@ -357,33 +320,13 @@ const ProductController = {
 				});
 			}
 
-			const productObj = await productService.getProductById(
-				userObj,
-				productId
-			);
-			if (!productObj) {
-				return res.json({
-					data: null,
-					message: "Product not found!",
-					error: "product-notfound"
-				});
-			}
-			if (productObj.status.toLowerCase() != "manufactured") {
-				return res.json({
-					data: null,
-					message: "Product is not manufactured or was exported",
-					error: "product-is-not-manufactured-or-was-exported"
-				});
-			}
-
-			productObj.price = price;
 			const data = await appService.submitTransaction(
-				"ExportProduct",
+				"UpdateProduct",
 				userObj,
 				productObj
 			);
 
-			productService.updateProductDB(productId, data);
+			productService.updateProductDB(productObj.productId, data);
 
 			return res.json({
 				data: data,
@@ -391,178 +334,7 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("exportProduct", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
-	distributeProduct: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const productId = String(req.body.productId);
-
-			if (!userObj) {
-				return res.json({
-					data: null,
-					message: "User not found!",
-					error: "user-notfound"
-				});
-			}
-
-			const productObj = await productService.getProductById(
-				userObj,
-				productId
-			);
-			if (!productObj) {
-				return res.json({
-					data: null,
-					message: "Product not found!",
-					error: "product-notfound"
-				});
-			}
-
-			if (productObj.status.toLowerCase() != "exported") {
-				return res.json({
-					data: null,
-					message: "Product is not exported or was distributed",
-					error: "product-is-not-exported-or-was-distributed"
-				});
-			}
-
-			const data = await appService.submitTransaction(
-				"DistributeProduct",
-				userObj,
-				productObj
-			);
-
-			productService.updateProductDB(productId, data);
-
-			return res.json({
-				data: data,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			console.log("distributeProduct", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
-	importRetailerProduct: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const { productId, price } = req.body;
-
-			if (!userObj) {
-				return res.json({
-					data: null,
-					message: "User not found!",
-					error: "user-notfound"
-				});
-			}
-
-			const productObj = await productService.getProductById(
-				userObj,
-				productId
-			);
-			if (!productObj) {
-				return res.json({
-					data: null,
-					message: "Product not found!",
-					error: "product-notfound"
-				});
-			}
-			if (productObj.status.toLowerCase() != "distributing") {
-				return res.json({
-					data: null,
-					message: "Product is not distributed or was selling",
-					error: "product-is-not-distributed-or-was-selling"
-				});
-			}
-
-			productObj.price = price;
-			const data = await appService.submitTransaction(
-				"ImportRetailerProduct",
-				userObj,
-				productObj
-			);
-
-			productService.updateProductDB(productId, data);
-
-			return res.json({
-				data: data,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			console.log("importRetailProduct", error.message);
-			return res.json({
-				data: null,
-				message: "failed",
-				error: error.message
-			});
-		}
-	},
-
-	sellProduct: async (req: Request, res: Response) => {
-		try {
-			const user = req.user as DecodeUser;
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const { productId, price } = req.body;
-
-			if (!userObj) {
-				return res.json({
-					data: null,
-					message: "User not found!",
-					error: "user-notfound"
-				});
-			}
-
-			const productObj = await productService.getProductById(
-				userObj,
-				productId
-			);
-			if (!productObj) {
-				return res.json({
-					data: null,
-					message: "Product not found!",
-					error: "product-notfound"
-				});
-			}
-			if (productObj.status.toLowerCase() != "retailing") {
-				return res.json({
-					data: null,
-					message: "Product is not selling or was sold",
-					error: "product-is-not-selling-or-was-sold"
-				});
-			}
-
-			productObj.price = price;
-			const data = await appService.submitTransaction(
-				"SellProduct",
-				userObj,
-				productObj
-			);
-
-			productService.updateProductDB(productId, data);
-
-			return res.json({
-				data: data,
-				message: "successfully",
-				error: null
-			});
-		} catch (error) {
-			console.log("sellProduct", error.message);
+			console.log("updateProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

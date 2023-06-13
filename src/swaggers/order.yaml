@@ -189,7 +189,7 @@
         description: Not Found
 
 /order/finish:
-  post:
+  patch:
     summary: Finish Order
     description: Finish Order
     tags:

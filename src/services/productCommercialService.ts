@@ -1,6 +1,7 @@
-import AppService from "../services/appService";
+import AppService from "./appService";
 import UserService from "./userService";
-import { User } from "../types/models";
+import { User, ProductCommercial } from "../types/models";
+import { ProductCommercialModel } from "../models/ProductCommercialModel";
 
 const appService: AppService = new AppService();
 const userService: UserService = new UserService();
@@ -22,6 +23,36 @@ class ProductCommercialService {
 			productId
 		);
 		return product;
+	};
+
+	createProductDB = async (productCommercial: ProductCommercial) => {
+		ProductCommercialModel.create(productCommercial)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+
+	updateProductDB = async (
+		productCommercialId: string,
+		productCommercial: ProductCommercial
+	) => {
+		ProductCommercialModel.findOneAndUpdate(
+			{ productCommercialId },
+			productCommercial
+		)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
 	};
 }
 

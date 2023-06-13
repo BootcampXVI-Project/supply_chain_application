@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 import { OrderStatus, OrderStatusArray } from "../types/types";
-import { Actor, DeliveryStatus, ProductItem } from "../types/models";
+import { Actor, DeliveryStatus, ProductCommercialItem } from "../types/models";
 
 interface Order {
 	orderId?: string;
-	productItemList: ProductItem[];
+	productItemList: ProductCommercialItem[];
 	signatures: string[];
 	deliveryStatuses: DeliveryStatus[];
 	status: OrderStatus;
@@ -36,11 +36,11 @@ const OrderSchema: Schema<OrderDB> = new Schema<OrderDB>({
 	distributor: { type: Object, required: true },
 	retailer: { type: Object, required: true },
 	qrCode: { type: String, required: true },
-	createDate: { type: String, required: false, default: new Date().toString() },
-	updateDate: { type: String, required: false, default: "" },
-	finishDate: { type: String, required: false, default: "" }
+	createDate: { type: String, default: new Date().toString() },
+	updateDate: { type: String, default: "" },
+	finishDate: { type: String, default: "" }
 });
 
 const OrderModel = mongoose.model<OrderDB>("Order", OrderSchema);
 
-export { Order, OrderDB, OrderModel };
+export { OrderDB, OrderModel };

@@ -46,4 +46,4 @@ const ProductCommercialModel = mongoose.model<ProductCommercial>(
 	ProductCommercialSchema
 );
 
-export { ProductCommercial, ProductCommercialModel };
+export { ProductCommercialModel };

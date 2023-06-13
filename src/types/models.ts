@@ -47,6 +47,21 @@ export type Product = {
 	qrCode: string;
 };
 
+export type ProductCommercial = {
+	productCommercialId: string;
+	productId: string;
+	productName: string;
+	image: string[];
+	dates: ProductDate[];
+	expireTime: string;
+	price: string;
+	unit: string;
+	status: ProductStatus;
+	description: string;
+	certificateUrl: string;
+	qrCode: string;
+};
+
 export type ProductForCultivate = {
 	productName: string;
 	image: string[];
@@ -75,6 +90,11 @@ export type ProductItem = {
 	quantity: string;
 };
 
+export type ProductCommercialItem = {
+	product: ProductCommercial;
+	quantity: string;
+};
+
 export type Actor = {
 	email: string;
 	userName: string;
@@ -95,7 +115,7 @@ export type DeliveryStatus = {
 
 export type Order = {
 	orderId: string;
-	productItemList: ProductItem[];
+	productItemList: ProductCommercialItem[];
 	deliveryStatus: DeliveryStatus[];
 	signature: string[];
 	status: OrderStatus;

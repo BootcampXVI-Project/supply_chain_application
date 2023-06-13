@@ -58,34 +58,6 @@ router.post(
 	ProductController.manufactureProduct
 );
 
-router.post(
-	"/export",
-	jwtGuard,
-	Roles(UserRole.MANUFACTURER),
-	ProductController.exportProduct
-);
-
-router.post(
-	"/distribute",
-	jwtGuard,
-	Roles(UserRole.DISTRIBUTOR),
-	ProductController.distributeProduct
-);
-
-router.post(
-	"/retailer-import",
-	jwtGuard,
-	Roles(UserRole.RETAILER),
-	ProductController.importRetailerProduct
-);
-
-router.post(
-	"/sell",
-	jwtGuard,
-	Roles(UserRole.RETAILER),
-	ProductController.sellProduct
-);
-
 router.patch(
 	"/update",
 	jwtGuard,

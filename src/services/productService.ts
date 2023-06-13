@@ -30,27 +30,27 @@ class ProductService {
 		return product;
 	};
 
-	createProductDB = async (productObj: Product) => {
-		ProductModel.create(productObj)
+	createProductDB = async (product: Product) => {
+		ProductModel.create(product)
 			.then((data: any) => {
-				console.log("Backup success!", data);
+				console.log("Backup success!");
 				return data;
 			})
 			.catch((error: any) => {
-				console.log("Backup error!", error);
-				return error;
+				console.log("Backup error!", error.message);
+				return null;
 			});
 	};
 
-	updateProductDB = async (productId: string, productObj: Product) => {
-		ProductModel.findOneAndUpdate({ productId }, productObj)
+	updateProductDB = async (productId: string, product: Product) => {
+		ProductModel.findOneAndUpdate({ productId }, product)
 			.then((data: any) => {
-				console.log("Backup success!", data);
+				console.log("Backup success!");
 				return data;
 			})
 			.catch((error: any) => {
-				console.log("Backup error!", error);
-				return error;
+				console.log("Backup error!", error.message);
+				return null;
 			});
 	};
 }

@@ -2,8 +2,14 @@ import AppService from "../services/appService";
 import ImageService from "./imageService";
 import { CounterName } from "../types/types";
 import { PRODUCTION_URL } from "../constants";
+import { OrderModel } from "../models/OrderModel";
 import { convertBufferToJavasciptObject } from "../helpers";
-import { OrderForCreate, OrderPayloadForCreate, User } from "../types/models";
+import {
+	User,
+	Order,
+	OrderForCreate,
+	OrderPayloadForCreate
+} from "../types/models";
 
 const appService: AppService = new AppService();
 const imageService: ImageService = new ImageService();
@@ -222,6 +228,39 @@ class OrderService {
 		};
 
 		return order;
+	};
+
+	generateOrderQRCode = async (userObj: User) => {
+		const orderId = await this.getNextCounterID(userObj, "OrderCounterNO");
+		const qrCodeString = await imageService.generateAndPublishQRCode(
+			`${PRODUCTION_URL}/order/${orderId}`,
+			`qrcode/orders/${orderId}.jpg`
+		);
+		return qrCodeString || "";
+	};
+
+	createOrderDB = async (order: Order) => {
+		OrderModel.create(order)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
+	};
+
+	updateOrderDB = async (orderId: string, order: Order) => {
+		OrderModel.findOneAndUpdate({ orderId }, order)
+			.then((data: any) => {
+				console.log("Backup success!");
+				return data;
+			})
+			.catch((error: any) => {
+				console.log("Backup error!", error.message);
+				return null;
+			});
 	};
 }
 

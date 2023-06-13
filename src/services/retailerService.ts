@@ -1,8 +1,7 @@
 import OrderService from "./orderService";
 import ProductService from "./productService";
-import { User } from "../models/UserModel";
-import { Order } from "../models/OrderModel";
 import { UserModel } from "../models/UserModel";
+import { User, Order } from "../types/models";
 import {
 	ManufacturedProduct,
 	OrderedProductTime,
