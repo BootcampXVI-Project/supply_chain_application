@@ -1,9 +1,12 @@
 import { UserModel } from "../models/UserModel";
 import { UserForRegister } from "../types/models";
+import { convertFullNameToUsername } from "../helpers";
 
 class UserService {
 	getAllUsers = async () => {
-		return await UserModel.find({}).lean();
+		return await UserModel.find({})
+			.select("-__v -_id -createdAt -updatedAt -password -status")
+			.lean();
 	};
 
 	getUserByUserId = async (userId: string) => {
@@ -15,6 +18,12 @@ class UserService {
 	getUserObjByUserId = async (userId: string) => {
 		return await UserModel.findOne({ userId: userId })
 			.select("-__v -_id -createdAt -updatedAt")
+			.lean();
+	};
+
+	getUserById = async (userId: string) => {
+		return await UserModel.findOne({ userId: userId })
+			.select("-__v -_id -createdAt -updatedAt -password -status")
 			.lean();
 	};
 
@@ -49,8 +58,8 @@ class UserService {
 
 			const userPayload = {
 				...user,
-				userName: user.fullName,
-				status: "inactive"
+				status: "inactive",
+				userName: convertFullNameToUsername(user.fullName)
 			};
 
 			return await UserModel.create(userPayload)
