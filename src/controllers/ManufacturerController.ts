@@ -1,8 +1,9 @@
+import UserService from "../services/userService";
 import ManufacturerService from "../services/manufacturerService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
-import { getUserObjByUserId } from "../services/userService";
 
+const userService: UserService = new UserService();
 const manufacturerService: ManufacturerService = new ManufacturerService();
 
 const ManufacturerController = {
@@ -10,7 +11,7 @@ const ManufacturerController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderId = String(req.body.orderId);
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -44,7 +45,8 @@ const ManufacturerController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderId = String(req.body.orderId);
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
+
 			if (!userObj) {
 				return res.json({
 					data: null,

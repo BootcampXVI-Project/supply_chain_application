@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 
 const imageService: ImageService = new ImageService();
 
-export default class ImageController {
-	async upload(req: Request, res: Response) {
+const ImageController = {
+	upload: async (req: Request, res: Response) => {
 		try {
 			const { imageString, imagePathNameToFirebase } = req.body;
 
@@ -25,9 +25,9 @@ export default class ImageController {
 				error: error.message
 			});
 		}
-	}
+	},
 
-	async generateAndPublishQRCode(req: Request, res: Response) {
+	generateAndPublishQRCode: async (req: Request, res: Response) => {
 		try {
 			const { qrCodeEncodeData, storageImageNamePath } = req.body;
 
@@ -55,4 +55,6 @@ export default class ImageController {
 			});
 		}
 	}
-}
+};
+
+export default ImageController;

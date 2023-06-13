@@ -1,17 +1,20 @@
+import UserService from "../services/userService";
+import ProductCommercialService from "../services/productCommercialService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { Product } from "../models/ProductModel";
-import { getUserObjByUserId } from "../services/userService";
-import {
-	getProductById,
-	getAllProducts
-} from "../services/productCommercialService";
+
+const userService: UserService = new UserService();
+const productCommercialService: ProductCommercialService =
+	new ProductCommercialService();
 
 const ProductCommercialController = {
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const products = await getAllProducts(user.userId);
+			const products = await productCommercialService.getAllProducts(
+				user.userId
+			);
 			const sortedProducts = products.sort(
 				(a: Product, b: Product) =>
 					parseInt(a.productId.slice(17)) - parseInt(b.productId.slice(17))
@@ -36,8 +39,12 @@ const ProductCommercialController = {
 		try {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
-			const userObj = await getUserObjByUserId(user.userId);
-			const product = await getProductById(userObj, productId);
+
+			const userObj = await userService.getUserObjByUserId(user.userId);
+			const product = await productCommercialService.getProductById(
+				userObj,
+				productId
+			);
 
 			return res.json({
 				data: product,

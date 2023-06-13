@@ -1,18 +1,20 @@
+import AppService from "../services/appService";
 import OrderService from "../services/orderService";
 import ImageService from "../services/imageService";
+import UserService from "../services/userService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";
 import { PRODUCTION_URL } from "../constants";
-import { submitTransactionOrderObj } from "../app";
-import { getUserObjByUserId } from "../services/userService";
 import {
 	OrderForCreate,
 	OrderForUpdateFinish,
 	OrderPayloadForCreate
 } from "../types/models";
 
+const appService: AppService = new AppService();
 const orderService: OrderService = new OrderService();
 const imageService: ImageService = new ImageService();
+const userService: UserService = new UserService();
 
 const OrderController = {
 	getAllOrders: async (req: Request, res: Response) => {
@@ -21,7 +23,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -49,7 +51,7 @@ const OrderController = {
 	getAllOrdersByAddress: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const longitude = String(req.query.longitude);
 			const latitude = String(req.query.latitude);
 			const shippingStatus = String(req.query.shippingStatus);
@@ -88,7 +90,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -98,7 +100,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfManufacturer(
+			const orders = await orderService.getAllOrdersOfManufacturer(
 				userObj,
 				user.userId,
 				statusValue
@@ -123,7 +125,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -133,7 +135,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfDistributor(
+			const orders = await orderService.getAllOrdersOfDistributor(
 				userObj,
 				user.userId,
 				statusValue
@@ -158,7 +160,7 @@ const OrderController = {
 			const statusValue = Boolean(status) ? String(status) : "";
 
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -168,7 +170,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.GetAllOrdersOfRetailer(
+			const orders = await orderService.getAllOrdersOfRetailer(
 				userObj,
 				user.userId,
 				statusValue
@@ -191,7 +193,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderId = String(req.params.orderId);
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
 				return res.json({
@@ -220,7 +222,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const orderObj = req.body.orderObj as OrderPayloadForCreate;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			if (!userObj) {
 				return res.json({
 					data: null,
@@ -264,7 +266,7 @@ const OrderController = {
 	updateOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
@@ -275,7 +277,7 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransactionOrderObj(
+			const order = await appService.submitTransactionOrderObj(
 				"UpdateOrder",
 				userObj,
 				orderObj
@@ -297,7 +299,7 @@ const OrderController = {
 	finishOrder: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const userObj = await getUserObjByUserId(user.userId);
+			const userObj = await userService.getUserObjByUserId(user.userId);
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
@@ -308,7 +310,7 @@ const OrderController = {
 				});
 			}
 
-			const order = await submitTransactionOrderObj(
+			const order = await appService.submitTransactionOrderObj(
 				"FinishOrder",
 				userObj,
 				orderObj

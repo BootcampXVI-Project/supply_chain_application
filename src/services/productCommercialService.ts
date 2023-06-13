@@ -1,24 +1,28 @@
+import AppService from "../services/appService";
+import UserService from "./userService";
 import { User } from "../types/models";
-import { getUserByUserId } from "./userService";
-import {
-	evaluateGetWithNoArgs,
-	evaluateTransactionUserObjProductId
-} from "../app";
 
-export const getAllProducts = async (userId: string) => {
-	const userObj = await getUserByUserId(userId);
-	const products = await evaluateGetWithNoArgs(
-		"GetAllProductsCommercial",
-		userObj
-	);
-	return products;
-};
+const appService: AppService = new AppService();
+const userService: UserService = new UserService();
 
-export const getProductById = async (userObj: User, productId: string) => {
-	const product = await evaluateTransactionUserObjProductId(
-		"GetProductCommercial",
-		userObj,
-		productId
-	);
-	return product;
-};
+class ProductCommercialService {
+	getAllProducts = async (userId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const products = await appService.evaluateGetWithNoArgs(
+			"GetAllProductsCommercial",
+			userObj
+		);
+		return products;
+	};
+
+	getProductById = async (userObj: User, productId: string) => {
+		const product = await appService.evaluateTransactionUserObjProductId(
+			"GetProductCommercial",
+			userObj,
+			productId
+		);
+		return product;
+	};
+}
+
+export default ProductCommercialService;

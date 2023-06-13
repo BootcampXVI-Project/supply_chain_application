@@ -6,8 +6,8 @@ import { AuthModel } from "../models/AuthModel";
 
 const authService: AuthService = new AuthService();
 
-export default class AuthController {
-	async login(req: Request, res: Response) {
+const AuthController = {
+	login: async (req: Request, res: Response) => {
 		try {
 			const { phoneNumber, password } = req.body;
 
@@ -105,9 +105,9 @@ export default class AuthController {
 				error: error.message
 			});
 		}
-	}
+	},
 
-	async verify(req: Request, res: Response) {
+	verify: async (req: Request, res: Response) => {
 		try {
 			const { phoneNumber, smsotp } = req.body;
 
@@ -162,9 +162,9 @@ export default class AuthController {
 				error: error.message
 			});
 		}
-	}
+	},
 
-	async resetPassword(req: Request, res: Response) {
+	resetPassword: async (req: Request, res: Response) => {
 		try {
 			const { phoneNumber, isVerified, password } = req.body;
 
@@ -206,4 +206,6 @@ export default class AuthController {
 			});
 		}
 	}
-}
+};
+
+export default AuthController;

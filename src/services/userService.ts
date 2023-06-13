@@ -1,72 +1,75 @@
 import { UserModel } from "../models/UserModel";
 import { UserForRegister } from "../types/models";
 
-export const getAllUsers = async () => {
-	return await UserModel.find({}).lean();
-};
+class UserService {
+	getAllUsers = async () => {
+		return await UserModel.find({}).lean();
+	};
 
-export const getUserByUserId = async (userId: string) => {
-	return await UserModel.findOne({ userId: userId })
-		.select("-__v -_id -createdAt -updatedAt -password -status")
-		.lean();
-};
+	getUserByUserId = async (userId: string) => {
+		return await UserModel.findOne({ userId: userId })
+			.select("-__v -_id -createdAt -updatedAt -password -status")
+			.lean();
+	};
 
-export const getUserObjByUserId = async (userId: string) => {
-	return await UserModel.findOne({ userId: userId })
-		.select("-__v -_id -createdAt -updatedAt")
-		.lean();
-};
+	getUserObjByUserId = async (userId: string) => {
+		return await UserModel.findOne({ userId: userId })
+			.select("-__v -_id -createdAt -updatedAt")
+			.lean();
+	};
 
-export const checkExistedUserEmail = async (email: string) => {
-	const isExisted = await UserModel.exists({ email: email });
-	return Boolean(isExisted);
-};
+	checkExistedUserEmail = async (email: string) => {
+		const isExisted = await UserModel.exists({ email: email });
+		return Boolean(isExisted);
+	};
 
-export const checkExistedUserId = async (userId: string) => {
-	const isExisted = await UserModel.exists({ userId: userId });
-	return Boolean(isExisted);
-};
+	checkExistedUserId = async (userId: string) => {
+		const isExisted = await UserModel.exists({ userId: userId });
+		return Boolean(isExisted);
+	};
 
-export const checkExistedUserPhoneNumber = async (phoneNumber: string) => {
-	const isExisted = await UserModel.exists({ phoneNumber: phoneNumber });
-	return Boolean(isExisted);
-};
+	checkExistedUserPhoneNumber = async (phoneNumber: string) => {
+		const isExisted = await UserModel.exists({ phoneNumber: phoneNumber });
+		return Boolean(isExisted);
+	};
 
-export const createNewUser = async (user: UserForRegister) => {
-	try {
-		const [isExistedUserEmail, isExistedUserPhoneNumber] = await Promise.all([
-			checkExistedUserEmail(user.email),
-			checkExistedUserPhoneNumber(user.phoneNumber)
-		]);
+	createNewUser = async (user: UserForRegister) => {
+		try {
+			const [isExistedUserEmail, isExistedUserPhoneNumber] = await Promise.all([
+				this.checkExistedUserEmail(user.email),
+				this.checkExistedUserPhoneNumber(user.phoneNumber)
+			]);
 
-		if (isExistedUserEmail) {
-			throw new Error("email-existed");
+			if (isExistedUserEmail) {
+				throw new Error("email-existed");
+			}
+			if (isExistedUserPhoneNumber) {
+				throw new Error("phone-number-existed");
+			}
+
+			const userPayload = {
+				...user,
+				userName: user.fullName,
+				status: "inactive"
+			};
+
+			return await UserModel.create(userPayload)
+				.then((data) => {
+					return {
+						data: data,
+						error: null
+					};
+				})
+				.catch((error) => {
+					throw new Error(error);
+				});
+		} catch (error) {
+			return {
+				data: null,
+				error: error.message
+			};
 		}
+	};
+}
 
-		if (isExistedUserPhoneNumber) {
-			throw new Error("phone-number-existed");
-		}
-
-		const userPayload = {
-			...user,
-			userName: user.fullName,
-			status: "inactive"
-		};
-
-		return await UserModel.create(userPayload)
-			.then((data) => {
-				return {
-					data: data,
-					error: null
-				};
-			})
-			.catch((error) => {
-				throw new Error(error);
-			});
-	} catch (error) {
-		return {
-			data: null,
-			error: error.message
-		};
-	}
-};
+export default UserService;
