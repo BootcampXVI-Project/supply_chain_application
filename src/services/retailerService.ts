@@ -50,7 +50,6 @@ class RetailerService {
 				userObj,
 				userObj.userId,
 				"SHIPPED"
-				// "PENDING"
 			);
 			let orderedProductTimes: OrderedProductTime = {};
 
@@ -66,7 +65,7 @@ class RetailerService {
 				})
 			);
 
-			// Calculation ...
+			// Calculation
 			const entries: [string, ProductTime][] =
 				Object.entries(orderedProductTimes);
 			entries.sort((a, b) => b[1].date.localeCompare(a[1].date));
@@ -91,7 +90,6 @@ class RetailerService {
 				userObj,
 				userObj.userId,
 				"SHIPPED"
-				// "PENDING"
 			);
 			let orderedProductIds: OrderedProductId = {};
 
@@ -109,7 +107,7 @@ class RetailerService {
 				})
 			);
 
-			// Calculation ...
+			// Calculation
 			const entries: [string, ProductNumber][] =
 				Object.entries(orderedProductIds);
 			entries.sort((a, b) => b[1].count - a[1].count);

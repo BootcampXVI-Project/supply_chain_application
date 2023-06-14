@@ -12,6 +12,7 @@ admin.initializeApp({
 	}),
 	storageBucket: FIREBASE_STORAGE_BUCKET
 });
+
 const storageBucket = admin.storage().bucket();
 
 class ImageService {

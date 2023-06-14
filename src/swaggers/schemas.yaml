@@ -10,44 +10,24 @@ components:
           type: string
         password:
           type: string
+        fullName:
+          type: string
         userName:
           type: string
-        address:
+        avatar:
           type: string
-        userType:
+        phoneNumber:
+          type: string
+        address:
           type: string
         role:
           type: string
         status:
           type: string
-
-    ProductDates:
-      properties:
-        cultivated:
+        signature:
           type: string
-        harvested:
-          type: string
-        imported:
-          type: string
-        manufacturered:
-          type: string
-        exported:
-          type: string
-        distributed:
-          type: string
-        sold:
-          type: string
-
-    ProductActors:
-      properties:
-        supplierId:
-          type: string
-        manufacturerId:
-          type: string
-        distributorId:
-          type: string
-        retailerId:
-          type: string
+        cart:
+          type: array
 
     Product:
       properties:
@@ -55,13 +35,17 @@ components:
           type: string
         productName:
           type: string
+        image:
+          type: array
         dates:
           type: object
-          $ref: "#components/schemas/ProductDates"
-        actors:
-          type: object
-          $ref: "#components/schemas/ProductActors"
+        expireTime:
+          type: string
         price:
+          type: string
+        amount:
+          type: string
+        unit:
           type: string
         status:
           type: string
@@ -69,22 +53,61 @@ components:
           type: string
         certificateUrl:
           type: string
-        cooperationId:
+        supplier:
+          type: object
+        qrCode:
+          type: string
+
+    ProductCommercial:
+      properties:
+        productCommercialId:
+          type: string
+        productId:
+          type: string
+        productName:
           type: string
         image:
           type: array
-
-    Cooperation:
-      properties:
-        name:
+        dates:
+          type: object
+        expireTime:
+          type: string
+        price:
+          type: string
+        unit:
+          type: string
+        status:
           type: string
         description:
           type: string
-        address:
+        certificateUrl:
           type: string
-        founderId:
+        qrCode:
           type: string
-        longitude:
+
+    Order:
+      properties:
+        orderId:
           type: string
-        latitude:
+        productItemList:
+          type: array
+        signatures:
+          type: array
+        deliveryStatuses:
+          type: array
+        status:
+          type: string
+        manufacturer:
+          type: object
+        distributor:
+          type: object
+        retailer:
+          type: object
+        qrCode:
+          type: string
+        createDate:
+          type: string
+        updateDate:
+          type: string
+        finishDate:
           type: string

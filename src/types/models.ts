@@ -116,7 +116,7 @@ export type DeliveryStatus = {
 export type Order = {
 	orderId: string;
 	productItemList: ProductCommercialItem[];
-	deliveryStatus: DeliveryStatus[];
+	deliveryStatuses: DeliveryStatus[];
 	signature: string[];
 	status: OrderStatus;
 	manufacturer: Actor;
