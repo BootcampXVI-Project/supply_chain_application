@@ -53,9 +53,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await userService.getUserObjByUserId(user.userId);
-			const longitude = String(req.query.longitude);
-			const latitude = String(req.query.latitude);
-			const shippingStatus = String(req.query.shippingStatus);
+			const address = String(req.query.address);
 
 			if (!userObj) {
 				return res.json({
@@ -65,12 +63,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.getAllOrdersByAddress(
-				userObj,
-				longitude,
-				latitude,
-				shippingStatus
-			);
+			const orders = await orderService.getAllOrdersByAddress(userObj, address);
 			return res.json({
 				data: orders,
 				message: "successfully",

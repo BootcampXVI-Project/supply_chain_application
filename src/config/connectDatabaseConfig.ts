@@ -1,5 +1,5 @@
-import mongoose, { ConnectOptions } from "mongoose";
 import { MONGODB_URI } from "../constants";
+import mongoose, { ConnectOptions } from "mongoose";
 
 mongoose.set("strictQuery", false);
 

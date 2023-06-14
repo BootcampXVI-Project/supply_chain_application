@@ -50,19 +50,12 @@ class OrderService {
 		}
 	};
 
-	getAllOrdersByAddress = async (
-		userObj: User,
-		longitude: string,
-		latitude: string,
-		shippingStatus: string
-	) => {
+	getAllOrdersByAddress = async (userObj: User, address: string) => {
 		try {
 			const contractOrder = await appService.contract(userObj);
 			const order = await contractOrder.evaluateTransaction(
 				"GetAllOrdersByAddress",
-				longitude,
-				latitude,
-				shippingStatus
+				address
 			);
 			return convertBufferToJavasciptObject(order);
 		} catch (error) {

@@ -23,17 +23,7 @@
     description: Get All Orders By Address
     parameters:
       - in: query
-        name: longitude
-        schema:
-          type: string
-          required: true
-      - in: query
-        name: latitude
-        schema:
-          type: string
-          required: true
-      - in: query
-        name: shippingStatus
+        name: address
         schema:
           type: string
           required: true
