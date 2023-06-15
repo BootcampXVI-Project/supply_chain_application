@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import ImageService from "./imageService";
 import UserService from "./userService";
 import { CounterName } from "../types/types";

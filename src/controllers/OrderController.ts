@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import OrderService from "../services/orderService";
 import UserService from "../services/userService";
 import ProductCommercialService from "../services/productCommercialService";
