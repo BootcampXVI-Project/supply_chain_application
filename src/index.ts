@@ -6,16 +6,11 @@ import routing from "./routes";
 import connectDatabase from "./config/connectDatabaseConfig";
 import express, { Express } from "express";
 import { swaggerSpecs } from "./config/swaggerConfig";
-import {
-	PORT,
-	HOST_URL,
-	SWAGGER_URL,
-	PRODUCTION_URL,
-	FRONTEND_URL
-} from "./constants";
+import { PORT, HOST_URL, SWAGGER_URL } from "./constants";
 
 const app: Express = express();
 
+app.use(cors());
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
