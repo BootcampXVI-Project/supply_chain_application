@@ -4,12 +4,18 @@ import UserService from "./userService";
 import { CounterName } from "../types/types";
 import { PRODUCTION_URL } from "../constants";
 import { OrderModel } from "../models/OrderModel";
-import { convertBufferToJavasciptObject } from "../helpers";
+import {
+	convertBufferToJavasciptObject,
+	createEmptyActor,
+	parseUserToActor
+} from "../helpers";
 import {
 	User,
 	Order,
 	OrderForCreate,
-	OrderPayloadForCreate
+	OrderPayloadForCreate,
+	ProductItem,
+	ProductIdItem
 } from "../types/models";
 
 const appService: AppService = new AppService();
@@ -46,6 +52,14 @@ class OrderService {
 		return counterName == "ProductCounterNO"
 			? `Product${currentCounter + 1}`
 			: `Order${currentCounter + 1}`;
+	};
+
+	getTransactionTimestamp = async (userObj: User) => {
+		const transactionTimestamp = await appService.evaluateGetWithNoArgs(
+			"GetTxTimestampChannel",
+			userObj
+		);
+		return transactionTimestamp;
 	};
 
 	getAllOrders = async (userObj: User, status: string) => {
@@ -230,6 +244,76 @@ class OrderService {
 			deliveryStatus: orderObj.deliveryStatus,
 			signatures: orderObj.signatures,
 			qrCode: orderObj.qrCode
+		};
+
+		return order;
+	};
+
+	handleOrderProductItemList = async (productIdItems: ProductIdItem[]) => {
+		let productItemList: ProductItem[] = await Promise.all(
+			productIdItems.map(async (productIdItem, index) => {
+				// QR Code for each product commercial
+				const productCommercialId = `ProductCommercial${
+					productCommercialCounter + index
+				}`;
+				const qrCodeString = await imageService.generateAndPublishQRCode(
+					`${PRODUCTION_URL}/product-commercial/${productCommercialId}`,
+					`qrcode/product-commercials/${productCommercialId}.jpg`
+				);
+				return { ...productIdItem, qrCode: qrCodeString || "" };
+			})
+		);
+	};
+
+	handleOrderForCreate = async (
+		userObj: User,
+		orderObj: OrderPayloadForCreate
+	) => {
+		const [
+			actor,
+			transactionTimestamp,
+			orderCounter,
+			productCommercialCounter
+		] = await Promise.all([
+			parseUserToActor(userObj),
+			this.getTransactionTimestamp(userObj),
+			this.getNextCounter(userObj, "OrderCounterNO"),
+			this.getNextCounter(userObj, "ProductCommercialCounterNO")
+		]);
+
+		const order: Order = {
+			orderId: `Order${orderCounter}`,
+			// productIdQRCodeItems: await Promise.all(
+			// 	orderObj.productIdItems.map(async (productIdItem, index) => {
+			// 		// QR Code for each product commercial
+			// 		const productCommercialId = `ProductCommercial${
+			// 			productCommercialCounter + index
+			// 		}`;
+			// 		const qrCodeString = await imageService.generateAndPublishQRCode(
+			// 			`${PRODUCTION_URL}/product-commercial/${productCommercialId}`,
+			// 			`qrcode/product-commercials/${productCommercialId}.jpg`
+			// 		);
+			// 		return { ...productIdItem, qrCode: qrCodeString || "" };
+			// 	})
+			// ),
+			productItemList: [],
+			deliveryStatuses: [
+				{
+					status: "PENDING",
+					deliveryDate: transactionTimestamp,
+					address: orderObj.deliveryStatus.address,
+					actor: actor
+				}
+			],
+			signature: orderObj.signatures,
+			status: "PENDING",
+			manufacturer: createEmptyActor("manufacturer"),
+			distributor: createEmptyActor("distributor"),
+			retailer: actor,
+			qrCode: orderObj.qrCode,
+			createDate: new Date().toDateString(),
+			updateDate: "",
+			finishDate: ""
 		};
 
 		return order;

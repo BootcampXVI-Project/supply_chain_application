@@ -53,3 +53,16 @@ export type CounterName =
 	| "ProductCounterNO"
 	| "ProductCommercialCounterNO"
 	| "OrderCounterNO";
+
+export const emptyActor = (role: UserRole) => {
+	return {
+		email: "",
+		userName: "",
+		fullName: "",
+		avatar: "",
+		phoneNumber: "",
+		address: "",
+		role: role,
+		userId: ""
+	};
+};
