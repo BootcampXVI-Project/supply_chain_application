@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import UserService from "./userService";
 import { User, Product } from "../types/models";
 import { ProductModel } from "../models/ProductModel";

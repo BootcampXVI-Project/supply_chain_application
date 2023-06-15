@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import ImageService from "../services/imageService";
 import UserService from "../services/userService";
 import ProductService from "../services/productService";
@@ -18,7 +18,10 @@ const ProductController = {
 		try {
 			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
-			const products = await productService.getTransactionHistory(user.userId, productId);
+			const products = await productService.getTransactionHistory(
+				user.userId,
+				productId
+			);
 
 			return res.json({
 				data: products,

@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import UserService from "../services/userService";
 import { Request, Response } from "express";
 import { DecodeUser } from "../types/common";

@@ -1,4 +1,4 @@
-import AppService from "../services/appService";
+import AppService from "../appService";
 import { User } from "../types/models";
 
 const appService: AppService = new AppService();

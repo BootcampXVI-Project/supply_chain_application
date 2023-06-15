@@ -1,10 +1,10 @@
 import path from "path";
-import UserService from "../services/userService";
-import orgConst from "../utils/organizationConstant.json";
+import UserService from "./services/userService";
+import orgConst from "./utils/organizationConstant.json";
 import { Gateway } from "fabric-network";
-import { CHANNEL_NAME, CHAINCODE_NAME } from "../constants";
-import { buildWallet, buildCCPOrg } from "../utils/AppUtil";
-import { convertBufferToJavasciptObject } from "../helpers";
+import { CHANNEL_NAME, CHAINCODE_NAME } from "./constants";
+import { buildWallet, buildCCPOrg } from "./utils/AppUtil";
+import { convertBufferToJavasciptObject } from "./helpers";
 import {
 	User,
 	UserForRegister,
@@ -12,12 +12,12 @@ import {
 	ProductForCultivate,
 	OrderForCreate,
 	OrderForUpdateFinish
-} from "../types/models";
+} from "./types/models";
 import {
 	buildCAClient,
 	enrollAdmin,
 	registerAndEnrollUser
-} from "../utils/CAUtil";
+} from "./utils/CAUtil";
 
 const userService: UserService = new UserService();
 
