@@ -15,6 +15,15 @@ class UserService {
 			.lean();
 	};
 
+	getUserForLogin = async (phoneNumber: string, password: string) => {
+		return await UserModel.findOne({
+			phoneNumber: phoneNumber,
+			password: password
+		})
+			.select("-__v -_id -createdAt -updatedAt -password -status")
+			.lean();
+	};
+
 	getUserObjByUserId = async (userId: string) => {
 		return await UserModel.findOne({ userId: userId })
 			.select("-__v -_id -createdAt -updatedAt")

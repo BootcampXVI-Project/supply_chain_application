@@ -7,6 +7,16 @@ const appService: AppService = new AppService();
 const userService: UserService = new UserService();
 
 class ProductCommercialService {
+	getTransactionHistory = async (userId: string, productId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const products = await appService.evaluateTransactionProductId(
+			"GetProductCommercialTransactionHistory",
+			userObj,
+			productId
+		);
+		return products;
+	};
+
 	getAllProducts = async (userId: string) => {
 		const userObj = await userService.getUserByUserId(userId);
 		const products = await appService.evaluateGetWithNoArgs(

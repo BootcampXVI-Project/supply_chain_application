@@ -1,3 +1,22 @@
+/product-commercial/transaction-history/{productCommercialId}:
+  get:
+    summary: Get Product Commercial Transaction History
+    description: Get Product Commercial Transaction History
+    parameters:
+      - in: path
+        name: productCommercialId
+        schema:
+          type: string
+    tags:
+      - Product Commercial
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
 /product-commercial/all:
   get:
     summary: Get All Products Commercial
@@ -12,13 +31,13 @@
       404:
         description: Not Found
 
-/product-commercial/{productId}:
+/product-commercial/{productCommercialId}:
   get:
     summary: Get Detail Product Commercial
     description: Get Detail Product Commercial
     parameters:
       - in: path
-        name: productId
+        name: productCommercialId
         schema:
           type: string
     tags:

@@ -1,33 +1,28 @@
+import UserService from "../services/userService";
 import AuthService from "../services/authService";
-import { Request, Response } from "express";
 import { Auth } from "../types/models";
+import { Request, Response } from "express";
 import { UserModel } from "../models/UserModel";
 import { AuthModel } from "../models/AuthModel";
 
+const userService: UserService = new UserService();
 const authService: AuthService = new AuthService();
 
 const AuthController = {
 	login: async (req: Request, res: Response) => {
 		try {
 			const { phoneNumber, password } = req.body;
-
 			const currentDate = new Date();
 			const expirationDate = new Date(
 				currentDate.getTime() + 30 * 24 * 60 * 60 * 1000
 			);
 
-			const user = await UserModel.findOne({
-				phoneNumber: phoneNumber,
-				password: password
-			})
-				.select("-__v -_id -createdAt -updatedAt -password -status")
-				.lean();
-
+			const user = await userService.getUserForLogin(phoneNumber, password);
 			if (!user) {
 				return res.json({
 					data: null,
-					message: "User not found!",
-					error: "user-notfound"
+					message: "Incorrect phone number or password!",
+					error: "incorrect-phonenumber-or-password"
 				});
 			}
 			if (user.status === "inactive") {
@@ -68,15 +63,6 @@ const AuthController = {
 					});
 				}
 
-				// if (otp.expired < new Date()) {
-				// 	otp.otp = await authService.sendOtp(phoneNumber);
-				// 	return res.json({
-				// data: null,
-				// message: "OTP sent successfully!",
-				// error: null
-				// 	});
-				// }
-
 				return res.json({
 					data: null,
 					message: "OTP sent successfully!",
@@ -98,7 +84,6 @@ const AuthController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("error", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -155,7 +140,6 @@ const AuthController = {
 				error: "failed"
 			});
 		} catch (error) {
-			console.log("error", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -198,7 +182,6 @@ const AuthController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("error", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

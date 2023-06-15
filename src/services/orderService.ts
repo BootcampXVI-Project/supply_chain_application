@@ -1,5 +1,6 @@
 import AppService from "../services/appService";
 import ImageService from "./imageService";
+import UserService from "./userService";
 import { CounterName } from "../types/types";
 import { PRODUCTION_URL } from "../constants";
 import { OrderModel } from "../models/OrderModel";
@@ -13,8 +14,19 @@ import {
 
 const appService: AppService = new AppService();
 const imageService: ImageService = new ImageService();
+const userService: UserService = new UserService();
 
 class OrderService {
+	getTransactionHistory = async (userId: string, orderId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const orders = await appService.evaluateTransactionProductId(
+			"GetOrderTransactionHistory",
+			userObj,
+			orderId
+		);
+		return orders;
+	};
+
 	getNextCounter = async (userObj: User, counterName: CounterName) => {
 		const currentCounter = await appService.evaluateTransactionGetNextCounter(
 			"GetCounterOfType",

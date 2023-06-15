@@ -7,6 +7,13 @@ import { Roles } from "../middlewares/authentication/roleGuard";
 const router = express.Router();
 
 router.get(
+	"/transaction-history/:productId",
+	jwtGuard,
+	Roles(UserRole.SUPPLIER, UserRole.MANUFACTURER),
+	ProductController.getTransactionHistory
+);
+
+router.get(
 	"/all",
 	jwtGuard,
 	Roles(

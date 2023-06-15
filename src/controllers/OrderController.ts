@@ -18,6 +18,29 @@ const productCommercialService: ProductCommercialService =
 	new ProductCommercialService();
 
 const OrderController = {
+	getTransactionHistory: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const orderId = String(req.params.orderId);
+			const orders = await orderService.getTransactionHistory(
+				user.userId,
+				orderId
+			);
+
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
 			const status = req.query.status;

@@ -47,7 +47,6 @@ const ManufacturerController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("approveOrderRequest", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -90,7 +89,6 @@ const ManufacturerController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("rejectOrderRequest", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

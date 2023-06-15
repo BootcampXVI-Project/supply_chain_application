@@ -256,7 +256,6 @@ const RetailerController = {
 				});
 			}
 		} catch (error) {
-			console.log("deteleProductInCart", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

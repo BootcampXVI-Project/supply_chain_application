@@ -12,6 +12,16 @@ class ProductService {
 		return Boolean(isExisted);
 	};
 
+	getTransactionHistory = async (userId: string, productId: string) => {
+		const userObj = await userService.getUserByUserId(userId);
+		const products = await appService.evaluateTransactionProductId(
+			"GetProductTransactionHistory",
+			userObj,
+			productId
+		);
+		return products;
+	};
+
 	getAllProducts = async (userId: string) => {
 		const userObj = await userService.getUserByUserId(userId);
 		const products = await appService.evaluateGetWithNoArgs(
