@@ -1,3 +1,22 @@
+/order/transaction-history/{orderId}:
+  get:
+    summary: Get Order Transaction History
+    description: Get Order Transaction History
+    parameters:
+      - in: path
+        name: orderId
+        schema:
+          type: string
+    tags:
+      - Order
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
 /order/all:
   get:
     summary: Get All Orders (By Status)
@@ -23,17 +42,7 @@
     description: Get All Orders By Address
     parameters:
       - in: query
-        name: longitude
-        schema:
-          type: string
-          required: true
-      - in: query
-        name: latitude
-        schema:
-          type: string
-          required: true
-      - in: query
-        name: shippingStatus
+        name: address
         schema:
           type: string
           required: true

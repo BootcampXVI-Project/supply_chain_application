@@ -14,6 +14,26 @@ const userService: UserService = new UserService();
 const productService: ProductService = new ProductService();
 
 const ProductController = {
+	getTransactionHistory: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const productId = String(req.params.productId);
+			const products = await productService.getTransactionHistory(user.userId, productId);
+
+			return res.json({
+				data: products,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -29,7 +49,6 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getAllProducts", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -51,7 +70,6 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -82,7 +100,6 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getTransactionsory", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -119,7 +136,6 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("cultivateProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -176,7 +192,6 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("harvestProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -233,7 +248,6 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("importProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -297,7 +311,6 @@ const ProductController = {
 				status: "success"
 			});
 		} catch (error) {
-			console.log("manufactureProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -334,44 +347,12 @@ const ProductController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("updateProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
 				error: error.message
 			});
 		}
-	},
-
-	addCertificate: async (req: Request, res: Response) => {
-		// try {
-		// 	const { userObj, productObj } = req.body;
-		// 	let product = await ProductController.getProduct(req, res)
-		// 	if (!product) {
-		// 		throw new Error("Content not found !!!");
-		// 	}
-		// 	const base64String = productObj.split("base64,")[1];
-		// 	const bytesImage = Buffer.from(base64String, "base64");
-		// 	const storage = new FirebaseStorage("supplychain.app.com");
-		// 	const stream = new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(bytesImage); }, pull() { }, cancel() { } });
-		// 	product.CertificateUrl = await storage.child("Certificate").put(stream);
-		// 	const result = await submitTransaction(
-		// 		"AddCertificate",
-		// 		userObj,
-		// 		product
-		// 	);
-		// 	return res.json({
-		// 		data: result,
-		// 		message: "successfully",
-		// 		error: null
-		// 	})
-		// } catch (error) {
-		// 	return res.json({
-		// 		data: null,
-		// 		message: "failed",
-		// 		error: error.message
-		// 	});
-		// }
 	}
 };
 

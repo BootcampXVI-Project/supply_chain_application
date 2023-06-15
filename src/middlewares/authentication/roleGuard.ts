@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { UserRole, UserRoleArray } from "../../types/types";
 import { TokenPayload } from "../../types/common";
+import { UserRole, UserRoleArray } from "../../types/types";
+import { Request, Response, NextFunction } from "express";
 
 // Check if the user's role is allowed
 export const Roles = (...permittedRoles: (string | UserRole)[]) => {

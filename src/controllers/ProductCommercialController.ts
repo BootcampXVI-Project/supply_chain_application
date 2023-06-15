@@ -11,6 +11,29 @@ const productCommercialService: ProductCommercialService =
 	new ProductCommercialService();
 
 const ProductCommercialController = {
+	getTransactionHistory: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const productCommercialId = String(req.params.productCommercialId);
+			const products = await productCommercialService.getTransactionHistory(
+				user.userId,
+				productCommercialId
+			);
+
+			return res.json({
+				data: products,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllProducts: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
@@ -28,7 +51,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getAllProducts", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -40,12 +62,12 @@ const ProductCommercialController = {
 	getProduct: async (req: Request, res: Response) => {
 		try {
 			const user = req.user as DecodeUser;
-			const productId = String(req.params.productId);
+			const productCommercialId = String(req.params.productCommercialId);
 
 			const userObj = await userService.getUserObjByUserId(user.userId);
 			const product = await productCommercialService.getProductById(
 				userObj,
-				productId
+				productCommercialId
 			);
 
 			return res.json({
@@ -54,7 +76,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("getProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -111,7 +132,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("exportProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -168,7 +188,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("distributeProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -225,7 +244,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("importRetailProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
@@ -282,7 +300,6 @@ const ProductCommercialController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("sellProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

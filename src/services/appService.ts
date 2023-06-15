@@ -249,28 +249,6 @@ class AppService {
 		}
 	};
 
-	evaluateTransactionLongitudeLatitude = async (
-		funcName: string,
-		userObj: User,
-		longitude: string,
-		latitude: string
-	) => {
-		try {
-			const network = await this.connectNetwork(userObj);
-			const contract = network.getContract(CHAINCODE_NAME);
-
-			console.log(`\n evaluateTransaction()--> ${funcName}`);
-			const data = await contract.evaluateTransaction(
-				funcName,
-				longitude,
-				latitude
-			);
-			return await convertBufferToJavasciptObject(data);
-		} catch (error) {
-			throw new Error(`Failed to evaluate transaction ${funcName}, ${error}`);
-		}
-	};
-
 	evaluateTransactionGetNextCounter = async (
 		funcName: string,
 		userObj: User,
@@ -314,6 +292,24 @@ class AppService {
 
 			console.log(`\n evaluateTransaction() --> ${funcName}`);
 			const data = await contract.evaluateTransaction(funcName);
+
+			return await convertBufferToJavasciptObject(data);
+		} catch (error) {
+			throw new Error(`Failed to evaluateTransaction ${funcName}, ${error}`);
+		}
+	};
+
+	evaluateTransactionProductId = async (
+		funcName: string,
+		userObj: User,
+		productId: string
+	) => {
+		try {
+			const network = await this.connectNetwork(userObj);
+			const contract = network.getContract(CHAINCODE_NAME);
+
+			console.log(`\n evaluateTransaction() --> ${funcName}`);
+			const data = await contract.evaluateTransaction(funcName, productId);
 
 			return await convertBufferToJavasciptObject(data);
 		} catch (error) {

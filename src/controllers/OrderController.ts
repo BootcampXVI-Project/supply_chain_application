@@ -18,6 +18,29 @@ const productCommercialService: ProductCommercialService =
 	new ProductCommercialService();
 
 const OrderController = {
+	getTransactionHistory: async (req: Request, res: Response) => {
+		try {
+			const user = req.user as DecodeUser;
+			const orderId = String(req.params.orderId);
+			const orders = await orderService.getTransactionHistory(
+				user.userId,
+				orderId
+			);
+
+			return res.json({
+				data: orders,
+				message: "successfully",
+				error: null
+			});
+		} catch (error) {
+			return res.json({
+				data: null,
+				message: "failed",
+				error: error.message
+			});
+		}
+	},
+
 	getAllOrders: async (req: Request, res: Response) => {
 		try {
 			const status = req.query.status;
@@ -53,9 +76,7 @@ const OrderController = {
 		try {
 			const user = req.user as DecodeUser;
 			const userObj = await userService.getUserObjByUserId(user.userId);
-			const longitude = String(req.query.longitude);
-			const latitude = String(req.query.latitude);
-			const shippingStatus = String(req.query.shippingStatus);
+			const address = String(req.query.address);
 
 			if (!userObj) {
 				return res.json({
@@ -65,12 +86,7 @@ const OrderController = {
 				});
 			}
 
-			const orders = await orderService.getAllOrdersByAddress(
-				userObj,
-				longitude,
-				latitude,
-				shippingStatus
-			);
+			const orders = await orderService.getAllOrdersByAddress(userObj, address);
 			return res.json({
 				data: orders,
 				message: "successfully",

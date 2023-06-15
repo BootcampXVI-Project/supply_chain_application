@@ -1,10 +1,10 @@
-import express, { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
 import cookieParse from "cookie-parser";
 import routing from "./routes";
 import connectDatabase from "./config/connectDatabaseConfig";
+import express, { Express } from "express";
 import { swaggerSpecs } from "./config/swaggerConfig";
 import { PORT, HOST_URL, SWAGGER_URL, FRONTEND_URL } from "./constants";
 

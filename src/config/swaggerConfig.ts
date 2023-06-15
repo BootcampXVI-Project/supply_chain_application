@@ -1,5 +1,5 @@
 import swaggerJsDoc from "swagger-jsdoc";
-import { DEVELOPMENT_URL, PRODUCTION_URL } from "../constants/index";
+import { DEVELOPMENT_URL, PRODUCTION_URL } from "../constants";
 
 const swaggerOptions: swaggerJsDoc.Options = {
 	definition: {

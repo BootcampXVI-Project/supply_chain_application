@@ -1,3 +1,22 @@
+/product/transaction-history/{productId}:
+  get:
+    summary: Get Product Transaction History
+    description: Get Product Transaction History
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+    tags:
+      - Product
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Failed
+      404:
+        description: Not Found
+
 /product/all:
   get:
     summary: Get All Products

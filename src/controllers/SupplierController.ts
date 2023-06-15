@@ -32,7 +32,6 @@ const SupplierController = {
 				error: null
 			});
 		} catch (error) {
-			console.log("updateProduct", error.message);
 			return res.json({
 				data: null,
 				message: "failed",

@@ -245,18 +245,17 @@ const RetailerController = {
 				const result = cart.filter(
 					(product) => product.productId !== productObj.productId
 				);
-				const order = await retailerService.updateCartByRetailerId(
+				const updatedCart = await retailerService.updateCartByRetailerId(
 					user.userId,
 					result
 				);
 				return res.json({
-					data: order,
+					data: updatedCart,
 					message: "successfully",
 					error: null
 				});
 			}
 		} catch (error) {
-			console.log("deteleProductInCart", error.message);
 			return res.json({
 				data: null,
 				message: "failed",
