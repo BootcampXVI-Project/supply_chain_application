@@ -2,8 +2,8 @@ import AppService from "../appService";
 import ImageService from "./imageService";
 import UserService from "./userService";
 import { CounterName } from "../types/types";
-import { PRODUCTION_URL } from "../constants";
 import { OrderModel } from "../models/OrderModel";
+import { PRODUCTION_URL, FRONTEND_URL } from "../constants";
 import { convertBufferToJavasciptObject } from "../helpers";
 import {
 	User,
@@ -221,7 +221,7 @@ class OrderService {
 						productCommercialCounter + index
 					}`;
 					const qrCodeString = await imageService.generateAndPublishQRCode(
-						`${PRODUCTION_URL}/product-commercial/${productCommercialId}`,
+						`${FRONTEND_URL}/product-commercial/${productCommercialId}`,
 						`qrcode/product-commercials/${productCommercialId}.jpg`
 					);
 					return { ...productIdItem, qrCode: qrCodeString || "" };
