@@ -40,6 +40,14 @@ class ProductService {
 		return product;
 	};
 
+	getProductByIdNoAuth = async (productId: string) => {
+		const product = await appService.evaluateTransactionNoUserProductId(
+			"GetProduct",
+			productId
+		);
+		return product;
+	};
+
 	handleProductForUpdate = async (
 		userObj: User,
 		productObj: ProductForUpdate

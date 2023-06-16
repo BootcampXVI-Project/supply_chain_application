@@ -79,7 +79,7 @@ router.patch(
 
 router.get(
 	"/:productId",
-	jwtGuard,
+	// jwtGuard,
 	// Roles(
 	// 	// UserRole.SUPPLIER,
 	// 	// UserRole.MANUFACTURER,

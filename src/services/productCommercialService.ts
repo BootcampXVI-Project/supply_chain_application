@@ -35,6 +35,14 @@ class ProductCommercialService {
 		return product;
 	};
 
+	getProductByIdNoAuth = async (productId: string) => {
+		const product = await appService.evaluateTransactionNoUserProductId(
+			"GetProductCommercial",
+			productId
+		);
+		return product;
+	};
+
 	createProductDB = async (productCommercial: ProductCommercial) => {
 		ProductCommercialModel.create(productCommercial)
 			.then((data: any) => {
