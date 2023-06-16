@@ -61,12 +61,8 @@ const ProductCommercialController = {
 
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const user = req.user as DecodeUser;
 			const productCommercialId = String(req.params.productCommercialId);
-
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const product = await productCommercialService.getProductById(
-				userObj,
+			const product = await productCommercialService.getProductByIdNoAuth(
 				productCommercialId
 			);
 

@@ -64,12 +64,23 @@ export type ProductCommercial = {
 
 export type ProductForCultivate = {
 	productName: string;
-	image: string[];
 	price: string;
 	amount: string;
 	unit: string;
 	description: string;
 	certificateUrl: string;
+	image: string[];
+};
+
+export type ProductForUpdate = {
+	productId: string;
+	productName: string;
+	price: string;
+	amount: string;
+	unit: string;
+	description: string;
+	certificateUrl: string;
+	image: string[];
 };
 
 export type ProductHistory = {

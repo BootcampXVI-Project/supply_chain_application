@@ -55,7 +55,7 @@ class AppService {
 		}
 	};
 
-	connectNetwork = async (userObj: User) => {
+	connectNetwork = async (userObj: User | null) => {
 		try {
 			if (userObj) {
 				const orgDetail = orgConst[userObj.role];
@@ -306,6 +306,23 @@ class AppService {
 	) => {
 		try {
 			const network = await this.connectNetwork(userObj);
+			const contract = network.getContract(CHAINCODE_NAME);
+
+			console.log(`\n evaluateTransaction() --> ${funcName}`);
+			const data = await contract.evaluateTransaction(funcName, productId);
+
+			return await convertBufferToJavasciptObject(data);
+		} catch (error) {
+			throw new Error(`Failed to evaluateTransaction ${funcName}, ${error}`);
+		}
+	};
+
+	evaluateTransactionNoUserProductId = async (
+		funcName: string,
+		productId: string
+	) => {
+		try {
+			const network = await this.connectNetwork(null);
 			const contract = network.getContract(CHAINCODE_NAME);
 
 			console.log(`\n evaluateTransaction() --> ${funcName}`);

@@ -62,10 +62,8 @@ const ProductController = {
 
 	getProduct: async (req: Request, res: Response) => {
 		try {
-			const user = req.user as DecodeUser;
 			const productId = String(req.params.productId);
-			const userObj = await userService.getUserObjByUserId(user.userId);
-			const product = await productService.getProductById(userObj, productId);
+			const product = await productService.getProductByIdNoAuth(productId);
 
 			return res.json({
 				data: product,
@@ -336,10 +334,14 @@ const ProductController = {
 				});
 			}
 
+			const product = await productService.handleProductForUpdate(
+				userObj,
+				productObj
+			);
 			const data = await appService.submitTransaction(
 				"UpdateProduct",
 				userObj,
-				productObj
+				product
 			);
 
 			productService.updateProductDB(productObj.productId, data);

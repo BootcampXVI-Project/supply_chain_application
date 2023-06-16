@@ -13,11 +13,4 @@ router.get(
 	SupplierController.getProductsBySupplierId
 );
 
-router.patch(
-	"/product/update",
-	jwtGuard,
-	Roles(UserRole.RETAILER),
-	SupplierController.updateProduct
-);
-
 export default router;

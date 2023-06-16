@@ -81,11 +81,11 @@ router.get(
 	"/:productId",
 	// jwtGuard,
 	// Roles(
-	// 	UserRole.SUPPLIER,
-	// 	UserRole.MANUFACTURER,
-	// 	UserRole.DISTRIBUTOR,
-	// 	UserRole.RETAILER,
-	// 	UserRole.CONSUMER
+	// 	// UserRole.SUPPLIER,
+	// 	// UserRole.MANUFACTURER,
+	// 	// UserRole.DISTRIBUTOR,
+	// 	// UserRole.RETAILER,
+	// 	// UserRole.CONSUMER
 	// ),
 	ProductController.getProduct
 );
