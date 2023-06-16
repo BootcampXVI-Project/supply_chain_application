@@ -6,14 +6,13 @@ import routing from "./routes";
 import connectDatabase from "./config/connectDatabaseConfig";
 import express, { Express } from "express";
 import { swaggerSpecs } from "./config/swaggerConfig";
-import { PORT, HOST_URL, SWAGGER_URL, FRONTEND_URL } from "./constants";
+import { PORT, HOST_URL, SWAGGER_URL } from "./constants";
 
 const app: Express = express();
 
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 app.use(cors());
 app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", FRONTEND_URL);
+	res.header("Access-Control-Allow-Origin", "*");
 	res.header(
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content-Type, Accept"
@@ -24,6 +23,7 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParse());
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 connectDatabase();
 routing(app);

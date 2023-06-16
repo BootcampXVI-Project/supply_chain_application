@@ -79,14 +79,14 @@ router.patch(
 
 router.get(
 	"/:productId",
-	jwtGuard,
-	Roles(
-		UserRole.SUPPLIER,
-		UserRole.MANUFACTURER,
-		UserRole.DISTRIBUTOR,
-		UserRole.RETAILER,
-		UserRole.CONSUMER
-	),
+	// jwtGuard,
+	// Roles(
+	// 	UserRole.SUPPLIER,
+	// 	UserRole.MANUFACTURER,
+	// 	UserRole.DISTRIBUTOR,
+	// 	UserRole.RETAILER,
+	// 	UserRole.CONSUMER
+	// ),
 	ProductController.getProduct
 );
 
