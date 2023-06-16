@@ -216,6 +216,7 @@
             example:
               productObj:
                 {
+                  productId: "Product1",
                   productName: "Gạo tẻ",
                   price: "100000",
                   amount: "1",

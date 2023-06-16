@@ -1,6 +1,6 @@
 import AppService from "../appService";
 import UserService from "./userService";
-import { User, Product } from "../types/models";
+import { User, Product, ProductForUpdate } from "../types/models";
 import { ProductModel } from "../models/ProductModel";
 
 const appService: AppService = new AppService();
@@ -38,6 +38,18 @@ class ProductService {
 			productId
 		);
 		return product;
+	};
+
+	handleProductForUpdate = async (
+		userObj: User,
+		productObj: ProductForUpdate
+	) => {
+		const product: Product = await this.getProductById(
+			userObj,
+			productObj.productId
+		);
+		const updateProduct = { ...product, ...productObj };
+		return updateProduct;
 	};
 
 	createProductDB = async (product: Product) => {

@@ -336,10 +336,14 @@ const ProductController = {
 				});
 			}
 
+			const product = await productService.handleProductForUpdate(
+				userObj,
+				productObj
+			);
 			const data = await appService.submitTransaction(
 				"UpdateProduct",
 				userObj,
-				productObj
+				product
 			);
 
 			productService.updateProductDB(productObj.productId, data);

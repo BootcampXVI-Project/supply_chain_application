@@ -50,7 +50,7 @@ router.post(
 
 router.get(
 	"/:productCommercialId",
-	// jwtGuard,
+	jwtGuard,
 	// Roles(UserRole.MANUFACTURER, UserRole.DISTRIBUTOR, UserRole.RETAILER),
 	ProductCommercialController.getProduct
 );
