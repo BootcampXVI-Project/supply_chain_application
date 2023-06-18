@@ -8,25 +8,32 @@ const productService: ProductService = new ProductService();
 const SupplierController = {
 	getProductsBySupplierId: async (req: Request, res: Response) => {
 		try {
+			let isAdded =  false;
 			const user = req.user as DecodeUser;
 			const products = await productService.getAllProducts(user.userId);
 
 			let productList = [];
 			for (let product of products) {
-				if (product.supplier == user.userId) {
+				
+				if (product.supplier.userId == user.userId) {
+					if (product.status.toLowerCase() == 'cultivated' || product.status.toLowerCase() == 'harvested')
 					productList.push(product);
 				}
+				isAdded = true
 			}
-			const sortedProducts = products.sort(
+			
+			const sortedProducts = productList.sort(
 				(a: Product, b: Product) =>
 					parseInt(a.productId.slice(7)) - parseInt(b.productId.slice(7))
 			);
 
-			return res.json({
+				return res.json({
 				data: sortedProducts,
 				message: "successfully",
 				error: null
 			});
+ 
+			
 		} catch (error) {
 			return res.json({
 				data: null,
