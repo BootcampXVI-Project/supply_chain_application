@@ -24,13 +24,13 @@ const DistributorController = {
 				queryObj
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: products,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -45,7 +45,7 @@ const DistributorController = {
 			const productObj = req.body.productObj;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					message: "User not found!",
 					status: "notfound"
 				});
@@ -57,13 +57,13 @@ const DistributorController = {
 				productObj
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: data,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message

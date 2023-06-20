@@ -27,13 +27,13 @@ const OrderController = {
 				orderId
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -50,7 +50,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -58,13 +58,13 @@ const OrderController = {
 			}
 
 			const orders = await orderService.getAllOrders(userObj, statusValue);
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -79,7 +79,7 @@ const OrderController = {
 			const address = String(req.query.address);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -87,13 +87,13 @@ const OrderController = {
 			}
 
 			const orders = await orderService.getAllOrdersByAddress(userObj, address);
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -110,7 +110,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -122,13 +122,13 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -145,7 +145,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -157,13 +157,13 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -180,7 +180,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -192,13 +192,13 @@ const OrderController = {
 				user.userId,
 				statusValue
 			);
-			return res.json({
+			return res.status(200).json({
 				data: orders,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -213,7 +213,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -221,13 +221,13 @@ const OrderController = {
 			}
 
 			const order = await orderService.getDetailOrder(userObj, orderId);
-			return res.json({
+			return res.status(200).json({
 				data: order,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -242,7 +242,7 @@ const OrderController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -264,13 +264,13 @@ const OrderController = {
 				productCommercialService.createProductDB(productItem.product)
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: createdOrder,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				message: "failed",
 				data: null,
 				error: error.message
@@ -285,7 +285,7 @@ const OrderController = {
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -307,13 +307,13 @@ const OrderController = {
 				)
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -328,7 +328,7 @@ const OrderController = {
 			const orderObj = req.body.orderObj as OrderForUpdateFinish;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -350,13 +350,15 @@ const OrderController = {
 				)
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({ data: null, message: "failed", error: error.message });
+			return res
+				.status(400)
+				.json({ data: null, message: "failed", error: error.message });
 		}
 	}
 };

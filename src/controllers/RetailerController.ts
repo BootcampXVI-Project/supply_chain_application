@@ -16,21 +16,20 @@ const RetailerController = {
 			);
 
 			if (products == null) {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "This retailer don't have any product!",
 					error: "empty-product"
 				});
 			} else {
-				return res.json({
+				return res.status(200).json({
 					data: products,
 					message: "successfully",
 					error: null
 				});
 			}
 		} catch (error) {
-			console.log("getAllOrderedProducts", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -45,21 +44,20 @@ const RetailerController = {
 
 			const products = await retailerService.getAllOrderedProducts(userObj);
 			if (products == null) {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "This retailer don't have any product!",
 					error: "empty-product"
 				});
 			} else {
-				return res.json({
+				return res.status(200).json({
 					data: products,
 					message: "successfully",
 					error: null
 				});
 			}
 		} catch (error) {
-			console.log("getAllOrderedProducts", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -74,21 +72,20 @@ const RetailerController = {
 
 			const products = await retailerService.getPopularOrderedProducts(userObj);
 			if (products == null) {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "This retailer don't have any product!",
 					error: "empty-product"
 				});
 			}
 
-			return res.json({
+			return res.status(200).json({
 				data: products,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			console.log("getPopularOrderedProducts", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -102,7 +99,7 @@ const RetailerController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -111,21 +108,20 @@ const RetailerController = {
 
 			const cart = await retailerService.getCartByRetailerId(user.userId);
 			if (cart == null) {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "This retailer don't have any product!",
 					status: "empty-product"
 				});
 			}
 
-			return res.json({
+			return res.status(200).json({
 				data: cart,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			console.log("getCartByRetailerId", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -140,7 +136,7 @@ const RetailerController = {
 			const productObj = req.body.product as ProductIdItem;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -153,7 +149,7 @@ const RetailerController = {
 					user.userId,
 					productObj
 				);
-				return res.json({
+				return res.status(200).json({
 					data: order,
 					message: "successfully",
 					error: null
@@ -175,15 +171,14 @@ const RetailerController = {
 					user.userId,
 					cart
 				);
-				return res.json({
+				return res.status(200).json({
 					data: order,
 					message: "successfully",
 					error: null
 				});
 			}
 		} catch (error) {
-			console.log("addCartByRetailerId", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -197,7 +192,7 @@ const RetailerController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -205,14 +200,13 @@ const RetailerController = {
 			}
 
 			const cart = await retailerService.deleteCart(user.userId);
-			return res.json({
+			return res.status(200).json({
 				data: cart,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			console.log("deleteCart", error.message);
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -227,7 +221,7 @@ const RetailerController = {
 			const productObj = req.body.product as ProductIdItem;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -236,7 +230,7 @@ const RetailerController = {
 
 			const cart = await retailerService.getCartByRetailerId(user.userId);
 			if (cart?.length === 0) {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "Cart is empty!",
 					error: "empty-cart"
@@ -249,14 +243,14 @@ const RetailerController = {
 					user.userId,
 					result
 				);
-				return res.json({
+				return res.status(200).json({
 					data: updatedCart,
 					message: "successfully",
 					error: null
 				});
 			}
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
