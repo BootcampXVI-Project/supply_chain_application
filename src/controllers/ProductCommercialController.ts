@@ -20,13 +20,13 @@ const ProductCommercialController = {
 				productCommercialId
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: products,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -45,13 +45,13 @@ const ProductCommercialController = {
 					parseInt(a.productId.slice(17)) - parseInt(b.productId.slice(17))
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: sortedProducts,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -66,13 +66,13 @@ const ProductCommercialController = {
 				productCommercialId
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: product,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -87,7 +87,7 @@ const ProductCommercialController = {
 			const { productId, price } = req.body;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -99,14 +99,14 @@ const ProductCommercialController = {
 				productId
 			);
 			if (!productObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "Product not found!",
 					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "manufactured") {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "Product is not manufactured or was exported",
 					error: "product-is-not-manufactured-or-was-exported"
@@ -122,13 +122,13 @@ const ProductCommercialController = {
 
 			productCommercialService.updateProductDB(productId, data);
 
-			return res.json({
+			return res.status(200).json({
 				data: data,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -143,7 +143,7 @@ const ProductCommercialController = {
 			const productId = String(req.body.productId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -155,7 +155,7 @@ const ProductCommercialController = {
 				productId
 			);
 			if (!productObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "Product not found!",
 					error: "product-notfound"
@@ -163,7 +163,7 @@ const ProductCommercialController = {
 			}
 
 			if (productObj.status.toLowerCase() != "exported") {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "Product is not exported or was distributed",
 					error: "product-is-not-exported-or-was-distributed"
@@ -178,13 +178,13 @@ const ProductCommercialController = {
 
 			productCommercialService.updateProductDB(productId, data);
 
-			return res.json({
+			return res.status(200).json({
 				data: data,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -199,7 +199,7 @@ const ProductCommercialController = {
 			const { productId, price } = req.body;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -211,14 +211,14 @@ const ProductCommercialController = {
 				productId
 			);
 			if (!productObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "Product not found!",
 					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "distributing") {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "Product is not distributed or was selling",
 					error: "product-is-not-distributed-or-was-selling"
@@ -234,13 +234,13 @@ const ProductCommercialController = {
 
 			productCommercialService.updateProductDB(productId, data);
 
-			return res.json({
+			return res.status(200).json({
 				data: data,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -255,7 +255,7 @@ const ProductCommercialController = {
 			const { productId, price } = req.body;
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -267,14 +267,14 @@ const ProductCommercialController = {
 				productId
 			);
 			if (!productObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "Product not found!",
 					error: "product-notfound"
 				});
 			}
 			if (productObj.status.toLowerCase() != "retailing") {
-				return res.json({
+				return res.status(400).json({
 					data: null,
 					message: "Product is not selling or was sold",
 					error: "product-is-not-selling-or-was-sold"
@@ -290,13 +290,13 @@ const ProductCommercialController = {
 
 			productCommercialService.updateProductDB(productId, data);
 
-			return res.json({
+			return res.status(200).json({
 				data: data,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message

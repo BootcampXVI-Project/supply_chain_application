@@ -20,7 +20,7 @@ const ManufacturerController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -41,13 +41,13 @@ const ManufacturerController = {
 				)
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -62,7 +62,7 @@ const ManufacturerController = {
 			const userObj = await userService.getUserObjByUserId(user.userId);
 
 			if (!userObj) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -83,13 +83,13 @@ const ManufacturerController = {
 				)
 			);
 
-			return res.json({
+			return res.status(200).json({
 				data: updatedOrder,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message

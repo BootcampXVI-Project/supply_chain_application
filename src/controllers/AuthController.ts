@@ -19,7 +19,7 @@ const AuthController = {
 
 			const user = await userService.getUserForLogin(phoneNumber, password);
 			if (!user) {
-				return res.json({
+				return res.status(401).json({
 					data: null,
 					message: "Incorrect phone number or password!",
 					error: "incorrect-phonenumber-or-password"
@@ -34,7 +34,7 @@ const AuthController = {
 						expired: expirationDate
 					};
 					if (otp.otp == null) {
-						return res.json({
+						return res.status(404).json({
 							data: null,
 							message: "Account not found!",
 							error: "account-notfound"
@@ -43,7 +43,7 @@ const AuthController = {
 					await AuthModel.create(otp).then((data) => {
 						console.log(data);
 					});
-					return res.json({
+					return res.status(200).json({
 						data: null,
 						message: "OTP sent successfully!",
 						error: null
@@ -56,14 +56,14 @@ const AuthController = {
 					{ otp: otp.otp }
 				);
 				if (otp.otp == null) {
-					return res.json({
+					return res.status(404).json({
 						data: null,
 						message: "Account not found!",
 						error: "account-notfound"
 					});
 				}
 
-				return res.json({
+				return res.status(200).json({
 					data: null,
 					message: "OTP sent successfully!",
 					error: null
@@ -78,13 +78,13 @@ const AuthController = {
 			};
 			const token = await authService.generateAccessToken(payload);
 
-			return res.json({
+			return res.status(200).json({
 				data: { user: user, token: token },
 				message: "Login successfully!",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -98,7 +98,7 @@ const AuthController = {
 
 			let otp = await AuthModel.findOne({ phoneNumber: phoneNumber });
 			if (!otp) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -127,20 +127,20 @@ const AuthController = {
 					}
 				);
 
-				return res.json({
+				return res.status(200).json({
 					data: null,
 					message: "OTP verified successfully!",
 					error: null
 				});
 			}
 
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "Invalid OTP!",
 				error: "failed"
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -154,7 +154,7 @@ const AuthController = {
 
 			let user = await UserModel.findOne({ phoneNumber: phoneNumber });
 			if (!user) {
-				return res.json({
+				return res.status(404).json({
 					data: null,
 					message: "User not found!",
 					error: "user-notfound"
@@ -167,7 +167,7 @@ const AuthController = {
 					{ phoneNumber: phoneNumber },
 					{ user: user }
 				);
-				return res.json({
+				return res.status(200).json({
 					data: null,
 					message: "Reset password successfully!",
 					error: null
@@ -176,13 +176,13 @@ const AuthController = {
 
 			let otp = await AuthModel.findOne({ phoneNumber: user.phoneNumber });
 			otp.otp = await authService.sendOtp(phoneNumber);
-			return res.json({
+			return res.status(200).json({
 				data: null,
 				message: "OTP sent successfully!",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
