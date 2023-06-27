@@ -24,6 +24,8 @@
         description: Successfully
       400:
         description: Failed
+      401:
+        description: Anauthorized
       404:
         description: Not Found
 

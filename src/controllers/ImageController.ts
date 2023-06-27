@@ -13,13 +13,13 @@ const ImageController = {
 				imagePathNameToFirebase
 			);
 
-			return res.json({
-				message: "successfull",
+			return res.status(200).json({
+				message: "successfully",
 				data: image,
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				message: "failed",
 				data: null,
 				error: error.message
@@ -37,18 +37,18 @@ const ImageController = {
 			);
 
 			return publicImageUrl
-				? res.json({
+				? res.status(200).json({
 						message: "successfully",
 						data: publicImageUrl,
 						error: null
 				  })
-				: res.json({
+				: res.status(400).json({
 						message: "failed",
 						data: null,
 						error: null
 				  });
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				message: "failed",
 				data: null,
 				error: error.message

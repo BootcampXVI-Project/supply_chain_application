@@ -12,18 +12,18 @@ const UserController = {
 			const createdUser = await appService.registerUser(userObj);
 
 			return createdUser.data !== null
-				? res.json({
+				? res.status(200).json({
 						data: createdUser.data,
 						message: "successfully",
 						error: null
 				  })
-				: res.json({
+				: res.status(400).json({
 						data: null,
 						message: "failed",
 						error: createdUser.error
 				  });
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -35,13 +35,13 @@ const UserController = {
 		try {
 			const users = await userService.getAllUsers();
 
-			return res.json({
+			return res.status(200).json({
 				data: users,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
@@ -54,13 +54,13 @@ const UserController = {
 			const userId = String(req.params.userId);
 			const users = await userService.getUserById(userId);
 
-			return res.json({
+			return res.status(200).json({
 				data: users,
 				message: "successfully",
 				error: null
 			});
 		} catch (error) {
-			return res.json({
+			return res.status(400).json({
 				data: null,
 				message: "failed",
 				error: error.message
