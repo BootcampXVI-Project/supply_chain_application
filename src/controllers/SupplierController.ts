@@ -16,7 +16,8 @@ const SupplierController = {
 			for (let product of products) {
 				
 				if (product.supplier.userId == user.userId) {
-					if (product.status.toLowerCase() == 'cultivated' || product.status.toLowerCase() == 'harvested')
+					if (product.status.toLowerCase() == 'cultivated' 
+					|| product.status.toLowerCase() == 'harvested')
 					productList.push(product);
 				}
 				isAdded = true
