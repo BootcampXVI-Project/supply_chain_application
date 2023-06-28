@@ -5,6 +5,7 @@ import { ProductStatus, ProductStatusArray } from "../types/types";
 interface ProductCommercial extends Document {
 	productCommercialId: string;
 	productId: string;
+	productCode: string;
 	productName: string;
 	image: string[];
 	dates: ProductDate[];
@@ -21,6 +22,7 @@ const ProductCommercialSchema: Schema<ProductCommercial> =
 	new Schema<ProductCommercial>({
 		productCommercialId: { type: String, required: true },
 		productId: { type: String, required: true },
+		productCode: { type: String, required: true },
 		productName: { type: String, required: true },
 		image: { type: [String], required: true },
 		dates: {

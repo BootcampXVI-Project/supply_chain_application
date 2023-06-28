@@ -4,7 +4,7 @@ import UserService from "../services/userService";
 import ProductService from "../services/productService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 import { Product } from "../types/models";
 import { ProductForCultivate } from "../types/models";
 

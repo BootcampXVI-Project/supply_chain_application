@@ -1,7 +1,7 @@
 import AppService from "../appService";
 import UserService from "../services/userService";
 import { Request, Response } from "express";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 
 const appService: AppService = new AppService();
 const userService: UserService = new UserService();

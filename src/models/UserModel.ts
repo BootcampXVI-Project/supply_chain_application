@@ -9,6 +9,8 @@ import {
 } from "../types/types";
 
 interface User {
+	userId?: string;
+	userCode: string;
 	email: string;
 	password: string;
 	userName: string;
@@ -17,7 +19,6 @@ interface User {
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
-	userId?: string;
 	status?: UserStatus;
 	signature: string;
 	cart: ProductIdItem[];
@@ -28,6 +29,8 @@ interface UserDB extends User, Document {
 }
 
 const UserSchema: Schema<UserDB> = new Schema<UserDB>({
+	userId: { type: String, default: uuidv4 },
+	userCode: { type: String },
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	userName: { type: String },
@@ -40,7 +43,6 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 		enum: UserRoleArray,
 		default: "supplier"
 	},
-	userId: { type: String, default: uuidv4 },
 	status: { type: String, enum: UserStatusArray, default: "inactive" },
 	signature: { type: String },
 	cart: { type: [Object] }

@@ -12,6 +12,8 @@ export interface UserForRegister {
 }
 
 export interface User {
+	userId?: string;
+	userCode: string;
 	email: string;
 	password: string;
 	userName: string;
@@ -21,9 +23,24 @@ export interface User {
 	address: string;
 	role: UserRole;
 	status?: UserStatus;
-	userId?: string;
 	signature: string;
 }
+
+export type TokenPayload = {
+	role: UserRole;
+	userId: string;
+	userName: string;
+	phoneNumber: string;
+};
+
+export type DecodeUser = {
+	userId: string;
+	role: string;
+	userName: string;
+	phoneNumber: string;
+	iat: number;
+	exp: number;
+};
 
 export type ProductDate = {
 	status: ProductStatus;
@@ -33,6 +50,7 @@ export type ProductDate = {
 
 export type Product = {
 	productId: string;
+	productCode: string;
 	productName: string;
 	image: string[];
 	dates: ProductDate[];
@@ -50,6 +68,7 @@ export type Product = {
 export type ProductCommercial = {
 	productCommercialId: string;
 	productId: string;
+	productCode: string;
 	productName: string;
 	image: string[];
 	dates: ProductDate[];

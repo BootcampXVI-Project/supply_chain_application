@@ -2,7 +2,7 @@ import twilio from "twilio";
 import jwt from "jsonwebtoken";
 import pkg from "bcryptjs";
 import UserService from "./userService";
-import { TokenPayload } from "../types/common";
+import { TokenPayload } from "../types/models";
 import { Request, Response, NextFunction } from "express";
 import {
 	ACCOUNT_SID,

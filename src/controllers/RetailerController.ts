@@ -1,7 +1,7 @@
 import UserService from "../services/userService";
 import RetailerService from "../services/retailerService";
 import { Request, Response } from "express";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 import { ProductIdItem } from "../types/models";
 
 const userService: UserService = new UserService();

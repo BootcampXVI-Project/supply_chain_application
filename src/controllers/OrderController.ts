@@ -3,7 +3,7 @@ import OrderService from "../services/orderService";
 import UserService from "../services/userService";
 import ProductCommercialService from "../services/productCommercialService";
 import { Request, Response } from "express";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 import {
 	OrderForCreate,
 	OrderForUpdateFinish,
