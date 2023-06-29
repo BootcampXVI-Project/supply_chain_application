@@ -22,6 +22,7 @@ export interface User {
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
+	roleId: number;
 	status?: UserStatus;
 	signature: string;
 }
@@ -83,6 +84,7 @@ export type ProductCommercial = {
 
 export type ProductForCultivate = {
 	productName: string;
+	productCode: string;
 	price: string;
 	amount: string;
 	unit: string;

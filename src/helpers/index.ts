@@ -15,3 +15,34 @@ export const convertFullNameToUsername = (fullName: string): string => {
 	// Convert to lowercase and replace spaces with underscores
 	return username.toLowerCase().replace(/\s+/g, "_");
 };
+
+export const generateUserCode = (userRole: string, roleId: number): string => {
+	const roleCode = userRole.slice(0, 2).toUpperCase();
+	return `${roleCode}${roleId}`;
+};
+
+export const getInitials = (input: string): string => {
+	const words: string[] = input.split(" ");
+	const initials: string[] = [];
+
+	for (const word of words) {
+		if (word.length > 0) {
+			for (const char of word) {
+				if (char.match(/[A-Za-z]/) !== null) {
+					initials.push(char.toUpperCase());
+					break;
+				}
+			}
+		}
+	}
+
+	return initials.join("");
+};
+
+export const generateProductCode = (
+	productName: string,
+	userCode: string
+): string => {
+	const productCode = getInitials(productName) + "-" + userCode;
+	return productCode;
+};

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { ProductIdItem } from "../types/models";
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { autoIncrementId } from "../middlewares/autoIncreasementId";
 import {
 	UserRole,
 	UserRoleArray,
@@ -19,6 +20,7 @@ interface User {
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
+	roleId: number;
 	status?: UserStatus;
 	signature: string;
 	cart: ProductIdItem[];
@@ -43,11 +45,13 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 		enum: UserRoleArray,
 		default: "supplier"
 	},
+	roleId: { type: Number, default: 0 },
 	status: { type: String, enum: UserStatusArray, default: "inactive" },
 	signature: { type: String },
 	cart: { type: [Object] }
 });
 
+UserSchema.pre<User>("save", autoIncrementId);
 const UserModel = mongoose.model<UserDB>("User", UserSchema);
 
-export { UserDB, UserModel };
+export { User, UserDB, UserModel };

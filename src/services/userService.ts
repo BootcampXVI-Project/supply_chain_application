@@ -1,6 +1,7 @@
 import { UserModel } from "../models/UserModel";
 import { UserForRegister } from "../types/models";
-import { convertFullNameToUsername } from "../helpers";
+import { getNextRoleId } from "../middlewares/autoIncreasementId";
+import { convertFullNameToUsername, generateUserCode } from "../helpers";
 
 class UserService {
 	getAllUsers = async () => {
@@ -68,7 +69,8 @@ class UserService {
 			const userPayload = {
 				...user,
 				status: "inactive",
-				userName: convertFullNameToUsername(user.fullName)
+				userName: convertFullNameToUsername(user.fullName),
+				userCode: generateUserCode(user.role, await getNextRoleId(user.role))
 			};
 
 			return await UserModel.create(userPayload)
