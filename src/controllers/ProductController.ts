@@ -4,9 +4,8 @@ import UserService from "../services/userService";
 import ProductService from "../services/productService";
 import { Request, Response } from "express";
 import { PRODUCTION_URL } from "../constants";
-import { DecodeUser } from "../types/common";
-import { Product } from "../types/models";
-import { ProductForCultivate } from "../types/models";
+import { generateProductCode } from "../helpers";
+import { DecodeUser, Product, ProductForCultivate } from "../types/models";
 
 const appService: AppService = new AppService();
 const imageService: ImageService = new ImageService();
@@ -114,6 +113,10 @@ const ProductController = {
 			const user = req.user as DecodeUser;
 			const userObj = await userService.getUserObjByUserId(user.userId);
 			const productObj = req.body.productObj as ProductForCultivate;
+			productObj.productCode = generateProductCode(
+				productObj.productName,
+				userObj.userCode
+			);
 
 			if (!userObj) {
 				return res.status(404).json({

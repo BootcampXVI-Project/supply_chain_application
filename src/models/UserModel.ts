@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { ProductIdItem } from "../types/models";
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { autoIncrementId } from "../middlewares/autoIncreasementId";
 import {
 	UserRole,
 	UserRoleArray,
@@ -9,6 +10,8 @@ import {
 } from "../types/types";
 
 interface User {
+	userId?: string;
+	userCode: string;
 	email: string;
 	password: string;
 	userName: string;
@@ -17,7 +20,7 @@ interface User {
 	phoneNumber: string;
 	address: string;
 	role: UserRole;
-	userId?: string;
+	roleId: number;
 	status?: UserStatus;
 	signature: string;
 	cart: ProductIdItem[];
@@ -28,6 +31,8 @@ interface UserDB extends User, Document {
 }
 
 const UserSchema: Schema<UserDB> = new Schema<UserDB>({
+	userId: { type: String, default: uuidv4 },
+	userCode: { type: String },
 	email: { type: String, required: true },
 	password: { type: String, required: true },
 	userName: { type: String },
@@ -40,12 +45,13 @@ const UserSchema: Schema<UserDB> = new Schema<UserDB>({
 		enum: UserRoleArray,
 		default: "supplier"
 	},
-	userId: { type: String, default: uuidv4 },
+	roleId: { type: Number, default: 0 },
 	status: { type: String, enum: UserStatusArray, default: "inactive" },
 	signature: { type: String },
 	cart: { type: [Object] }
 });
 
+UserSchema.pre<User>("save", autoIncrementId);
 const UserModel = mongoose.model<UserDB>("User", UserSchema);
 
-export { UserDB, UserModel };
+export { User, UserDB, UserModel };

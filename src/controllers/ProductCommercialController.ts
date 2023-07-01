@@ -2,7 +2,7 @@ import AppService from "../appService";
 import UserService from "../services/userService";
 import ProductCommercialService from "../services/productCommercialService";
 import { Request, Response } from "express";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 import { Product } from "../types/models";
 
 const appService: AppService = new AppService();

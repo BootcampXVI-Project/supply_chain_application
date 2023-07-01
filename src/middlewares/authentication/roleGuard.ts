@@ -1,4 +1,4 @@
-import { TokenPayload } from "../../types/common";
+import { TokenPayload } from "../../types/models";
 import { UserRole, UserRoleArray } from "../../types/types";
 import { Request, Response, NextFunction } from "express";
 

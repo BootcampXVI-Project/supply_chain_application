@@ -3,7 +3,7 @@ import OrderService from "../services/orderService";
 import ManufacturerService from "../services/manufacturerService";
 import ProductCommercialService from "../services/productCommercialService";
 import { Request, Response } from "express";
-import { DecodeUser } from "../types/common";
+import { DecodeUser } from "../types/models";
 import { ProductCommercialItem } from "../types/models";
 
 const userService: UserService = new UserService();
