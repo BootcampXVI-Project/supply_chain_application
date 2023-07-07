@@ -21,28 +21,23 @@ export const generateUserCode = (userRole: string, roleId: number): string => {
 	return `${roleCode}${roleId}`;
 };
 
-export const getInitials = (input: string): string => {
-	const words: string[] = input.split(" ");
-	const initials: string[] = [];
+export const capitalizeFirstLetters = (input: string): string => {
+	const words = input.split(" ");
+	let result = "";
 
 	for (const word of words) {
 		if (word.length > 0) {
-			for (const char of word) {
-				if (char.match(/[A-Za-z]/) !== null) {
-					initials.push(char.toUpperCase());
-					break;
-				}
-			}
+			result += word[0].toUpperCase();
 		}
 	}
 
-	return initials.join("");
+	return result;
 };
 
 export const generateProductCode = (
 	productName: string,
 	userCode: string
 ): string => {
-	const productCode = getInitials(productName) + "-" + userCode;
+	const productCode = capitalizeFirstLetters(productName) + "-" + userCode;
 	return productCode;
 };
